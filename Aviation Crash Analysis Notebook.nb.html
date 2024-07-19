@@ -1774,41 +1774,40 @@ aero &lt;- read.csv(&quot;Airplane_Crashes_and_Fatalities_Since_1908.csv&quot;)
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8pXG5gYGAifQ== -->
 <pre class="r"><code>str(aero)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiJ2RhdGEuZnJhbWUnOlx0NTI2OCBvYnMuIG9mICAxMyB2YXJpYWJsZXM6XG4gJCBEYXRlICAgICAgICA6IERhdGUsIGZvcm1hdDogXCIxOTA4LTA5LTE3XCIgXCIxOTEyLTA3LTEyXCIgXCIxOTEzLTA4LTA2XCIgXCIxOTEzLTA5LTA5XCIgLi4uXG4gJCBUaW1lICAgICAgICA6Rm9ybWFsIGNsYXNzICdQZXJpb2QnIFtwYWNrYWdlIFwibHVicmlkYXRlXCJdIHdpdGggNiBzbG90c1xuICAuLiAuLkAgLkRhdGEgOiBudW0gIDAgMCBOQSAwIDAgMCAwIE5BIDAgMCAuLi5cbiAgLi4gLi5AIHllYXIgIDogbnVtICAwIDAgTkEgMCAwIDAgMCBOQSAwIDAgLi4uXG4gIC4uIC4uQCBtb250aCA6IG51bSAgMCAwIE5BIDAgMCAwIDAgTkEgMCAwIC4uLlxuICAuLiAuLkAgZGF5ICAgOiBudW0gIDAgMCBOQSAwIDAgMCAwIE5BIDAgMCAuLi5cbiAgLi4gLi5AIGhvdXIgIDogbnVtICAxNyA2IE5BIDE4IDEwIDEgMTUgTkEgMSAyMyAuLi5cbiAgLi4gLi5AIG1pbnV0ZTogbnVtICAxOCAzMCBOQSAzMCAzMCAwIDIwIE5BIDAgNDUgLi4uXG4gJCBMb2NhdGlvbiAgICA6IGNociAgXCJGb3J0IE15ZXIsIFZpcmdpbmlhXCIgXCJBdGxhbnRpQ2l0eSwgTmV3IEplcnNleVwiIFwiVmljdG9yaWEsIEJyaXRpc2ggQ29sdW1iaWEsIENhbmFkYVwiIFwiT3ZlciB0aGUgTm9ydGggU2VhXCIgLi4uXG4gJCBPcGVyYXRvciAgICA6IGNociAgXCJNaWxpdGFyeSAtIFUuUy4gQXJteVwiIFwiTWlsaXRhcnkgLSBVLlMuIE5hdnlcIiBcIlByaXZhdGVcIiBcIk1pbGl0YXJ5IC0gR2VybWFuIE5hdnlcIiAuLi5cbiAkIEZsaWdodC4uICAgIDogY2hyICBcIlwiIFwiXCIgXCItXCIgXCJcIiAuLi5cbiAkIFJvdXRlICAgICAgIDogY2hyICBcIkRlbW9uc3RyYXRpb25cIiBcIlRlc3QgZmxpZ2h0XCIgXCJcIiBcIlwiIC4uLlxuICQgVHlwZSAgICAgICAgOiBjaHIgIFwiV3JpZ2h0IEZseWVyIElJSVwiIFwiRGlyaWdpYmxlXCIgXCJDdXJ0aXNzIHNlYXBsYW5lXCIgXCJaZXBwZWxpbiBMLTEgKGFpcnNoaXApXCIgLi4uXG4gJCBSZWdpc3RyYXRpb246IGNociAgXCJcIiBcIlwiIFwiXCIgXCJcIiAuLi5cbiAkIGNuLkluICAgICAgIDogY2hyICBcIjFcIiBcIlwiIFwiXCIgXCJcIiAuLi5cbiAkIEFib2FyZCAgICAgIDogaW50ICAyIDUgMSAyMCAzMCA0MSAxOSAyMCAyMiAxOSAuLi5cbiAkIEZhdGFsaXRpZXMgIDogaW50ICAxIDUgMSAxNCAzMCAyMSAxOSAyMCAyMiAxOSAuLi5cbiAkIEdyb3VuZCAgICAgIDogaW50ICAwIDAgMCAwIDAgMCAwIDAgMCAwIC4uLlxuICQgU3VtbWFyeSAgICAgOiBjaHIgIFwiRHVyaW5nIGEgZGVtb25zdHJhdGlvbiBmbGlnaHQsIGEgVS5TLiBBcm15IGZseWVyIGZsb3duIGJ5IE9ydmlsbGUgV3JpZ2h0IG5vc2UtZGl2ZWQgaW50byB0aGUgZ3JvdW5kIGZyb20gYSBoZWlnXCJ8IF9fdHJ1bmNhdGVkX18gXCJGaXJzdCBVLlMuIGRpcmlnaWJsZSBBa3JvbiBleHBsb2RlZCBqdXN0IG9mZnNob3JlIGF0IGFuIGFsdGl0dWRlIG9mIDEsMDAwIGZ0LiBkdXJpbmcgYSB0ZXN0IGZsaWdodC5cIiBcIlRoZSBmaXJzdCBmYXRhbCBhaXJwbGFuZSBhY2NpZGVudCBpbiBDYW5hZGEgb2NjdXJyZWQgd2hlbiBBbWVyaWNhbiBiYXJuc3Rvcm1lciwgSm9obiBNLiBCcnlhbnQsIENhbGlmb3JuaWEgYXZpYXRvciB3YXMga2lsbGVkLlwiIFwiVGhlIGFpcnNoaXAgZmxldyBpbnRvIGEgdGh1bmRlcnN0b3JtIGFuZCBlbmNvdW50ZXJlZCBhIHNldmVyZSBkb3duZHJhZnQgY3Jhc2hpbmcgMjAgbWlsZXMgbm9ydGggb2YgSGVsZ29sYW5kIElzXCJ8IF9fdHJ1bmNhdGVkX18gLi4uXG4ifQ== -->
-<pre><code>&#39;data.frame&#39;:   5268 obs. of  13 variables:
- $ Date        : Date, format: &quot;1908-09-17&quot; &quot;1912-07-12&quot; &quot;1913-08-06&quot; &quot;1913-09-09&quot; ...
- $ Time        :Formal class &#39;Period&#39; [package &quot;lubridate&quot;] with 6 slots
-  .. ..@ .Data : num  0 0 NA 0 0 0 0 NA 0 0 ...
-  .. ..@ year  : num  0 0 NA 0 0 0 0 NA 0 0 ...
-  .. ..@ month : num  0 0 NA 0 0 0 0 NA 0 0 ...
-  .. ..@ day   : num  0 0 NA 0 0 0 0 NA 0 0 ...
-  .. ..@ hour  : num  17 6 NA 18 10 1 15 NA 1 23 ...
-  .. ..@ minute: num  18 30 NA 30 30 0 20 NA 0 45 ...
- $ Location    : chr  &quot;Fort Myer, Virginia&quot; &quot;AtlantiCity, New Jersey&quot; &quot;Victoria, British Columbia, Canada&quot; &quot;Over the North Sea&quot; ...
- $ Operator    : chr  &quot;Military - U.S. Army&quot; &quot;Military - U.S. Navy&quot; &quot;Private&quot; &quot;Military - German Navy&quot; ...
- $ Flight..    : chr  &quot;&quot; &quot;&quot; &quot;-&quot; &quot;&quot; ...
- $ Route       : chr  &quot;Demonstration&quot; &quot;Test flight&quot; &quot;&quot; &quot;&quot; ...
- $ Type        : chr  &quot;Wright Flyer III&quot; &quot;Dirigible&quot; &quot;Curtiss seaplane&quot; &quot;Zeppelin L-1 (airship)&quot; ...
- $ Registration: chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
- $ cn.In       : chr  &quot;1&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
- $ Aboard      : int  2 5 1 20 30 41 19 20 22 19 ...
- $ Fatalities  : int  1 5 1 14 30 21 19 20 22 19 ...
- $ Ground      : int  0 0 0 0 0 0 0 0 0 0 ...
- $ Summary     : chr  &quot;During a demonstration flight, a U.S. Army flyer flown by Orville Wright nose-dived into the ground from a heig&quot;| __truncated__ &quot;First U.S. dirigible Akron exploded just offshore at an altitude of 1,000 ft. during a test flight.&quot; &quot;The first fatal airplane accident in Canada occurred when American barnstormer, John M. Bryant, California aviator was killed.&quot; &quot;The airship flew into a thunderstorm and encountered a severe downdraft crashing 20 miles north of Helgoland Is&quot;| __truncated__ ...</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IG9iamVjdCAnYWVybycgbm90IGZvdW5kXG4ifQ== -->
+<pre><code>Error: object &#39;aero&#39; not found</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kRGF0ZSlcbmBgYCJ9 -->
+<pre class="r"><code>str(aero$Date)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIERhdGVbMTo1MjY4XSwgZm9ybWF0OiBcIjE5MDgtMDktMTdcIiBcIjE5MTItMDctMTJcIiBcIjE5MTMtMDgtMDZcIiBcIjE5MTMtMDktMDlcIiBcIjE5MTMtMTAtMTdcIiBcIjE5MTUtMDMtMDVcIiBcIjE5MTUtMDktMDNcIiBcIjE5MTYtMDctMjhcIiAuLi5cbiJ9 -->
+<pre><code> Date[1:5268], format: &quot;1908-09-17&quot; &quot;1912-07-12&quot; &quot;1913-08-06&quot; &quot;1913-09-09&quot; &quot;1913-10-17&quot; &quot;1915-03-05&quot; &quot;1915-09-03&quot; &quot;1916-07-28&quot; ...</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kVGltZSlcbmBgYCJ9 -->
 <pre class="r"><code>str(aero$Time)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRm9ybWFsIGNsYXNzICdQZXJpb2QnIFtwYWNrYWdlIFwibHVicmlkYXRlXCJdIHdpdGggNiBzbG90c1xuICAuLkAgLkRhdGEgOiBudW0gWzE6NTI2OF0gMCAwIE5BIDAgMCAwIDAgTkEgMCAwIC4uLlxuICAuLkAgeWVhciAgOiBudW0gWzE6NTI2OF0gMCAwIE5BIDAgMCAwIDAgTkEgMCAwIC4uLlxuICAuLkAgbW9udGggOiBudW0gWzE6NTI2OF0gMCAwIE5BIDAgMCAwIDAgTkEgMCAwIC4uLlxuICAuLkAgZGF5ICAgOiBudW0gWzE6NTI2OF0gMCAwIE5BIDAgMCAwIDAgTkEgMCAwIC4uLlxuICAuLkAgaG91ciAgOiBudW0gWzE6NTI2OF0gMTcgNiBOQSAxOCAxMCAxIDE1IE5BIDEgMjMgLi4uXG4gIC4uQCBtaW51dGU6IG51bSBbMTo1MjY4XSAxOCAzMCBOQSAzMCAzMCAwIDIwIE5BIDAgNDUgLi4uXG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiRm9ybWFsIGNsYXNzICdQZXJpb2QnIFtwYWNrYWdlIFwibHVicmlkYXRlXCJdIHdpdGggNiBzbG90c1xuICAuLkAgLkRhdGEgOiBudW0gWzE6NTI2OF0gTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgLi4uXG4gIC4uQCB5ZWFyICA6IG51bSBbMTo1MjY4XSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSAuLi5cbiAgLi5AIG1vbnRoIDogbnVtIFsxOjUyNjhdIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIC4uLlxuICAuLkAgZGF5ICAgOiBudW0gWzE6NTI2OF0gTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgLi4uXG4gIC4uQCBob3VyICA6IG51bSBbMTo1MjY4XSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSAuLi5cbiAgLi5AIG1pbnV0ZTogbnVtIFsxOjUyNjhdIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIC4uLlxuIn0= -->
 <pre><code>Formal class &#39;Period&#39; [package &quot;lubridate&quot;] with 6 slots
-  ..@ .Data : num [1:5268] 0 0 NA 0 0 0 0 NA 0 0 ...
-  ..@ year  : num [1:5268] 0 0 NA 0 0 0 0 NA 0 0 ...
-  ..@ month : num [1:5268] 0 0 NA 0 0 0 0 NA 0 0 ...
-  ..@ day   : num [1:5268] 0 0 NA 0 0 0 0 NA 0 0 ...
-  ..@ hour  : num [1:5268] 17 6 NA 18 10 1 15 NA 1 23 ...
-  ..@ minute: num [1:5268] 18 30 NA 30 30 0 20 NA 0 45 ...</code></pre>
+  ..@ .Data : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
+  ..@ year  : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
+  ..@ month : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
+  ..@ day   : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
+  ..@ hour  : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
+  ..@ minute: num [1:5268] NA NA NA NA NA NA NA NA NA NA ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kTG9jYXRpb24pXG5gYGAifQ== -->
+<pre class="r"><code>str(aero$Location)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIkZvcnQgTXllciwgVmlyZ2luaWFcIiBcIkF0bGFudGlDaXR5LCBOZXcgSmVyc2V5XCIgXCJWaWN0b3JpYSwgQnJpdGlzaCBDb2x1bWJpYSwgQ2FuYWRhXCIgLi4uXG4ifQ== -->
+<pre><code> chr [1:5268] &quot;Fort Myer, Virginia&quot; &quot;AtlantiCity, New Jersey&quot; &quot;Victoria, British Columbia, Canada&quot; ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kT3BlcmF0b3IpXG5gYGAifQ== -->
+<pre class="r"><code>str(aero$Operator)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIk1pbGl0YXJ5IC0gVS5TLiBBcm15XCIgXCJNaWxpdGFyeSAtIFUuUy4gTmF2eVwiIFwiUHJpdmF0ZVwiIFwiTWlsaXRhcnkgLSBHZXJtYW4gTmF2eVwiIC4uLlxuIn0= -->
+<pre><code> chr [1:5268] &quot;Military - U.S. Army&quot; &quot;Military - U.S. Navy&quot; &quot;Private&quot; &quot;Military - German Navy&quot; ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1817,18 +1816,19 @@ aero &lt;- read.csv(&quot;Airplane_Crashes_and_Fatalities_Since_1908.csv&quot;)
 <h1>Changing data types</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWVybyREYXRlIDwtIGFzLkRhdGUoYWVybyREYXRlLCBmb3JtYXQ9XCIlbS8lZC8lWVwiKSAjIENoYW5nZSBEYXRlIGZyb20gYSBjaGFyIHRvIERhdGUgZGF0YSB0eXBlXG5hZXJvJFRpbWUgPC0gbHVicmlkYXRlOjpobShhZXJvJFRpbWUpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWVybyREYXRlIDwtIGFzLkRhdGUoYWVybyREYXRlLCBmb3JtYXQ9XCIlbS8lZC8lWVwiKSAjIENoYW5nZSBEYXRlIGZyb20gYSBjaGFyIHRvIERhdGUgZGF0YSB0eXBlXG5hZXJvJFRpbWUgPC0gbHVicmlkYXRlOjpobShhZXJvJFRpbWUpICMgQ2hhbmdlIGZyb20gY2hhciB0byBsdWJyaWRhdGVcbmBgYCJ9 -->
 <pre class="r"><code>aero$Date &lt;- as.Date(aero$Date, format=&quot;%m/%d/%Y&quot;) # Change Date from a char to Date data type
-aero$Time &lt;- lubridate::hm(aero$Time)</code></pre>
+aero$Time &lt;- lubridate::hm(aero$Time) # Change from char to lubridate</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBpbiAucGFyc2VfaG1zKC4uLiwgb3JkZXIgPSBcIkhNXCIsIHF1aWV0ID0gcXVpZXQpIDpcbiAgU29tZSBzdHJpbmdzIGZhaWxlZCB0byBwYXJzZVxuIn0= -->
 <pre><code>Warning in .parse_hms(..., order = &quot;HM&quot;, quiet = quiet) :
   Some strings failed to parse</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2Flcm8kVGltZSA8LSBhcy5QT1NJWGN0KGFlcm8kVGltZSwgZm9ybWF0PVwiJUg6JU1cIilcbiNhZXJvJFRpbWUgPC0gc3RyZnRpbWUoYWVybyRUaW1lLCBmb3JtYXQ9XCIlSDolTVwiKVxuI2Flcm8kVGltZSA8LSBobXMoYWVybyRUaW1lKVxuXG5gYGAifQ== -->
-<pre class="r"><code>#aero$Time &lt;- as.POSIXct(aero$Time, format=&quot;%H:%M&quot;)
-#aero$Time &lt;- strftime(aero$Time, format=&quot;%H:%M&quot;)
-#aero$Time &lt;- hms(aero$Time)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWVybyRMb2NhdGlvbiA8LSBpZmVsc2UoYWVybyRMb2NhdGlvbiA9PSBcIlwiLCBOQSwgYWVybyRMb2NhdGlvbilcbmFlcm8kT3BlcmF0b3IgPC0gaWZlbHNlKGFlcm8kT3BlcmF0b3IgPT0gXCJcIiwgTkEsIGFlcm8kT3BlcmF0b3IpXG5hZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09IFwiXCIsIE5BLCBhZXJvJEZsaWdodC4uKVxuYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSBcIi1cIiwgTkEsIGFlcm8kRmxpZ2h0Li4pXG5cbmBgYCJ9 -->
+<pre class="r"><code>aero$Location &lt;- ifelse(aero$Location == &quot;&quot;, NA, aero$Location)
+aero$Operator &lt;- ifelse(aero$Operator == &quot;&quot;, NA, aero$Operator)
+aero$Flight.. &lt;- ifelse(aero$Flight.. == &quot;&quot;, NA, aero$Flight..)
+aero$Flight.. &lt;- ifelse(aero$Flight.. == &quot;-&quot;, NA, aero$Flight..)
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1847,18 +1847,52 @@ aero$Time &lt;- lubridate::hm(aero$Time)</code></pre>
 misscol &lt;- colSums(is.na(aero)) / nrow(aero)
 round(misscol, 2)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICBEYXRlICAgICAgICAgVGltZSAgICAgTG9jYXRpb24gICAgIE9wZXJhdG9yICAgICBGbGlnaHQuLiAgICAgICAgUm91dGUgICAgICAgICBUeXBlIFJlZ2lzdHJhdGlvbiBcbiAgICAgICAgMC4wMCAgICAgICAgIDAuNDIgICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuMDAgICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuMDAgXG4gICAgICAgY24uSW4gICAgICAgQWJvYXJkICAgRmF0YWxpdGllcyAgICAgICBHcm91bmQgICAgICBTdW1tYXJ5IFxuICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuMDAgICAgICAgICAwLjAwICAgICAgICAgMC4wMCBcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICBEYXRlICAgICAgICAgVGltZSAgICAgTG9jYXRpb24gICAgIE9wZXJhdG9yICAgICBGbGlnaHQuLiAgICAgICAgUm91dGUgICAgICAgICBUeXBlIFJlZ2lzdHJhdGlvbiBcbiAgICAgICAgMC4wMCAgICAgICAgIDAuNDIgICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuODEgICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuMDAgXG4gICAgICAgY24uSW4gICAgICAgQWJvYXJkICAgRmF0YWxpdGllcyAgICAgICBHcm91bmQgICAgICBTdW1tYXJ5IFxuICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuMDAgICAgICAgICAwLjAwICAgICAgICAgMC4wMCBcbiJ9 -->
 <pre><code>        Date         Time     Location     Operator     Flight..        Route         Type Registration 
-        0.00         0.42         0.00         0.00         0.00         0.00         0.00         0.00 
+        0.00         0.42         0.00         0.00         0.81         0.00         0.00         0.00 
        cn.In       Aboard   Fatalities       Ground      Summary 
         0.00         0.00         0.00         0.00         0.00 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQxIDwtIHN1bShpcy5uYShhZXJvJERhdGUpKVxubmFfY291bnQyIDwtIHN1bShpcy5uYShhZXJvJFRpbWUpKVxubmFfY291bnQzIDwtIHN1bShpcy5uYShhZXJvJE9wZXJhdG9yKSlcbm5hX2NvdW50NCA8LSBzdW0oaXMubmEoYWVybyRGbGlnaHQuLikpXG5cblxubmFfY291bnQxXG5gYGAifQ== -->
+<pre class="r"><code>na_count1 &lt;- sum(is.na(aero$Date))
+na_count2 &lt;- sum(is.na(aero$Time))
+na_count3 &lt;- sum(is.na(aero$Operator))
+na_count4 &lt;- sum(is.na(aero$Flight..))
+
+
+na_count1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQyXG5gYGAifQ== -->
+<pre class="r"><code>na_count2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDIyMjBcbiJ9 -->
+<pre><code>[1] 2220</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQzXG5gYGAifQ== -->
+<pre class="r"><code>na_count3</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE4XG4ifQ== -->
+<pre><code>[1] 18</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQ0XG5gYGAifQ== -->
+<pre class="r"><code>na_count4</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQyNjZcbiJ9 -->
+<pre><code>[1] 4266</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkF2aWF0aW9uIENyYXNoIEFuYWx5c2lzIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBJbXBvcnQgZGF0YQ0KDQpgYGB7cn0NCiNpbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpDQpsaWJyYXJ5KHJlYWRyKQ0KbGlicmFyeShsdWJyaWRhdGUpDQoNCmFlcm8gPC0gcmVhZC5jc3YoIkFpcnBsYW5lX0NyYXNoZXNfYW5kX0ZhdGFsaXRpZXNfU2luY2VfMTkwOC5jc3YiKQ0KDQpgYGANCg0KIyBjaGVjayBkYXRhDQoNCmBgYHtyfQ0Kc3RyKGFlcm8pDQoNCmBgYA0KYGBge3J9DQpzdHIoYWVybyRUaW1lKQ0KYGBgDQoNCg0KDQoNCiMgQ2hhbmdpbmcgZGF0YSB0eXBlcw0KDQpgYGB7cn0NCmFlcm8kRGF0ZSA8LSBhcy5EYXRlKGFlcm8kRGF0ZSwgZm9ybWF0PSIlbS8lZC8lWSIpICMgQ2hhbmdlIERhdGUgZnJvbSBhIGNoYXIgdG8gRGF0ZSBkYXRhIHR5cGUNCmFlcm8kVGltZSA8LSBsdWJyaWRhdGU6OmhtKGFlcm8kVGltZSkNCg0KDQoNCmBgYA0KDQpgYGB7cn0NCiNhZXJvJERhdGVbYWVybyREYXRlID09ICIiXSA8LSBOQSAjIEZpbGwgaW4gZW1wdHkgc3RyaW5nIHdpdGggTkENCiNhZXJvJERhdGVbYWVybyREYXRlID09ICIiXSA8LSBOQSAjIEZpbGwgaW4gZW1wdHkgc3RyaW5nIHdpdGggTkENCg0KDQoNCiNwcmludChhZXJvJERhdGUpDQojcHJpbnQoYWVybyRUaW1lKQ0KDQptaXNzY29sIDwtIGNvbFN1bXMoaXMubmEoYWVybykpIC8gbnJvdyhhZXJvKQ0Kcm91bmQobWlzc2NvbCwgMikNCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkF2aWF0aW9uIENyYXNoIEFuYWx5c2lzIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBJbXBvcnQgZGF0YQ0KDQpgYGB7cn0NCiNpbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpDQpsaWJyYXJ5KHJlYWRyKQ0KbGlicmFyeShsdWJyaWRhdGUpDQoNCmFlcm8gPC0gcmVhZC5jc3YoIkFpcnBsYW5lX0NyYXNoZXNfYW5kX0ZhdGFsaXRpZXNfU2luY2VfMTkwOC5jc3YiKQ0KDQpgYGANCg0KIyBjaGVjayBkYXRhDQoNCmBgYHtyfQ0Kc3RyKGFlcm8pDQoNCmBgYA0KYGBge3J9DQpzdHIoYWVybyREYXRlKQ0Kc3RyKGFlcm8kVGltZSkNCnN0cihhZXJvJExvY2F0aW9uKQ0Kc3RyKGFlcm8kT3BlcmF0b3IpDQoNCmBgYA0KDQoNCg0KDQojIENoYW5naW5nIGRhdGEgdHlwZXMNCg0KYGBge3J9DQphZXJvJERhdGUgPC0gYXMuRGF0ZShhZXJvJERhdGUsIGZvcm1hdD0iJW0vJWQvJVkiKSAjIENoYW5nZSBEYXRlIGZyb20gYSBjaGFyIHRvIERhdGUgZGF0YSB0eXBlDQphZXJvJFRpbWUgPC0gbHVicmlkYXRlOjpobShhZXJvJFRpbWUpICMgQ2hhbmdlIGZyb20gY2hhciB0byBsdWJyaWRhdGUNCg0KYWVybyRMb2NhdGlvbiA8LSBpZmVsc2UoYWVybyRMb2NhdGlvbiA9PSAiIiwgTkEsIGFlcm8kTG9jYXRpb24pDQphZXJvJE9wZXJhdG9yIDwtIGlmZWxzZShhZXJvJE9wZXJhdG9yID09ICIiLCBOQSwgYWVybyRPcGVyYXRvcikNCmFlcm8kRmxpZ2h0Li4gPC0gaWZlbHNlKGFlcm8kRmxpZ2h0Li4gPT0gIiIsIE5BLCBhZXJvJEZsaWdodC4uKQ0KYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSAiLSIsIE5BLCBhZXJvJEZsaWdodC4uKQ0KDQpgYGANCg0KYGBge3J9DQojYWVybyREYXRlW2Flcm8kRGF0ZSA9PSAiIl0gPC0gTkEgIyBGaWxsIGluIGVtcHR5IHN0cmluZyB3aXRoIE5BDQojYWVybyREYXRlW2Flcm8kRGF0ZSA9PSAiIl0gPC0gTkEgIyBGaWxsIGluIGVtcHR5IHN0cmluZyB3aXRoIE5BDQoNCg0KDQojcHJpbnQoYWVybyREYXRlKQ0KI3ByaW50KGFlcm8kVGltZSkNCg0KbWlzc2NvbCA8LSBjb2xTdW1zKGlzLm5hKGFlcm8pKSAvIG5yb3coYWVybykNCnJvdW5kKG1pc3Njb2wsIDIpDQpgYGANCg0KYGBge3J9DQpuYV9jb3VudDEgPC0gc3VtKGlzLm5hKGFlcm8kRGF0ZSkpDQpuYV9jb3VudDIgPC0gc3VtKGlzLm5hKGFlcm8kVGltZSkpDQpuYV9jb3VudDMgPC0gc3VtKGlzLm5hKGFlcm8kT3BlcmF0b3IpKQ0KbmFfY291bnQ0IDwtIHN1bShpcy5uYShhZXJvJEZsaWdodC4uKSkNCg0KDQpuYV9jb3VudDENCm5hX2NvdW50Mg0KbmFfY291bnQzDQpuYV9jb3VudDQNCmBgYA0KDQo=</div>
 
 
 

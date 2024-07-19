@@ -21,7 +21,11 @@ str(aero)
 
 ```
 ```{r}
+str(aero$Date)
 str(aero$Time)
+str(aero$Location)
+str(aero$Operator)
+
 ```
 
 
@@ -31,9 +35,12 @@ str(aero$Time)
 
 ```{r}
 aero$Date <- as.Date(aero$Date, format="%m/%d/%Y") # Change Date from a char to Date data type
-aero$Time <- lubridate::hm(aero$Time)
+aero$Time <- lubridate::hm(aero$Time) # Change from char to lubridate
 
-
+aero$Location <- ifelse(aero$Location == "", NA, aero$Location)
+aero$Operator <- ifelse(aero$Operator == "", NA, aero$Operator)
+aero$Flight.. <- ifelse(aero$Flight.. == "", NA, aero$Flight..)
+aero$Flight.. <- ifelse(aero$Flight.. == "-", NA, aero$Flight..)
 
 ```
 
@@ -48,5 +55,18 @@ aero$Time <- lubridate::hm(aero$Time)
 
 misscol <- colSums(is.na(aero)) / nrow(aero)
 round(misscol, 2)
+```
+
+```{r}
+na_count1 <- sum(is.na(aero$Date))
+na_count2 <- sum(is.na(aero$Time))
+na_count3 <- sum(is.na(aero$Operator))
+na_count4 <- sum(is.na(aero$Flight..))
+
+
+na_count1
+na_count2
+na_count3
+na_count4
 ```
 
