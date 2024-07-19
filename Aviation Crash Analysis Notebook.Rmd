@@ -1,0 +1,22 @@
+---
+title: "Aviation Crash Analysis"
+output: html_notebook
+---
+
+# Import data
+
+```{r}
+#install.packages("readr")
+library(readr)
+
+aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
+
+```
+
+# check data
+
+```{r}
+str(aero)
+
+```
+
