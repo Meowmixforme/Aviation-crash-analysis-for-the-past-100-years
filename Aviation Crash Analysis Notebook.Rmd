@@ -20,3 +20,22 @@ str(aero)
 
 ```
 
+# Changing data types
+
+```{r}
+aero$Date <- as.Date(aero$Date, format="%m/%d/%Y") # Change Date from a char to Date data type
+
+```
+
+```{r}
+#aero$Date[aero$Date == ""] <- NA # Fill in empty string with NA
+#aero$Date[aero$Date == ""] <- NA # Fill in empty string with NA
+
+#aero$Date <- as.Date(aero$Date, format = "%m-%d-%y")
+
+print(aero$Date)
+
+misscol <- colSums(is.na(aero)) / nrow(aero)
+round(misscol, 2)
+```
+
