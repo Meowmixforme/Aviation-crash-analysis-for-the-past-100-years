@@ -100,4 +100,19 @@ na_count10
 na_count11
 na_count12
 ```
+# Search for most frequent words in Summary (Text Mining)
+
+```{r}
+library(tidytext)
+library(dplyr)
+
+aero <- as_tibble(aero)
+
+# Tokenize and count words
+word_counts <- aero %>%
+  unnest_tokens(word, Summary) %>%  # Ensure the column name matches
+  count(word, sort = TRUE)          # Count occurrences of each word
+
+print(word_counts)
+```
 
