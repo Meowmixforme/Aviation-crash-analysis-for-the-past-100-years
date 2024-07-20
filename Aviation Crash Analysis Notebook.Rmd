@@ -14,7 +14,7 @@ aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 
 ```
 
-# check data
+# check data format
 
 ```{r}
 str(aero)
@@ -25,13 +25,17 @@ str(aero$Date)
 str(aero$Time)
 str(aero$Location)
 str(aero$Operator)
+str(aero$Route)
+str(aero$type)
+str(aero$Registration)
+str(aero$cn.In)
 
 ```
 
 
 
 
-# Changing data types
+# Changing data types from Char and converting empty strings and dashes to NA
 
 ```{r}
 aero$Date <- as.Date(aero$Date, format="%m/%d/%Y") # Change Date from a char to Date data type
@@ -41,8 +45,13 @@ aero$Location <- ifelse(aero$Location == "", NA, aero$Location)
 aero$Operator <- ifelse(aero$Operator == "", NA, aero$Operator)
 aero$Flight.. <- ifelse(aero$Flight.. == "", NA, aero$Flight..)
 aero$Flight.. <- ifelse(aero$Flight.. == "-", NA, aero$Flight..)
+aero$Route <- ifelse(aero$Route == "", NA, aero$Route)
+aero$Type <- ifelse(aero$Type == "", NA, aero$Type)
+aero$Registration <- ifelse(aero$Registration == "", NA, aero$Registration)
+aero$cn.In <- ifelse(aero$cn.In == "", NA, aero$cn.In)
 
 ```
+# Percentage of missing values in each column
 
 ```{r}
 #aero$Date[aero$Date == ""] <- NA # Fill in empty string with NA
@@ -62,11 +71,19 @@ na_count1 <- sum(is.na(aero$Date))
 na_count2 <- sum(is.na(aero$Time))
 na_count3 <- sum(is.na(aero$Operator))
 na_count4 <- sum(is.na(aero$Flight..))
+na_count5 <- sum(is.na(aero$Route))
+na_count6 <- sum(is.na(aero$Type))
+na_count7 <- sum(is.na(aero$Registration))
+na_count8 <- sum(is.na(aero$cn.In))
 
 
 na_count1
 na_count2
 na_count3
 na_count4
+na_count5
+na_count6
+na_count7
+na_count8
 ```
 

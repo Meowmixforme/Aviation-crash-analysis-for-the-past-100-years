@@ -1767,8 +1767,8 @@ aero &lt;- read.csv(&quot;Airplane_Crashes_and_Fatalities_Since_1908.csv&quot;)
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="check-data" class="section level1">
-<h1>check data</h1>
+<div id="check-data-format" class="section level1">
+<h1>check data format</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8pXG5gYGAifQ== -->
@@ -1782,20 +1782,14 @@ aero &lt;- read.csv(&quot;Airplane_Crashes_and_Fatalities_Since_1908.csv&quot;)
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kRGF0ZSlcbmBgYCJ9 -->
 <pre class="r"><code>str(aero$Date)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIERhdGVbMTo1MjY4XSwgZm9ybWF0OiBcIjE5MDgtMDktMTdcIiBcIjE5MTItMDctMTJcIiBcIjE5MTMtMDgtMDZcIiBcIjE5MTMtMDktMDlcIiBcIjE5MTMtMTAtMTdcIiBcIjE5MTUtMDMtMDVcIiBcIjE5MTUtMDktMDNcIiBcIjE5MTYtMDctMjhcIiAuLi5cbiJ9 -->
-<pre><code> Date[1:5268], format: &quot;1908-09-17&quot; &quot;1912-07-12&quot; &quot;1913-08-06&quot; &quot;1913-09-09&quot; &quot;1913-10-17&quot; &quot;1915-03-05&quot; &quot;1915-09-03&quot; &quot;1916-07-28&quot; ...</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIjA5LzE3LzE5MDhcIiBcIjA3LzEyLzE5MTJcIiBcIjA4LzA2LzE5MTNcIiBcIjA5LzA5LzE5MTNcIiBcIjEwLzE3LzE5MTNcIiBcIjAzLzA1LzE5MTVcIiBcIjA5LzAzLzE5MTVcIiAuLi5cbiJ9 -->
+<pre><code> chr [1:5268] &quot;09/17/1908&quot; &quot;07/12/1912&quot; &quot;08/06/1913&quot; &quot;09/09/1913&quot; &quot;10/17/1913&quot; &quot;03/05/1915&quot; &quot;09/03/1915&quot; ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kVGltZSlcbmBgYCJ9 -->
 <pre class="r"><code>str(aero$Time)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRm9ybWFsIGNsYXNzICdQZXJpb2QnIFtwYWNrYWdlIFwibHVicmlkYXRlXCJdIHdpdGggNiBzbG90c1xuICAuLkAgLkRhdGEgOiBudW0gWzE6NTI2OF0gTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgLi4uXG4gIC4uQCB5ZWFyICA6IG51bSBbMTo1MjY4XSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSAuLi5cbiAgLi5AIG1vbnRoIDogbnVtIFsxOjUyNjhdIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIC4uLlxuICAuLkAgZGF5ICAgOiBudW0gWzE6NTI2OF0gTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgLi4uXG4gIC4uQCBob3VyICA6IG51bSBbMTo1MjY4XSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSAuLi5cbiAgLi5AIG1pbnV0ZTogbnVtIFsxOjUyNjhdIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIE5BIC4uLlxuIn0= -->
-<pre><code>Formal class &#39;Period&#39; [package &quot;lubridate&quot;] with 6 slots
-  ..@ .Data : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
-  ..@ year  : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
-  ..@ month : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
-  ..@ day   : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
-  ..@ hour  : num [1:5268] NA NA NA NA NA NA NA NA NA NA ...
-  ..@ minute: num [1:5268] NA NA NA NA NA NA NA NA NA NA ...</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIjE3OjE4XCIgXCIwNjozMFwiIFwiXCIgXCIxODozMFwiIFwiMTA6MzBcIiBcIjAxOjAwXCIgXCIxNToyMFwiIFwiXCIgXCIwMTowMFwiIFwiMjM6NDVcIiBcIlwiIFwiMjM6NDVcIiBcIlwiIFwiXCIgXCIwNToxNVwiIC4uLlxuIn0= -->
+<pre><code> chr [1:5268] &quot;17:18&quot; &quot;06:30&quot; &quot;&quot; &quot;18:30&quot; &quot;10:30&quot; &quot;01:00&quot; &quot;15:20&quot; &quot;&quot; &quot;01:00&quot; &quot;23:45&quot; &quot;&quot; &quot;23:45&quot; &quot;&quot; &quot;&quot; &quot;05:15&quot; ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kTG9jYXRpb24pXG5gYGAifQ== -->
 <pre class="r"><code>str(aero$Location)</code></pre>
@@ -1809,11 +1803,36 @@ aero &lt;- read.csv(&quot;Airplane_Crashes_and_Fatalities_Since_1908.csv&quot;)
 <!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIk1pbGl0YXJ5IC0gVS5TLiBBcm15XCIgXCJNaWxpdGFyeSAtIFUuUy4gTmF2eVwiIFwiUHJpdmF0ZVwiIFwiTWlsaXRhcnkgLSBHZXJtYW4gTmF2eVwiIC4uLlxuIn0= -->
 <pre><code> chr [1:5268] &quot;Military - U.S. Army&quot; &quot;Military - U.S. Navy&quot; &quot;Private&quot; &quot;Military - German Navy&quot; ...</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kUm91dGUpXG5gYGAifQ== -->
+<pre class="r"><code>str(aero$Route)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIkRlbW9uc3RyYXRpb25cIiBcIlRlc3QgZmxpZ2h0XCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiAuLi5cbiJ9 -->
+<pre><code> chr [1:5268] &quot;Demonstration&quot; &quot;Test flight&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kdHlwZSlcbmBgYCJ9 -->
+<pre class="r"><code>str(aero$type)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIE5VTExcbiJ9 -->
+<pre><code> NULL</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kUmVnaXN0cmF0aW9uKVxuYGBgIn0= -->
+<pre class="r"><code>str(aero$Registration)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIjk3XCIgXCI2MVwiIFwiODJcIiBcIlwiIFwiMzJcIiBcIkctRUFIR1wiIC4uLlxuIn0= -->
+<pre><code> chr [1:5268] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;97&quot; &quot;61&quot; &quot;82&quot; &quot;&quot; &quot;32&quot; &quot;G-EAHG&quot; ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kY24uSW4pXG5gYGAifQ== -->
+<pre class="r"><code>str(aero$cn.In)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIjFcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiAuLi5cbiJ9 -->
+<pre><code> chr [1:5268] &quot;1&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="changing-data-types" class="section level1">
-<h1>Changing data types</h1>
+<div id="changing-data-types-from-char-and-converting-empty-strings-and-dashes-to-na" class="section level1">
+<h1>Changing data types from Char and converting empty strings and
+dashes to NA</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWVybyREYXRlIDwtIGFzLkRhdGUoYWVybyREYXRlLCBmb3JtYXQ9XCIlbS8lZC8lWVwiKSAjIENoYW5nZSBEYXRlIGZyb20gYSBjaGFyIHRvIERhdGUgZGF0YSB0eXBlXG5hZXJvJFRpbWUgPC0gbHVicmlkYXRlOjpobShhZXJvJFRpbWUpICMgQ2hhbmdlIGZyb20gY2hhciB0byBsdWJyaWRhdGVcbmBgYCJ9 -->
@@ -1824,15 +1843,22 @@ aero$Time &lt;- lubridate::hm(aero$Time) # Change from char to lubridate</code><
 <pre><code>Warning in .parse_hms(..., order = &quot;HM&quot;, quiet = quiet) :
   Some strings failed to parse</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWVybyRMb2NhdGlvbiA8LSBpZmVsc2UoYWVybyRMb2NhdGlvbiA9PSBcIlwiLCBOQSwgYWVybyRMb2NhdGlvbilcbmFlcm8kT3BlcmF0b3IgPC0gaWZlbHNlKGFlcm8kT3BlcmF0b3IgPT0gXCJcIiwgTkEsIGFlcm8kT3BlcmF0b3IpXG5hZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09IFwiXCIsIE5BLCBhZXJvJEZsaWdodC4uKVxuYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSBcIi1cIiwgTkEsIGFlcm8kRmxpZ2h0Li4pXG5cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWVybyRMb2NhdGlvbiA8LSBpZmVsc2UoYWVybyRMb2NhdGlvbiA9PSBcIlwiLCBOQSwgYWVybyRMb2NhdGlvbilcbmFlcm8kT3BlcmF0b3IgPC0gaWZlbHNlKGFlcm8kT3BlcmF0b3IgPT0gXCJcIiwgTkEsIGFlcm8kT3BlcmF0b3IpXG5hZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09IFwiXCIsIE5BLCBhZXJvJEZsaWdodC4uKVxuYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSBcIi1cIiwgTkEsIGFlcm8kRmxpZ2h0Li4pXG5hZXJvJFJvdXRlIDwtIGlmZWxzZShhZXJvJFJvdXRlID09IFwiXCIsIE5BLCBhZXJvJFJvdXRlKVxuYWVybyRUeXBlIDwtIGlmZWxzZShhZXJvJFR5cGUgPT0gXCJcIiwgTkEsIGFlcm8kVHlwZSlcbmFlcm8kUmVnaXN0cmF0aW9uIDwtIGlmZWxzZShhZXJvJFJlZ2lzdHJhdGlvbiA9PSBcIlwiLCBOQSwgYWVybyRSZWdpc3RyYXRpb24pXG5hZXJvJGNuLkluIDwtIGlmZWxzZShhZXJvJGNuLkluID09IFwiXCIsIE5BLCBhZXJvJGNuLkluKVxuXG5gYGAifQ== -->
 <pre class="r"><code>aero$Location &lt;- ifelse(aero$Location == &quot;&quot;, NA, aero$Location)
 aero$Operator &lt;- ifelse(aero$Operator == &quot;&quot;, NA, aero$Operator)
 aero$Flight.. &lt;- ifelse(aero$Flight.. == &quot;&quot;, NA, aero$Flight..)
 aero$Flight.. &lt;- ifelse(aero$Flight.. == &quot;-&quot;, NA, aero$Flight..)
+aero$Route &lt;- ifelse(aero$Route == &quot;&quot;, NA, aero$Route)
+aero$Type &lt;- ifelse(aero$Type == &quot;&quot;, NA, aero$Type)
+aero$Registration &lt;- ifelse(aero$Registration == &quot;&quot;, NA, aero$Registration)
+aero$cn.In &lt;- ifelse(aero$cn.In == &quot;&quot;, NA, aero$cn.In)
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="percentage-of-missing-values-in-each-column" class="section level1">
+<h1>Percentage of missing values in each column</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2Flcm8kRGF0ZVthZXJvJERhdGUgPT0gXCJcIl0gPC0gTkEgIyBGaWxsIGluIGVtcHR5IHN0cmluZyB3aXRoIE5BXG4jYWVybyREYXRlW2Flcm8kRGF0ZSA9PSBcIlwiXSA8LSBOQSAjIEZpbGwgaW4gZW1wdHkgc3RyaW5nIHdpdGggTkFcblxuXG5cbiNwcmludChhZXJvJERhdGUpXG4jcHJpbnQoYWVybyRUaW1lKVxuXG5taXNzY29sIDwtIGNvbFN1bXMoaXMubmEoYWVybykpIC8gbnJvdyhhZXJvKVxucm91bmQobWlzc2NvbCwgMilcbmBgYCJ9 -->
@@ -1847,21 +1873,25 @@ aero$Flight.. &lt;- ifelse(aero$Flight.. == &quot;-&quot;, NA, aero$Flight..)
 misscol &lt;- colSums(is.na(aero)) / nrow(aero)
 round(misscol, 2)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICBEYXRlICAgICAgICAgVGltZSAgICAgTG9jYXRpb24gICAgIE9wZXJhdG9yICAgICBGbGlnaHQuLiAgICAgICAgUm91dGUgICAgICAgICBUeXBlIFJlZ2lzdHJhdGlvbiBcbiAgICAgICAgMC4wMCAgICAgICAgIDAuNDIgICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuODEgICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuMDAgXG4gICAgICAgY24uSW4gICAgICAgQWJvYXJkICAgRmF0YWxpdGllcyAgICAgICBHcm91bmQgICAgICBTdW1tYXJ5IFxuICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuMDAgICAgICAgICAwLjAwICAgICAgICAgMC4wMCBcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICBEYXRlICAgICAgICAgVGltZSAgICAgTG9jYXRpb24gICAgIE9wZXJhdG9yICAgICBGbGlnaHQuLiAgICAgICAgUm91dGUgICAgICAgICBUeXBlIFJlZ2lzdHJhdGlvbiBcbiAgICAgICAgMC4wMCAgICAgICAgIDAuNDIgICAgICAgICAwLjAwICAgICAgICAgMC4wMCAgICAgICAgIDAuODEgICAgICAgICAwLjMyICAgICAgICAgMC4wMSAgICAgICAgIDAuMDYgXG4gICAgICAgY24uSW4gICAgICAgQWJvYXJkICAgRmF0YWxpdGllcyAgICAgICBHcm91bmQgICAgICBTdW1tYXJ5IFxuICAgICAgICAwLjIzICAgICAgICAgMC4wMCAgICAgICAgIDAuMDAgICAgICAgICAwLjAwICAgICAgICAgMC4wMCBcbiJ9 -->
 <pre><code>        Date         Time     Location     Operator     Flight..        Route         Type Registration 
-        0.00         0.42         0.00         0.00         0.81         0.00         0.00         0.00 
+        0.00         0.42         0.00         0.00         0.81         0.32         0.01         0.06 
        cn.In       Aboard   Fatalities       Ground      Summary 
-        0.00         0.00         0.00         0.00         0.00 </code></pre>
+        0.23         0.00         0.00         0.00         0.00 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQxIDwtIHN1bShpcy5uYShhZXJvJERhdGUpKVxubmFfY291bnQyIDwtIHN1bShpcy5uYShhZXJvJFRpbWUpKVxubmFfY291bnQzIDwtIHN1bShpcy5uYShhZXJvJE9wZXJhdG9yKSlcbm5hX2NvdW50NCA8LSBzdW0oaXMubmEoYWVybyRGbGlnaHQuLikpXG5cblxubmFfY291bnQxXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQxIDwtIHN1bShpcy5uYShhZXJvJERhdGUpKVxubmFfY291bnQyIDwtIHN1bShpcy5uYShhZXJvJFRpbWUpKVxubmFfY291bnQzIDwtIHN1bShpcy5uYShhZXJvJE9wZXJhdG9yKSlcbm5hX2NvdW50NCA8LSBzdW0oaXMubmEoYWVybyRGbGlnaHQuLikpXG5uYV9jb3VudDUgPC0gc3VtKGlzLm5hKGFlcm8kUm91dGUpKVxubmFfY291bnQ2IDwtIHN1bShpcy5uYShhZXJvJFR5cGUpKVxubmFfY291bnQ3IDwtIHN1bShpcy5uYShhZXJvJFJlZ2lzdHJhdGlvbikpXG5uYV9jb3VudDggPC0gc3VtKGlzLm5hKGFlcm8kY24uSW4pKVxuXG5cbm5hX2NvdW50MVxuYGBgIn0= -->
 <pre class="r"><code>na_count1 &lt;- sum(is.na(aero$Date))
 na_count2 &lt;- sum(is.na(aero$Time))
 na_count3 &lt;- sum(is.na(aero$Operator))
 na_count4 &lt;- sum(is.na(aero$Flight..))
+na_count5 &lt;- sum(is.na(aero$Route))
+na_count6 &lt;- sum(is.na(aero$Type))
+na_count7 &lt;- sum(is.na(aero$Registration))
+na_count8 &lt;- sum(is.na(aero$cn.In))
 
 
 na_count1</code></pre>
@@ -1887,12 +1917,36 @@ na_count1</code></pre>
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQyNjZcbiJ9 -->
 <pre><code>[1] 4266</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQ1XG5gYGAifQ== -->
+<pre class="r"><code>na_count5</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE3MDZcbiJ9 -->
+<pre><code>[1] 1706</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQ2XG5gYGAifQ== -->
+<pre class="r"><code>na_count6</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDI3XG4ifQ== -->
+<pre><code>[1] 27</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQ3XG5gYGAifQ== -->
+<pre class="r"><code>na_count7</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDMzNVxuIn0= -->
+<pre><code>[1] 335</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQ4XG5gYGAifQ== -->
+<pre class="r"><code>na_count8</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEyMjhcbiJ9 -->
+<pre><code>[1] 1228</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkF2aWF0aW9uIENyYXNoIEFuYWx5c2lzIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBJbXBvcnQgZGF0YQ0KDQpgYGB7cn0NCiNpbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpDQpsaWJyYXJ5KHJlYWRyKQ0KbGlicmFyeShsdWJyaWRhdGUpDQoNCmFlcm8gPC0gcmVhZC5jc3YoIkFpcnBsYW5lX0NyYXNoZXNfYW5kX0ZhdGFsaXRpZXNfU2luY2VfMTkwOC5jc3YiKQ0KDQpgYGANCg0KIyBjaGVjayBkYXRhDQoNCmBgYHtyfQ0Kc3RyKGFlcm8pDQoNCmBgYA0KYGBge3J9DQpzdHIoYWVybyREYXRlKQ0Kc3RyKGFlcm8kVGltZSkNCnN0cihhZXJvJExvY2F0aW9uKQ0Kc3RyKGFlcm8kT3BlcmF0b3IpDQoNCmBgYA0KDQoNCg0KDQojIENoYW5naW5nIGRhdGEgdHlwZXMNCg0KYGBge3J9DQphZXJvJERhdGUgPC0gYXMuRGF0ZShhZXJvJERhdGUsIGZvcm1hdD0iJW0vJWQvJVkiKSAjIENoYW5nZSBEYXRlIGZyb20gYSBjaGFyIHRvIERhdGUgZGF0YSB0eXBlDQphZXJvJFRpbWUgPC0gbHVicmlkYXRlOjpobShhZXJvJFRpbWUpICMgQ2hhbmdlIGZyb20gY2hhciB0byBsdWJyaWRhdGUNCg0KYWVybyRMb2NhdGlvbiA8LSBpZmVsc2UoYWVybyRMb2NhdGlvbiA9PSAiIiwgTkEsIGFlcm8kTG9jYXRpb24pDQphZXJvJE9wZXJhdG9yIDwtIGlmZWxzZShhZXJvJE9wZXJhdG9yID09ICIiLCBOQSwgYWVybyRPcGVyYXRvcikNCmFlcm8kRmxpZ2h0Li4gPC0gaWZlbHNlKGFlcm8kRmxpZ2h0Li4gPT0gIiIsIE5BLCBhZXJvJEZsaWdodC4uKQ0KYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSAiLSIsIE5BLCBhZXJvJEZsaWdodC4uKQ0KDQpgYGANCg0KYGBge3J9DQojYWVybyREYXRlW2Flcm8kRGF0ZSA9PSAiIl0gPC0gTkEgIyBGaWxsIGluIGVtcHR5IHN0cmluZyB3aXRoIE5BDQojYWVybyREYXRlW2Flcm8kRGF0ZSA9PSAiIl0gPC0gTkEgIyBGaWxsIGluIGVtcHR5IHN0cmluZyB3aXRoIE5BDQoNCg0KDQojcHJpbnQoYWVybyREYXRlKQ0KI3ByaW50KGFlcm8kVGltZSkNCg0KbWlzc2NvbCA8LSBjb2xTdW1zKGlzLm5hKGFlcm8pKSAvIG5yb3coYWVybykNCnJvdW5kKG1pc3Njb2wsIDIpDQpgYGANCg0KYGBge3J9DQpuYV9jb3VudDEgPC0gc3VtKGlzLm5hKGFlcm8kRGF0ZSkpDQpuYV9jb3VudDIgPC0gc3VtKGlzLm5hKGFlcm8kVGltZSkpDQpuYV9jb3VudDMgPC0gc3VtKGlzLm5hKGFlcm8kT3BlcmF0b3IpKQ0KbmFfY291bnQ0IDwtIHN1bShpcy5uYShhZXJvJEZsaWdodC4uKSkNCg0KDQpuYV9jb3VudDENCm5hX2NvdW50Mg0KbmFfY291bnQzDQpuYV9jb3VudDQNCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkF2aWF0aW9uIENyYXNoIEFuYWx5c2lzIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBJbXBvcnQgZGF0YQ0KDQpgYGB7cn0NCiNpbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpDQpsaWJyYXJ5KHJlYWRyKQ0KbGlicmFyeShsdWJyaWRhdGUpDQoNCmFlcm8gPC0gcmVhZC5jc3YoIkFpcnBsYW5lX0NyYXNoZXNfYW5kX0ZhdGFsaXRpZXNfU2luY2VfMTkwOC5jc3YiKQ0KDQpgYGANCg0KIyBjaGVjayBkYXRhIGZvcm1hdA0KDQpgYGB7cn0NCnN0cihhZXJvKQ0KDQpgYGANCmBgYHtyfQ0Kc3RyKGFlcm8kRGF0ZSkNCnN0cihhZXJvJFRpbWUpDQpzdHIoYWVybyRMb2NhdGlvbikNCnN0cihhZXJvJE9wZXJhdG9yKQ0Kc3RyKGFlcm8kUm91dGUpDQpzdHIoYWVybyR0eXBlKQ0Kc3RyKGFlcm8kUmVnaXN0cmF0aW9uKQ0Kc3RyKGFlcm8kY24uSW4pDQoNCmBgYA0KDQoNCg0KDQojIENoYW5naW5nIGRhdGEgdHlwZXMgZnJvbSBDaGFyIGFuZCBjb252ZXJ0aW5nIGVtcHR5IHN0cmluZ3MgYW5kIGRhc2hlcyB0byBOQQ0KDQpgYGB7cn0NCmFlcm8kRGF0ZSA8LSBhcy5EYXRlKGFlcm8kRGF0ZSwgZm9ybWF0PSIlbS8lZC8lWSIpICMgQ2hhbmdlIERhdGUgZnJvbSBhIGNoYXIgdG8gRGF0ZSBkYXRhIHR5cGUNCmFlcm8kVGltZSA8LSBsdWJyaWRhdGU6OmhtKGFlcm8kVGltZSkgIyBDaGFuZ2UgZnJvbSBjaGFyIHRvIGx1YnJpZGF0ZQ0KDQphZXJvJExvY2F0aW9uIDwtIGlmZWxzZShhZXJvJExvY2F0aW9uID09ICIiLCBOQSwgYWVybyRMb2NhdGlvbikNCmFlcm8kT3BlcmF0b3IgPC0gaWZlbHNlKGFlcm8kT3BlcmF0b3IgPT0gIiIsIE5BLCBhZXJvJE9wZXJhdG9yKQ0KYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSAiIiwgTkEsIGFlcm8kRmxpZ2h0Li4pDQphZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09ICItIiwgTkEsIGFlcm8kRmxpZ2h0Li4pDQphZXJvJFJvdXRlIDwtIGlmZWxzZShhZXJvJFJvdXRlID09ICIiLCBOQSwgYWVybyRSb3V0ZSkNCmFlcm8kVHlwZSA8LSBpZmVsc2UoYWVybyRUeXBlID09ICIiLCBOQSwgYWVybyRUeXBlKQ0KYWVybyRSZWdpc3RyYXRpb24gPC0gaWZlbHNlKGFlcm8kUmVnaXN0cmF0aW9uID09ICIiLCBOQSwgYWVybyRSZWdpc3RyYXRpb24pDQphZXJvJGNuLkluIDwtIGlmZWxzZShhZXJvJGNuLkluID09ICIiLCBOQSwgYWVybyRjbi5JbikNCg0KYGBgDQojIFBlcmNlbnRhZ2Ugb2YgbWlzc2luZyB2YWx1ZXMgaW4gZWFjaCBjb2x1bW4NCg0KYGBge3J9DQojYWVybyREYXRlW2Flcm8kRGF0ZSA9PSAiIl0gPC0gTkEgIyBGaWxsIGluIGVtcHR5IHN0cmluZyB3aXRoIE5BDQojYWVybyREYXRlW2Flcm8kRGF0ZSA9PSAiIl0gPC0gTkEgIyBGaWxsIGluIGVtcHR5IHN0cmluZyB3aXRoIE5BDQoNCg0KDQojcHJpbnQoYWVybyREYXRlKQ0KI3ByaW50KGFlcm8kVGltZSkNCg0KbWlzc2NvbCA8LSBjb2xTdW1zKGlzLm5hKGFlcm8pKSAvIG5yb3coYWVybykNCnJvdW5kKG1pc3Njb2wsIDIpDQpgYGANCg0KYGBge3J9DQpuYV9jb3VudDEgPC0gc3VtKGlzLm5hKGFlcm8kRGF0ZSkpDQpuYV9jb3VudDIgPC0gc3VtKGlzLm5hKGFlcm8kVGltZSkpDQpuYV9jb3VudDMgPC0gc3VtKGlzLm5hKGFlcm8kT3BlcmF0b3IpKQ0KbmFfY291bnQ0IDwtIHN1bShpcy5uYShhZXJvJEZsaWdodC4uKSkNCm5hX2NvdW50NSA8LSBzdW0oaXMubmEoYWVybyRSb3V0ZSkpDQpuYV9jb3VudDYgPC0gc3VtKGlzLm5hKGFlcm8kVHlwZSkpDQpuYV9jb3VudDcgPC0gc3VtKGlzLm5hKGFlcm8kUmVnaXN0cmF0aW9uKSkNCm5hX2NvdW50OCA8LSBzdW0oaXMubmEoYWVybyRjbi5JbikpDQoNCg0KbmFfY291bnQxDQpuYV9jb3VudDINCm5hX2NvdW50Mw0KbmFfY291bnQ0DQpuYV9jb3VudDUNCm5hX2NvdW50Ng0KbmFfY291bnQ3DQpuYV9jb3VudDgNCmBgYA0KDQo=</div>
 
 
 

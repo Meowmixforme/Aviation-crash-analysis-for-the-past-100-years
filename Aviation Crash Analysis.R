@@ -8,6 +8,8 @@ library(readr)
 
 aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 
+str(aero)
+
 # Missing data
 
 # Type of data in each column
