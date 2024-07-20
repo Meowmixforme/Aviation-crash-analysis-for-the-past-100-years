@@ -110,7 +110,7 @@ aero <- as_tibble(aero)
 
 # Tokenize and count words
 word_counts <- aero %>%
-  unnest_tokens(word, Summary) %>%  # Ensure the column name matches
+  unnest_tokens(word, Summary) %>%  # This function splits the text into individual words.
   count(word, sort = TRUE)          # Count occurrences of each word
 
 print(word_counts)
