@@ -116,3 +116,7 @@ word_counts <- aero %>%
 print(word_counts)
 ```
 
+```{r}
+# need to sort out NA and make new columns from filtered words
+```
+
