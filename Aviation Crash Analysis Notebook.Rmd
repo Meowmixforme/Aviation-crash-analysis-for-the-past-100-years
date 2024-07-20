@@ -68,7 +68,7 @@ aero$Summary <- ifelse(aero$Summary == "", NA, aero$Summary)
 #print(aero$Time)
 
 misscol <- colSums(is.na(aero)) / nrow(aero)
-round(misscol, 2)
+round(misscol, 3)
 ```
 
 ```{r}
