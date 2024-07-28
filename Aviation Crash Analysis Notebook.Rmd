@@ -64,6 +64,11 @@ aero$Time <- sprintf("%02s",aero$Time) # add leading zero
 ```
 
 ```{r}
+
+# Refresh non_conforming_values
+
+non_conforming_values <- aero$Time[!grepl("^\\d{2}:\\d{2}$", aero$Time)]
+
 # We can see a few values still require fixing
 
 unique(non_conforming_values)
@@ -83,6 +88,14 @@ print(index_of_1_00)
 
 index_of_1_30 <- which(aero$Time == "1:30")
 print(index_of_1_30)
+
+index_of_18_40 <- which(aero$Time == "18.40")
+print(index_of_18_40)
+
+index_of_114_20 <- which(aero$Time == "114:20")
+print(index_of_114_20)
+
+
 ```
 
 
@@ -93,14 +106,20 @@ print(index_of_1_30)
 
 new_value1 <- "02:00"
 aero$Time[229] <- new_value1
+
 new_value2 <- "02:00"
 aero$Time[4849] <- new_value2
+
 new_value3 <- "01:00"
 aero$Time[191] <- new_value3
+
 new_value4 <- "01:00"
 aero$Time[3585] <- new_value4
+
 new_value5 <- "01:30"
 aero$Time[712] <- new_value5
+
+
 ```
 
 
