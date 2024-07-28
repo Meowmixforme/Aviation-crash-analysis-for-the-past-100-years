@@ -119,6 +119,11 @@ aero$Time[3585] <- new_value4
 new_value5 <- "01:30"
 aero$Time[712] <- new_value5
 
+new_value6 <- "18:40"
+aero$Time[1950] <- new_value6
+
+new_value7 <- "14:20"
+aero$Time[3268] <- new_value7
 
 ```
 
