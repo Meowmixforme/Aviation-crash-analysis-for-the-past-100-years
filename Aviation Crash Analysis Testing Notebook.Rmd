@@ -17,6 +17,8 @@ aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 ```
 
 ```{r}
+## Time (I may just drop the column as 42.1% of values are missing)
+
 # First remove empty values or dashes and replace with NA
 
 aero$Time <- ifelse(aero$Time == "", NA, aero$Time)
@@ -67,11 +69,11 @@ aero$Time <- sprintf("%02s",aero$Time) # add leading zero
 
 # Refresh non_conforming_values
 
-non_conforming_values <- aero$Time[!grepl("^\\d{2}:\\d{2}$", aero$Time)]
+wrong_Values <- aero$Time[!grepl("^\\d{2}:\\d{2}$", aero$Time)]
 
 # We can see a few values still require fixing
 
-unique(non_conforming_values)
+unique(wrong_Values)
 
 ```
 
@@ -95,14 +97,27 @@ print(index_of_18_40)
 index_of_114_20 <- which(aero$Time == "114:20")
 print(index_of_114_20)
 
+index_of_09430 <- which(aero$Time == "0943")
+print(index_of_09430)
 
+index_of_2_40 <- which(aero$Time == "2:40")
+print(index_of_2_40)
+
+index_of_9_40 <- which(aero$Time == "9:40")
+print(index_of_9_40)
+
+index_of_8_02 <- which(aero$Time == "8:02")
+print(index_of_8_02)
+
+index_of_9_30 <- which(aero$Time == "9:30")
+print(index_of_9_30)
 ```
 
 
 
 ```{r}
 
-# Manually correct values without leading zeroes
+# Manually correct values without leading zeroes or missing colons that for some reason won't adjust.
 
 new_value1 <- "02:00"
 aero$Time[229] <- new_value1
@@ -125,9 +140,36 @@ aero$Time[1950] <- new_value6
 new_value7 <- "14:20"
 aero$Time[3268] <- new_value7
 
+new_value8 <- "09:43"
+aero$Time[3537] <- new_value8
+
+new_value9 <- "02:40"
+aero$Time[4299] <- new_value9
+
+new_value10 <- "09:40"
+aero$Time[4839] <- new_value10
+
+new_value11 <- "08:02"
+aero$Time[4850] <- new_value11
+
+new_value12 <- "09:30"
+aero$Time[5157] <- new_value12
 ```
 
 
+# Make new column
+
+```{r}
+
+# Create a frequency table of time values
+time_freq <- table(aero$Times)
+
+# Find the most common time value
+most_common_time <- names(time_freq)[which.max(time_freq)]
+
+print(most_common_time)
+
+```
 
 
 
@@ -162,15 +204,15 @@ str(aero$Summary)
 
 ```{r}
 
-aero <- aero %>%
-  dplyr::mutate(Date = as.Date(Date, format="%m/%d/%Y")) 
+#aero <- aero %>%
+ # dplyr::mutate(Date = as.Date(Date, format="%m/%d/%Y")) 
 
   
   
 # lubridate testing code (something to consider)
 
 #aero$Date <- as.Date(aero$Date, format="%m/%d/%Y") # Change Date from a char to Date data type
-#aero$Time <- lubridate::hm(aero$Time) # Change from char to lubridate
+aero$Time <- lubridate::hm(aero$Time) # Change from char to lubridate
 
 # Convert the Time column to POSIXct
 #aero$Time <- strptime(aero$Time, format = "%H:%M")
@@ -180,7 +222,7 @@ aero <- aero %>%
 
 # Changing all char to factors
 
-#aero[sapply(aero, is.character)] <- lapply(aero[sapply(aero, is.character)], as.factor)
+aero[sapply(aero, is.character)] <- lapply(aero[sapply(aero, is.character)], as.factor)
 
 # Changing missing spaces and dashes into NA
 
@@ -281,6 +323,9 @@ plot(aero)
 ```
 Just a reminder that I'll need to visualise the data
 
+## Fatalities
+
+# 0.02% missing values
 
 Step 1 is dealing with missing data
 
@@ -308,7 +353,21 @@ min(aero$Fatalities, na.rm = TRUE)
 library(missForest)
 
 library(missForest)
-imputed_single_column <- missForest(data.frame(aero$Fatalities))
+imputed_single_column <- missForest(data.frame(aero))
+
+```
+
+# MICE
+
+```{r}
+library(mice)
+
+# Impute missing values using MICE
+imputed_data <- mice(aero, method = "pmm", m = 5)  # You can adjust 'm' as needed
+
+# Retrieve the imputed data (complete datasets)
+aero <- complete(imputed_data)
+
 
 ```
 
