@@ -3,6 +3,8 @@ title: "Aviation Crash Analysis"
 output: html_notebook
 ---
 
+# Work in progress/ very messy/ needs sorting through and cleaning up as I complete parts
+
 # Import data
 
 ```{r}
@@ -20,6 +22,11 @@ aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 str(aero)
 
 ```
+
+Date needs to be changed
+Time can be set into am/pm (time of day range) or other factor
+all others except summary can be made into factors
+
 ```{r}
 str(aero$Date)
 str(aero$Time)
@@ -36,14 +43,28 @@ str(aero$Summary)
 
 ```
 
+```{r}
+# Changing all char to factors
+aero[sapply(aero, is.character)] <- lapply(aero[sapply(aero, is.character)], as.factor)
+
+# Convert the Time column to POSIXct
+#aero$Time <- strptime(aero$Time, format = "%H:%M")
+
+# Extract hours and minutes as numeric
+#aero$Time_numeric <- aero$Time$hour * 100 + aero$Time$min
+```
 
 
 
 # Changing data types from Char and converting empty strings and dashes to NA
 
 ```{r}
-aero$Date <- as.Date(aero$Date, format="%m/%d/%Y") # Change Date from a char to Date data type
-aero$Time <- lubridate::hm(aero$Time) # Change from char to lubridate
+# lubridate testing code (something to consider)
+
+#aero$Date <- as.Date(aero$Date, format="%m/%d/%Y") # Change Date from a char to Date data type
+#aero$Time <- lubridate::hm(aero$Time) # Change from char to lubridate
+
+# Changing missing spaces and dashes into NA
 
 aero$Location <- ifelse(aero$Location == "", NA, aero$Location)
 aero$Operator <- ifelse(aero$Operator == "", NA, aero$Operator)
@@ -56,6 +77,7 @@ aero$cn.In <- ifelse(aero$cn.In == "", NA, aero$cn.In)
 aero$Summary <- ifelse(aero$Summary == "", NA, aero$Summary)
 
 ```
+
 # Percentage of missing values in each column
 
 ```{r}
@@ -70,6 +92,8 @@ aero$Summary <- ifelse(aero$Summary == "", NA, aero$Summary)
 misscol <- colSums(is.na(aero)) / nrow(aero)
 round(misscol, 3)
 ```
+
+Fatalities has very few and can be quickly fixed first
 
 ```{r}
 na_count1 <- sum(is.na(aero$Date))
@@ -116,7 +140,27 @@ word_counts <- aero %>%
 print(word_counts)
 ```
 
+I'll need to get a list of words such as pilot = human error / engine = mechanical failure / thunderstorm/fog/weather = weather. Landing vs takeoff etc. Then make new columns with this extracted data.
+
+
 ```{r}
 # need to sort out NA and make new columns from filtered words
 ```
 
+```{r}
+#cor(aero[sapply(aero, is.numeric)])
+
+numeric_columns <- aero[sapply(aero, is.numeric)]
+cor_matrix <- cor(numeric_columns, use = "complete.obs")
+cor_matrix
+```
+Some quite obvious correlations (location/route) I'll need to clean the data up and try this properly later
+
+
+```{r}
+plot(aero)
+```
+Just a reminder that I'll need to visualise the data
+
+
+Step 1 is dealing with missing data
