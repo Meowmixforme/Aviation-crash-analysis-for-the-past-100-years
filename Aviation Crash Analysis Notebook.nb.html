@@ -1770,6 +1770,120 @@ aero &lt;- read.csv(&quot;Airplane_Crashes_and_Fatalities_Since_1908.csv&quot;)
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBGaXJzdCByZW1vdmUgZW1wdHkgdmFsdWVzIG9yIGRhc2hlcyBhbmQgcmVwbGFjZSB3aXRoIE5BXG5cbmFlcm8kVGltZSA8LSBpZmVsc2UoYWVybyRUaW1lID09IFwiXCIsIE5BLCBhZXJvJFRpbWUpXG5hZXJvJFRpbWUgPC0gaWZlbHNlKGFlcm8kVGltZSA9PSBcIi1cIiwgTkEsIGFlcm8kVGltZSlcblxuI3ByaW50KGFlcm8kVGltZVshaXMubmEoYWVybyRUaW1lKV0pXG5cbm5vbl9jb25mb3JtaW5nX3ZhbHVlcyA8LSBhZXJvJFRpbWVbIWdyZXBsKFwiXlxcXFxkezJ9OlxcXFxkezJ9JFwiLCBhZXJvJFRpbWUpXVxuXG4jUHJpbnQgdGhlIG5vbi1jb25mb3JtaW5nIHZhbHVlc1xucHJpbnQobm9uX2NvbmZvcm1pbmdfdmFsdWVzWyFpcy5uYShub25fY29uZm9ybWluZ192YWx1ZXMpXSlcbmBgYCJ9 -->
+<pre class="r"><code># First remove empty values or dashes and replace with NA
+
+aero$Time &lt;- ifelse(aero$Time == &quot;&quot;, NA, aero$Time)
+aero$Time &lt;- ifelse(aero$Time == &quot;-&quot;, NA, aero$Time)
+
+#print(aero$Time[!is.na(aero$Time)])
+
+non_conforming_values &lt;- aero$Time[!grepl(&quot;^\\d{2}:\\d{2}$&quot;, aero$Time)]
+
+#Print the non-conforming values
+print(non_conforming_values[!is.na(non_conforming_values)])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcImM6IDE6MDBcIiBcImM6MTc6MDBcIiBcImM6IDI6MDBcIiBcImM6MDk6MDBcIiBcIjE6MzBcIiAgICBcImMxNjo1MFwiICBcIjEyJzIwXCIgICBcIjE4LjQwXCIgICBcImM6MDk6MDBcIiBcIjExNDoyMFwiIFxuWzExXSBcImMxNDozMFwiICBcIjA5NDNcIiAgICBcIjE6MDBcIiAgICBcIjI6NDBcIiAgICBcIjIyJzA4XCIgICBcImM6IDk6NDBcIiBcIjI6MDBcIiAgICBcIjg6MDJcIiAgICBcIjk6MzBcIiAgIFxuIn0= -->
+<pre><code> [1] &quot;c: 1:00&quot; &quot;c:17:00&quot; &quot;c: 2:00&quot; &quot;c:09:00&quot; &quot;1:30&quot;    &quot;c16:50&quot;  &quot;12&#39;20&quot;   &quot;18.40&quot;   &quot;c:09:00&quot; &quot;114:20&quot; 
+[11] &quot;c14:30&quot;  &quot;0943&quot;    &quot;1:00&quot;    &quot;2:40&quot;    &quot;22&#39;08&quot;   &quot;c: 9:40&quot; &quot;2:00&quot;    &quot;8:02&quot;    &quot;9:30&quot;   </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We can see a few non conforming values, such as c: 1:00 12’20. Let’s
+fix this first</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5hZXJvJFRpbWUgPC0gZ3N1YihcIl5jXCIsIFwiXCIsICBhZXJvJFRpbWUpICAjIFJlbW92ZSBcImM6XCIgcHJlZml4XG5hZXJvJFRpbWUgPC0gZ3N1YihcIidcIiwgXCI6XCIsIGFlcm8kVGltZSkgIyBSZXBsYWNlIHRoZSBhcG9zdHJvcGhlIHdpdGggYSBjb2xvblxuYWVybyRUaW1lIDwtIGdzdWIoXCJeOlwiLCBcIlwiLCBhZXJvJFRpbWUpICMgUmVtb3ZlIGxlYWRpbmcgY29sb25cbmFlcm8kVGltZSA8LSB0cmltd3MoYWVybyRUaW1lKSAjIHJlbW92ZSBsZWFkaW5nIHNwYWNlXG5hZXJvJFRpbWUgPC0gc3ByaW50ZihcIiUwMnNcIixhZXJvJFRpbWUpICMgYWRkIGxlYWRpbmcgemVyb1xuXG5cblxuIyBTaG93IHRoZSBwcm9ibGVtYXRpYyB0aW1lIHZhbHVlc1xuI3Byb2JsZW1hdGljX3RpbWVzIDwtIGFlcm8kVGltZVshZ3JlcGwoXCJeXFxcXGR7Mn06XFxcXGR7Mn0kXCIsIGFlcm8kVGltZSldXG5cbiNwcmludChwcm9ibGVtYXRpY190aW1lcylcblxuICAgICAgICAgICAgICAgICAgICAgXG4jZXhhY3QgPC0gYWVyb1tncmVwKFwiMTowMFwiLCBhZXJvJFRpbWUpLCAsIGRyb3AgPSBGQUxTRV0gIFxuXG4jcHJpbnQoZXhhY3QpXG5cbiNub25fY29uZm9ybWluZ192YWx1ZXMgPC0gYWVybyRUaW1lWyFncmVwbChcIl5cXFxcZHsyfTpcXFxcZHsyfSRcIiwgYWVybyRUaW1lKV1cblxuXG4jUHJpbnQgdGhlIG5vbi1jb25mb3JtaW5nIHZhbHVlc1xuI3ByaW50KG5vbl9jb25mb3JtaW5nX3ZhbHVlc1shaXMubmEobm9uX2NvbmZvcm1pbmdfdmFsdWVzKV0pXG5cblxuYGBgIn0= -->
+<pre class="r"><code>
+aero$Time &lt;- gsub(&quot;^c&quot;, &quot;&quot;,  aero$Time)  # Remove &quot;c:&quot; prefix
+aero$Time &lt;- gsub(&quot;&#39;&quot;, &quot;:&quot;, aero$Time) # Replace the apostrophe with a colon
+aero$Time &lt;- gsub(&quot;^:&quot;, &quot;&quot;, aero$Time) # Remove leading colon
+aero$Time &lt;- trimws(aero$Time) # remove leading space
+aero$Time &lt;- sprintf(&quot;%02s&quot;,aero$Time) # add leading zero
+
+
+
+# Show the problematic time values
+#problematic_times &lt;- aero$Time[!grepl(&quot;^\\d{2}:\\d{2}$&quot;, aero$Time)]
+
+#print(problematic_times)
+
+                     
+#exact &lt;- aero[grep(&quot;1:00&quot;, aero$Time), , drop = FALSE]  
+
+#print(exact)
+
+#non_conforming_values &lt;- aero$Time[!grepl(&quot;^\\d{2}:\\d{2}$&quot;, aero$Time)]
+
+
+#Print the non-conforming values
+#print(non_conforming_values[!is.na(non_conforming_values)])
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXZSBjYW4gc2VlIGEgZmV3IHZhbHVlcyBzdGlsbCByZXF1aXJlIGZpeGluZ1xuXG51bmlxdWUobm9uX2NvbmZvcm1pbmdfdmFsdWVzKVxuYGBgIn0= -->
+<pre class="r"><code># We can see a few values still require fixing
+
+unique(non_conforming_values)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBOQSAgICAgICAgXCJjOiAxOjAwXCIgXCJjOjE3OjAwXCIgXCJjOiAyOjAwXCIgXCJjOjA5OjAwXCIgXCIxOjMwXCIgICAgXCJjMTY6NTBcIiAgXCIxMicyMFwiICAgXCIxOC40MFwiICAgXCIxMTQ6MjBcIiBcblsxMV0gXCJjMTQ6MzBcIiAgXCIwOTQzXCIgICAgXCIxOjAwXCIgICAgXCIyOjQwXCIgICAgXCIyMicwOFwiICAgXCJjOiA5OjQwXCIgXCIyOjAwXCIgICAgXCI4OjAyXCIgICAgXCI5OjMwXCIgICBcbiJ9 -->
+<pre><code> [1] NA        &quot;c: 1:00&quot; &quot;c:17:00&quot; &quot;c: 2:00&quot; &quot;c:09:00&quot; &quot;1:30&quot;    &quot;c16:50&quot;  &quot;12&#39;20&quot;   &quot;18.40&quot;   &quot;114:20&quot; 
+[11] &quot;c14:30&quot;  &quot;0943&quot;    &quot;1:00&quot;    &quot;2:40&quot;    &quot;22&#39;08&quot;   &quot;c: 9:40&quot; &quot;2:00&quot;    &quot;8:02&quot;    &quot;9:30&quot;   </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIFNvbWUgdmFsdWVzIGFyZW4ndCBmaXhlZCBieSBhZGRpbmcgbGVhZGluZyB6ZXJvcy4gTGV0J3MgZ2V0IHRoZWlyIGluZGV4ZXMgYW5kIGZpeCB0aGVtIG1hbnVhbGx5XG5cbmluZGV4X29mXzJfMDAgPC0gd2hpY2goYWVybyRUaW1lID09IFwiMjowMFwiKVxucHJpbnQoaW5kZXhfb2ZfMl8wMClcbmBgYCJ9 -->
+<pre class="r"><code>
+# Some values aren&#39;t fixed by adding leading zeros. Let&#39;s get their indexes and fix them manually
+
+index_of_2_00 &lt;- which(aero$Time == &quot;2:00&quot;)
+print(index_of_2_00)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdICAyMjkgNDg0OVxuIn0= -->
+<pre><code>[1]  229 4849</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5kZXhfb2ZfMV8wMCA8LSB3aGljaChhZXJvJFRpbWUgPT0gXCIxOjAwXCIpXG5wcmludChpbmRleF9vZl8xXzAwKVxuYGBgIn0= -->
+<pre class="r"><code>index_of_1_00 &lt;- which(aero$Time == &quot;1:00&quot;)
+print(index_of_1_00)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdICAxOTEgMzU4NVxuIn0= -->
+<pre><code>[1]  191 3585</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5kZXhfb2ZfMV8zMCA8LSB3aGljaChhZXJvJFRpbWUgPT0gXCIxOjMwXCIpXG5wcmludChpbmRleF9vZl8xXzMwKVxuYGBgIn0= -->
+<pre class="r"><code>index_of_1_30 &lt;- which(aero$Time == &quot;1:30&quot;)
+print(index_of_1_30)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDcxMlxuIn0= -->
+<pre><code>[1] 712</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIE1hbnVhbGx5IGNvcnJlY3QgdmFsdWVzIHdpdGhvdXQgbGVhZGluZyB6ZXJvZXNcblxubmV3X3ZhbHVlMSA8LSBcIjAyOjAwXCJcbmFlcm8kVGltZVsyMjldIDwtIG5ld192YWx1ZTFcbm5ld192YWx1ZTIgPC0gXCIwMjowMFwiXG5hZXJvJFRpbWVbNDg0OV0gPC0gbmV3X3ZhbHVlMlxubmV3X3ZhbHVlMyA8LSBcIjAxOjAwXCJcbmFlcm8kVGltZVsxOTFdIDwtIG5ld192YWx1ZTNcbm5ld192YWx1ZTQgPC0gXCIwMTowMFwiXG5hZXJvJFRpbWVbMzU4NV0gPC0gbmV3X3ZhbHVlNFxubmV3X3ZhbHVlNSA8LSBcIjAxOjMwXCJcbmFlcm8kVGltZVs3MTJdIDwtIG5ld192YWx1ZTVcbmBgYCJ9 -->
+<pre class="r"><code>
+# Manually correct values without leading zeroes
+
+new_value1 &lt;- &quot;02:00&quot;
+aero$Time[229] &lt;- new_value1
+new_value2 &lt;- &quot;02:00&quot;
+aero$Time[4849] &lt;- new_value2
+new_value3 &lt;- &quot;01:00&quot;
+aero$Time[191] &lt;- new_value3
+new_value4 &lt;- &quot;01:00&quot;
+aero$Time[3585] &lt;- new_value4
+new_value5 &lt;- &quot;01:30&quot;
+aero$Time[712] &lt;- new_value5</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 <div id="check-data-format" class="section level1">
 <h1>check data format</h1>
@@ -1778,10 +1892,10 @@ aero &lt;- read.csv(&quot;Airplane_Crashes_and_Fatalities_Since_1908.csv&quot;)
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8pXG5gYGAifQ== -->
 <pre class="r"><code>str(aero)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiJ2RhdGEuZnJhbWUnOlx0NTI2OCBvYnMuIG9mICAxMyB2YXJpYWJsZXM6XG4gJCBEYXRlICAgICAgICA6IGNociAgXCIwOS8xNy8xOTA4XCIgXCIwNy8xMi8xOTEyXCIgXCIwOC8wNi8xOTEzXCIgXCIwOS8wOS8xOTEzXCIgLi4uXG4gJCBUaW1lICAgICAgICA6IGNociAgXCIxNzoxOFwiIFwiMDY6MzBcIiBcIlwiIFwiMTg6MzBcIiAuLi5cbiAkIExvY2F0aW9uICAgIDogY2hyICBcIkZvcnQgTXllciwgVmlyZ2luaWFcIiBcIkF0bGFudGlDaXR5LCBOZXcgSmVyc2V5XCIgXCJWaWN0b3JpYSwgQnJpdGlzaCBDb2x1bWJpYSwgQ2FuYWRhXCIgXCJPdmVyIHRoZSBOb3J0aCBTZWFcIiAuLi5cbiAkIE9wZXJhdG9yICAgIDogY2hyICBcIk1pbGl0YXJ5IC0gVS5TLiBBcm15XCIgXCJNaWxpdGFyeSAtIFUuUy4gTmF2eVwiIFwiUHJpdmF0ZVwiIFwiTWlsaXRhcnkgLSBHZXJtYW4gTmF2eVwiIC4uLlxuICQgRmxpZ2h0Li4gICAgOiBjaHIgIFwiXCIgXCJcIiBcIi1cIiBcIlwiIC4uLlxuICQgUm91dGUgICAgICAgOiBjaHIgIFwiRGVtb25zdHJhdGlvblwiIFwiVGVzdCBmbGlnaHRcIiBcIlwiIFwiXCIgLi4uXG4gJCBUeXBlICAgICAgICA6IGNociAgXCJXcmlnaHQgRmx5ZXIgSUlJXCIgXCJEaXJpZ2libGVcIiBcIkN1cnRpc3Mgc2VhcGxhbmVcIiBcIlplcHBlbGluIEwtMSAoYWlyc2hpcClcIiAuLi5cbiAkIFJlZ2lzdHJhdGlvbjogY2hyICBcIlwiIFwiXCIgXCJcIiBcIlwiIC4uLlxuICQgY24uSW4gICAgICAgOiBjaHIgIFwiMVwiIFwiXCIgXCJcIiBcIlwiIC4uLlxuICQgQWJvYXJkICAgICAgOiBpbnQgIDIgNSAxIDIwIDMwIDQxIDE5IDIwIDIyIDE5IC4uLlxuICQgRmF0YWxpdGllcyAgOiBpbnQgIDEgNSAxIDE0IDMwIDIxIDE5IDIwIDIyIDE5IC4uLlxuICQgR3JvdW5kICAgICAgOiBpbnQgIDAgMCAwIDAgMCAwIDAgMCAwIDAgLi4uXG4gJCBTdW1tYXJ5ICAgICA6IGNociAgXCJEdXJpbmcgYSBkZW1vbnN0cmF0aW9uIGZsaWdodCwgYSBVLlMuIEFybXkgZmx5ZXIgZmxvd24gYnkgT3J2aWxsZSBXcmlnaHQgbm9zZS1kaXZlZCBpbnRvIHRoZSBncm91bmQgZnJvbSBhIGhlaWdcInwgX190cnVuY2F0ZWRfXyBcIkZpcnN0IFUuUy4gZGlyaWdpYmxlIEFrcm9uIGV4cGxvZGVkIGp1c3Qgb2Zmc2hvcmUgYXQgYW4gYWx0aXR1ZGUgb2YgMSwwMDAgZnQuIGR1cmluZyBhIHRlc3QgZmxpZ2h0LlwiIFwiVGhlIGZpcnN0IGZhdGFsIGFpcnBsYW5lIGFjY2lkZW50IGluIENhbmFkYSBvY2N1cnJlZCB3aGVuIEFtZXJpY2FuIGJhcm5zdG9ybWVyLCBKb2huIE0uIEJyeWFudCwgQ2FsaWZvcm5pYSBhdmlhdG9yIHdhcyBraWxsZWQuXCIgXCJUaGUgYWlyc2hpcCBmbGV3IGludG8gYSB0aHVuZGVyc3Rvcm0gYW5kIGVuY291bnRlcmVkIGEgc2V2ZXJlIGRvd25kcmFmdCBjcmFzaGluZyAyMCBtaWxlcyBub3J0aCBvZiBIZWxnb2xhbmQgSXNcInwgX190cnVuY2F0ZWRfXyAuLi5cbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiJ2RhdGEuZnJhbWUnOlx0NTI2OCBvYnMuIG9mICAxMyB2YXJpYWJsZXM6XG4gJCBEYXRlICAgICAgICA6IGNociAgXCIwOS8xNy8xOTA4XCIgXCIwNy8xMi8xOTEyXCIgXCIwOC8wNi8xOTEzXCIgXCIwOS8wOS8xOTEzXCIgLi4uXG4gJCBUaW1lICAgICAgICA6IGNociAgXCIxNzoxOFwiIFwiMDY6MzBcIiBcIk5BOk5BXCIgXCIxODozMFwiIC4uLlxuICQgTG9jYXRpb24gICAgOiBjaHIgIFwiRm9ydCBNeWVyLCBWaXJnaW5pYVwiIFwiQXRsYW50aUNpdHksIE5ldyBKZXJzZXlcIiBcIlZpY3RvcmlhLCBCcml0aXNoIENvbHVtYmlhLCBDYW5hZGFcIiBcIk92ZXIgdGhlIE5vcnRoIFNlYVwiIC4uLlxuICQgT3BlcmF0b3IgICAgOiBjaHIgIFwiTWlsaXRhcnkgLSBVLlMuIEFybXlcIiBcIk1pbGl0YXJ5IC0gVS5TLiBOYXZ5XCIgXCJQcml2YXRlXCIgXCJNaWxpdGFyeSAtIEdlcm1hbiBOYXZ5XCIgLi4uXG4gJCBGbGlnaHQuLiAgICA6IGNociAgXCJcIiBcIlwiIFwiLVwiIFwiXCIgLi4uXG4gJCBSb3V0ZSAgICAgICA6IGNociAgXCJEZW1vbnN0cmF0aW9uXCIgXCJUZXN0IGZsaWdodFwiIFwiXCIgXCJcIiAuLi5cbiAkIFR5cGUgICAgICAgIDogY2hyICBcIldyaWdodCBGbHllciBJSUlcIiBcIkRpcmlnaWJsZVwiIFwiQ3VydGlzcyBzZWFwbGFuZVwiIFwiWmVwcGVsaW4gTC0xIChhaXJzaGlwKVwiIC4uLlxuICQgUmVnaXN0cmF0aW9uOiBjaHIgIFwiXCIgXCJcIiBcIlwiIFwiXCIgLi4uXG4gJCBjbi5JbiAgICAgICA6IGNociAgXCIxXCIgXCJcIiBcIlwiIFwiXCIgLi4uXG4gJCBBYm9hcmQgICAgICA6IGludCAgMiA1IDEgMjAgMzAgNDEgMTkgMjAgMjIgMTkgLi4uXG4gJCBGYXRhbGl0aWVzICA6IGludCAgMSA1IDEgMTQgMzAgMjEgMTkgMjAgMjIgMTkgLi4uXG4gJCBHcm91bmQgICAgICA6IGludCAgMCAwIDAgMCAwIDAgMCAwIDAgMCAuLi5cbiAkIFN1bW1hcnkgICAgIDogY2hyICBcIkR1cmluZyBhIGRlbW9uc3RyYXRpb24gZmxpZ2h0LCBhIFUuUy4gQXJteSBmbHllciBmbG93biBieSBPcnZpbGxlIFdyaWdodCBub3NlLWRpdmVkIGludG8gdGhlIGdyb3VuZCBmcm9tIGEgaGVpZ1wifCBfX3RydW5jYXRlZF9fIFwiRmlyc3QgVS5TLiBkaXJpZ2libGUgQWtyb24gZXhwbG9kZWQganVzdCBvZmZzaG9yZSBhdCBhbiBhbHRpdHVkZSBvZiAxLDAwMCBmdC4gZHVyaW5nIGEgdGVzdCBmbGlnaHQuXCIgXCJUaGUgZmlyc3QgZmF0YWwgYWlycGxhbmUgYWNjaWRlbnQgaW4gQ2FuYWRhIG9jY3VycmVkIHdoZW4gQW1lcmljYW4gYmFybnN0b3JtZXIsIEpvaG4gTS4gQnJ5YW50LCBDYWxpZm9ybmlhIGF2aWF0b3Igd2FzIGtpbGxlZC5cIiBcIlRoZSBhaXJzaGlwIGZsZXcgaW50byBhIHRodW5kZXJzdG9ybSBhbmQgZW5jb3VudGVyZWQgYSBzZXZlcmUgZG93bmRyYWZ0IGNyYXNoaW5nIDIwIG1pbGVzIG5vcnRoIG9mIEhlbGdvbGFuZCBJc1wifCBfX3RydW5jYXRlZF9fIC4uLlxuIn0= -->
 <pre><code>&#39;data.frame&#39;:   5268 obs. of  13 variables:
  $ Date        : chr  &quot;09/17/1908&quot; &quot;07/12/1912&quot; &quot;08/06/1913&quot; &quot;09/09/1913&quot; ...
- $ Time        : chr  &quot;17:18&quot; &quot;06:30&quot; &quot;&quot; &quot;18:30&quot; ...
+ $ Time        : chr  &quot;17:18&quot; &quot;06:30&quot; &quot;NA:NA&quot; &quot;18:30&quot; ...
  $ Location    : chr  &quot;Fort Myer, Virginia&quot; &quot;AtlantiCity, New Jersey&quot; &quot;Victoria, British Columbia, Canada&quot; &quot;Over the North Sea&quot; ...
  $ Operator    : chr  &quot;Military - U.S. Army&quot; &quot;Military - U.S. Navy&quot; &quot;Private&quot; &quot;Military - German Navy&quot; ...
  $ Flight..    : chr  &quot;&quot; &quot;&quot; &quot;-&quot; &quot;&quot; ...
@@ -1804,14 +1918,14 @@ factors</p>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kRGF0ZSlcbmBgYCJ9 -->
 <pre class="r"><code>str(aero$Date)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIjA5LzE3LzE5MDhcIiBcIjA3LzEyLzE5MTJcIiBcIjA4LzA2LzE5MTNcIiBcIjA5LzA5LzE5MTNcIiBcIjEwLzE3LzE5MTNcIiBcIjAzLzA1LzE5MTVcIiBcIjA5LzAzLzE5MTVcIiAuLi5cbiJ9 -->
-<pre><code> chr [1:5268] &quot;09/17/1908&quot; &quot;07/12/1912&quot; &quot;08/06/1913&quot; &quot;09/09/1913&quot; &quot;10/17/1913&quot; &quot;03/05/1915&quot; &quot;09/03/1915&quot; ...</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIERhdGVbMTo1MjY4XSwgZm9ybWF0OiBcIjE5MDgtMDktMTdcIiBcIjE5MTItMDctMTJcIiBcIjE5MTMtMDgtMDZcIiBcIjE5MTMtMDktMDlcIiBcIjE5MTMtMTAtMTdcIiBcIjE5MTUtMDMtMDVcIiBcIjE5MTUtMDktMDNcIiAuLi5cbiJ9 -->
+<pre><code> Date[1:5268], format: &quot;1908-09-17&quot; &quot;1912-07-12&quot; &quot;1913-08-06&quot; &quot;1913-09-09&quot; &quot;1913-10-17&quot; &quot;1915-03-05&quot; &quot;1915-09-03&quot; ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kVGltZSlcbmBgYCJ9 -->
 <pre class="r"><code>str(aero$Time)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIjE3OjE4XCIgXCIwNjozMFwiIFwiXCIgXCIxODozMFwiIFwiMTA6MzBcIiBcIjAxOjAwXCIgXCIxNToyMFwiIFwiXCIgXCIwMTowMFwiIFwiMjM6NDVcIiBcIlwiIFwiMjM6NDVcIiBcIlwiIFwiXCIgXCIwNToxNVwiIC4uLlxuIn0= -->
-<pre><code> chr [1:5268] &quot;17:18&quot; &quot;06:30&quot; &quot;&quot; &quot;18:30&quot; &quot;10:30&quot; &quot;01:00&quot; &quot;15:20&quot; &quot;&quot; &quot;01:00&quot; &quot;23:45&quot; &quot;&quot; &quot;23:45&quot; &quot;&quot; &quot;&quot; &quot;05:15&quot; ...</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIFBPU0lYbHRbMTo1MjY4XSwgZm9ybWF0OiBcIjIwMjQtMDctMjggMTc6MTg6MDBcIiBcIjIwMjQtMDctMjggMDY6MzA6MDBcIiBOQSBcIjIwMjQtMDctMjggMTg6MzA6MDBcIiBcIjIwMjQtMDctMjggMTA6MzA6MDBcIiAuLi5cbiJ9 -->
+<pre><code> POSIXlt[1:5268], format: &quot;2024-07-28 17:18:00&quot; &quot;2024-07-28 06:30:00&quot; NA &quot;2024-07-28 18:30:00&quot; &quot;2024-07-28 10:30:00&quot; ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kTG9jYXRpb24pXG5gYGAifQ== -->
 <pre class="r"><code>str(aero$Location)</code></pre>
@@ -1828,8 +1942,8 @@ factors</p>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kUm91dGUpXG5gYGAifQ== -->
 <pre class="r"><code>str(aero$Route)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIkRlbW9uc3RyYXRpb25cIiBcIlRlc3QgZmxpZ2h0XCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgLi4uXG4ifQ== -->
-<pre><code> chr [1:5268] &quot;Demonstration&quot; &quot;Test flight&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIkRlbW9uc3RyYXRpb25cIiBcIlRlc3QgZmxpZ2h0XCIgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgTkEgLi4uXG4ifQ== -->
+<pre><code> chr [1:5268] &quot;Demonstration&quot; &quot;Test flight&quot; NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kdHlwZSlcbmBgYCJ9 -->
 <pre class="r"><code>str(aero$type)</code></pre>
@@ -1840,14 +1954,14 @@ factors</p>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kUmVnaXN0cmF0aW9uKVxuYGBgIn0= -->
 <pre class="r"><code>str(aero$Registration)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIjk3XCIgXCI2MVwiIFwiODJcIiBcIlwiIFwiMzJcIiBcIkctRUFIR1wiIC4uLlxuIn0= -->
-<pre><code> chr [1:5268] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;97&quot; &quot;61&quot; &quot;82&quot; &quot;&quot; &quot;32&quot; &quot;G-EAHG&quot; ...</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBcIjk3XCIgXCI2MVwiIFwiODJcIiBOQSBcIjMyXCIgXCJHLUVBSEdcIiAuLi5cbiJ9 -->
+<pre><code> chr [1:5268] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA &quot;97&quot; &quot;61&quot; &quot;82&quot; NA &quot;32&quot; &quot;G-EAHG&quot; ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kY24uSW4pXG5gYGAifQ== -->
 <pre class="r"><code>str(aero$cn.In)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIjFcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiBcIlwiIFwiXCIgXCJcIiAuLi5cbiJ9 -->
-<pre><code> chr [1:5268] &quot;1&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIGNociBbMTo1MjY4XSBcIjFcIiBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSBOQSAuLi5cbiJ9 -->
+<pre><code> chr [1:5268] &quot;1&quot; NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA ...</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RyKGFlcm8kQWJvYXJkKVxuYGBgIn0= -->
 <pre class="r"><code>str(aero$Aboard)</code></pre>
@@ -1875,28 +1989,35 @@ factors</p>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWVyb1tzYXBwbHkoYWVybywgaXMuY2hhcmFjdGVyKV0gPC0gbGFwcGx5KGFlcm9bc2FwcGx5KGFlcm8sIGlzLmNoYXJhY3RlcildLCBhcy5mYWN0b3IpXG5cbiMgQ29udmVydCB0aGUgVGltZSBjb2x1bW4gdG8gUE9TSVhjdFxuYWVybyRUaW1lIDwtIHN0cnB0aW1lKGFlcm8kVGltZSwgZm9ybWF0ID0gXCIlSDolTVwiKVxuXG4jIEV4dHJhY3QgaG91cnMgYW5kIG1pbnV0ZXMgYXMgbnVtZXJpY1xuYWVybyRUaW1lX251bWVyaWMgPC0gYWVybyRUaW1lJGhvdXIgKiAxMDAgKyBhZXJvJFRpbWUkbWluXG5gYGAifQ== -->
-<pre class="r"><code>aero[sapply(aero, is.character)] &lt;- lapply(aero[sapply(aero, is.character)], as.factor)
-
-# Convert the Time column to POSIXct
-aero$Time &lt;- strptime(aero$Time, format = &quot;%H:%M&quot;)
-
-# Extract hours and minutes as numeric
-aero$Time_numeric &lt;- aero$Time$hour * 100 + aero$Time$min</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
 </div>
 <div id="changing-data-types-from-char-and-converting-empty-strings-and-dashes-to-na" class="section level1">
 <h1>Changing data types from Char and converting empty strings and
 dashes to NA</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2Flcm8kRGF0ZSA8LSBhcy5EYXRlKGFlcm8kRGF0ZSwgZm9ybWF0PVwiJW0vJWQvJVlcIikgIyBDaGFuZ2UgRGF0ZSBmcm9tIGEgY2hhciB0byBEYXRlIGRhdGEgdHlwZVxuI2Flcm8kVGltZSA8LSBsdWJyaWRhdGU6OmhtKGFlcm8kVGltZSkgIyBDaGFuZ2UgZnJvbSBjaGFyIHRvIGx1YnJpZGF0ZVxuXG5hZXJvJExvY2F0aW9uIDwtIGlmZWxzZShhZXJvJExvY2F0aW9uID09IFwiXCIsIE5BLCBhZXJvJExvY2F0aW9uKVxuYWVybyRPcGVyYXRvciA8LSBpZmVsc2UoYWVybyRPcGVyYXRvciA9PSBcIlwiLCBOQSwgYWVybyRPcGVyYXRvcilcbmFlcm8kRmxpZ2h0Li4gPC0gaWZlbHNlKGFlcm8kRmxpZ2h0Li4gPT0gXCJcIiwgTkEsIGFlcm8kRmxpZ2h0Li4pXG5hZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09IFwiLVwiLCBOQSwgYWVybyRGbGlnaHQuLilcbmFlcm8kUm91dGUgPC0gaWZlbHNlKGFlcm8kUm91dGUgPT0gXCJcIiwgTkEsIGFlcm8kUm91dGUpXG5hZXJvJFR5cGUgPC0gaWZlbHNlKGFlcm8kVHlwZSA9PSBcIlwiLCBOQSwgYWVybyRUeXBlKVxuYWVybyRSZWdpc3RyYXRpb24gPC0gaWZlbHNlKGFlcm8kUmVnaXN0cmF0aW9uID09IFwiXCIsIE5BLCBhZXJvJFJlZ2lzdHJhdGlvbilcbmFlcm8kY24uSW4gPC0gaWZlbHNlKGFlcm8kY24uSW4gPT0gXCJcIiwgTkEsIGFlcm8kY24uSW4pXG5hZXJvJFN1bW1hcnkgPC0gaWZlbHNlKGFlcm8kU3VtbWFyeSA9PSBcIlwiLCBOQSwgYWVybyRTdW1tYXJ5KVxuXG5gYGAifQ== -->
-<pre class="r"><code>#aero$Date &lt;- as.Date(aero$Date, format=&quot;%m/%d/%Y&quot;) # Change Date from a char to Date data type
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5hZXJvIDwtIGFlcm8gJT4lXG4gIGRwbHlyOjptdXRhdGUoRGF0ZSA9IGFzLkRhdGUoRGF0ZSwgZm9ybWF0PVwiJW0vJWQvJVlcIikpIFxuXG4gIFxuICBcbiMgbHVicmlkYXRlIHRlc3RpbmcgY29kZSAoc29tZXRoaW5nIHRvIGNvbnNpZGVyKVxuXG4jYWVybyREYXRlIDwtIGFzLkRhdGUoYWVybyREYXRlLCBmb3JtYXQ9XCIlbS8lZC8lWVwiKSAjIENoYW5nZSBEYXRlIGZyb20gYSBjaGFyIHRvIERhdGUgZGF0YSB0eXBlXG4jYWVybyRUaW1lIDwtIGx1YnJpZGF0ZTo6aG0oYWVybyRUaW1lKSAjIENoYW5nZSBmcm9tIGNoYXIgdG8gbHVicmlkYXRlXG5cbiMgQ29udmVydCB0aGUgVGltZSBjb2x1bW4gdG8gUE9TSVhjdFxuI2Flcm8kVGltZSA8LSBzdHJwdGltZShhZXJvJFRpbWUsIGZvcm1hdCA9IFwiJUg6JU1cIilcblxuIyBFeHRyYWN0IGhvdXJzIGFuZCBtaW51dGVzIGFzIG51bWVyaWNcbiNhZXJvJFRpbWVfbnVtZXJpYyA8LSBhZXJvJFRpbWUkaG91ciAqIDEwMCArIGFlcm8kVGltZSRtaW5cblxuIyBDaGFuZ2luZyBhbGwgY2hhciB0byBmYWN0b3JzXG5cbiNhZXJvW3NhcHBseShhZXJvLCBpcy5jaGFyYWN0ZXIpXSA8LSBsYXBwbHkoYWVyb1tzYXBwbHkoYWVybywgaXMuY2hhcmFjdGVyKV0sIGFzLmZhY3RvcilcblxuIyBDaGFuZ2luZyBtaXNzaW5nIHNwYWNlcyBhbmQgZGFzaGVzIGludG8gTkFcblxuYWVybyRMb2NhdGlvbiA8LSBpZmVsc2UoYWVybyRMb2NhdGlvbiA9PSBcIlwiLCBOQSwgYWVybyRMb2NhdGlvbilcbmFlcm8kT3BlcmF0b3IgPC0gaWZlbHNlKGFlcm8kT3BlcmF0b3IgPT0gXCJcIiwgTkEsIGFlcm8kT3BlcmF0b3IpXG5hZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09IFwiXCIsIE5BLCBhZXJvJEZsaWdodC4uKVxuYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSBcIi1cIiwgTkEsIGFlcm8kRmxpZ2h0Li4pXG5hZXJvJFJvdXRlIDwtIGlmZWxzZShhZXJvJFJvdXRlID09IFwiXCIsIE5BLCBhZXJvJFJvdXRlKVxuYWVybyRUeXBlIDwtIGlmZWxzZShhZXJvJFR5cGUgPT0gXCJcIiwgTkEsIGFlcm8kVHlwZSlcbmFlcm8kUmVnaXN0cmF0aW9uIDwtIGlmZWxzZShhZXJvJFJlZ2lzdHJhdGlvbiA9PSBcIlwiLCBOQSwgYWVybyRSZWdpc3RyYXRpb24pXG5hZXJvJGNuLkluIDwtIGlmZWxzZShhZXJvJGNuLkluID09IFwiXCIsIE5BLCBhZXJvJGNuLkluKVxuYWVybyRTdW1tYXJ5IDwtIGlmZWxzZShhZXJvJFN1bW1hcnkgPT0gXCJcIiwgTkEsIGFlcm8kU3VtbWFyeSlcblxuYGBgIn0= -->
+<pre class="r"><code>
+aero &lt;- aero %&gt;%
+  dplyr::mutate(Date = as.Date(Date, format=&quot;%m/%d/%Y&quot;)) 
+
+  
+  
+# lubridate testing code (something to consider)
+
+#aero$Date &lt;- as.Date(aero$Date, format=&quot;%m/%d/%Y&quot;) # Change Date from a char to Date data type
 #aero$Time &lt;- lubridate::hm(aero$Time) # Change from char to lubridate
+
+# Convert the Time column to POSIXct
+#aero$Time &lt;- strptime(aero$Time, format = &quot;%H:%M&quot;)
+
+# Extract hours and minutes as numeric
+#aero$Time_numeric &lt;- aero$Time$hour * 100 + aero$Time$min
+
+# Changing all char to factors
+
+#aero[sapply(aero, is.character)] &lt;- lapply(aero[sapply(aero, is.character)], as.factor)
+
+# Changing missing spaces and dashes into NA
 
 aero$Location &lt;- ifelse(aero$Location == &quot;&quot;, NA, aero$Location)
 aero$Operator &lt;- ifelse(aero$Operator == &quot;&quot;, NA, aero$Operator)
@@ -1928,15 +2049,17 @@ aero$Summary &lt;- ifelse(aero$Summary == &quot;&quot;, NA, aero$Summary)
 misscol &lt;- colSums(is.na(aero)) / nrow(aero)
 round(misscol, 3)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICBEYXRlICAgICAgICAgVGltZSAgICAgTG9jYXRpb24gICAgIE9wZXJhdG9yICAgICBGbGlnaHQuLiAgICAgICAgUm91dGUgICAgICAgICBUeXBlIFJlZ2lzdHJhdGlvbiBcbiAgICAgICAwLjAwMCAgICAgICAgMC40MjQgICAgICAgIDAuMDA0ICAgICAgICAwLjAwMyAgICAgICAgMC43OTcgICAgICAgIDAuMzI0ICAgICAgICAwLjAwNSAgICAgICAgMC4wNjQgXG4gICAgICAgY24uSW4gICAgICAgQWJvYXJkICAgRmF0YWxpdGllcyAgICAgICBHcm91bmQgICAgICBTdW1tYXJ5IFRpbWVfbnVtZXJpYyBcbiAgICAgICAwLjIzMyAgICAgICAgMC4wMDQgICAgICAgIDAuMDAyICAgICAgICAwLjAwNCAgICAgICAgMC4wNzQgICAgICAgIDAuNDI0IFxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICBEYXRlICAgICAgICAgVGltZSAgICAgTG9jYXRpb24gICAgIE9wZXJhdG9yICAgICBGbGlnaHQuLiAgICAgICAgUm91dGUgICAgICAgICBUeXBlIFJlZ2lzdHJhdGlvbiBcbiAgICAgICAwLjAwMCAgICAgICAgMC4wMDAgICAgICAgIDAuMDA0ICAgICAgICAwLjAwMyAgICAgICAgMC44MTAgICAgICAgIDAuMzI0ICAgICAgICAwLjAwNSAgICAgICAgMC4wNjQgXG4gICAgICAgY24uSW4gICAgICAgQWJvYXJkICAgRmF0YWxpdGllcyAgICAgICBHcm91bmQgICAgICBTdW1tYXJ5IFxuICAgICAgIDAuMjMzICAgICAgICAwLjAwNCAgICAgICAgMC4wMDIgICAgICAgIDAuMDA0ICAgICAgICAwLjA3NCBcbiJ9 -->
 <pre><code>        Date         Time     Location     Operator     Flight..        Route         Type Registration 
-       0.000        0.424        0.004        0.003        0.797        0.324        0.005        0.064 
-       cn.In       Aboard   Fatalities       Ground      Summary Time_numeric 
-       0.233        0.004        0.002        0.004        0.074        0.424 </code></pre>
+       0.000        0.000        0.004        0.003        0.810        0.324        0.005        0.064 
+       cn.In       Aboard   Fatalities       Ground      Summary 
+       0.233        0.004        0.002        0.004        0.074 </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Fatalities has very few and can be quickly fixed first</p>
+<p>Date has no missing values - perfect as a date format Time needs
+changing next to categories Fatalities has very few and can be quickly
+fixed first</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFfY291bnQxIDwtIHN1bShpcy5uYShhZXJvJERhdGUpKVxubmFfY291bnQyIDwtIHN1bShpcy5uYShhZXJvJFRpbWUpKVxubmFfY291bnQzIDwtIHN1bShpcy5uYShhZXJvJE9wZXJhdG9yKSlcbm5hX2NvdW50NCA8LSBzdW0oaXMubmEoYWVybyRGbGlnaHQuLikpXG5uYV9jb3VudDUgPC0gc3VtKGlzLm5hKGFlcm8kUm91dGUpKVxubmFfY291bnQ2IDwtIHN1bShpcy5uYShhZXJvJFR5cGUpKVxubmFfY291bnQ3IDwtIHN1bShpcy5uYShhZXJvJFJlZ2lzdHJhdGlvbikpXG5uYV9jb3VudDggPC0gc3VtKGlzLm5hKGFlcm8kY24uSW4pKVxubmFfY291bnQ5IDwtIHN1bShpcy5uYShhZXJvJEFib2FyZCkpXG5uYV9jb3VudDEwIDwtIHN1bShpcy5uYShhZXJvJEZhdGFsaXRpZXMpKVxubmFfY291bnQxMSA8LSBzdW0oaXMubmEoYWVybyRHcm91bmQpKVxubmFfY291bnQxMiA8LSBzdW0oaXMubmEoYWVybyRTdW1tYXJ5KSlcblxuXG5cbm5hX2NvdW50MVxuYGBgIn0= -->
@@ -2119,9 +2242,59 @@ the data up and try this properly later</p>
 <p>Just a reminder that I’ll need to visualise the data</p>
 <p>Step 1 is dealing with missing data</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5tZWFuKGFlcm8kRmF0YWxpdGllcywgbmEucm0gPSBUUlVFKVxuYGBgIn0= -->
+<pre class="r"><code>
+mean(aero$Fatalities, na.rm = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDIwLjA2ODNcbiJ9 -->
+<pre><code>[1] 20.0683</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyAyMC4wNjgzIGlzIHRoZSBtZWFuXG5cbm1heChhZXJvJEZhdGFsaXRpZXMsIG5hLnJtID0gVFJVRSlcbmBgYCJ9 -->
+<pre class="r"><code># 20.0683 is the mean
+
+max(aero$Fatalities, na.rm = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDU4M1xuIn0= -->
+<pre><code>[1] 583</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWluKGFlcm8kRmF0YWxpdGllcywgbmEucm0gPSBUUlVFKVxuYGBgIn0= -->
+<pre class="r"><code>min(aero$Fatalities, na.rm = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="missforest" class="section level1">
+<h1>missForest</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIEknbGwgdHJ5IGltcHV0YXRpb24gd2l0aCBtaXNzRm9yZXN0IGFzIHdlIGhhdmUgc3VjaCBhIGh1Z2UgcmFuZ2UgYW5kIHNlZSBpZiBpdCBpbXBhY3RzIHRoZSBtZWFuXG5cbmxpYnJhcnkobWlzc0ZvcmVzdClcblxubGlicmFyeShtaXNzRm9yZXN0KVxuaW1wdXRlZF9zaW5nbGVfY29sdW1uIDwtIG1pc3NGb3Jlc3QoZGF0YS5mcmFtZShhZXJvJEZhdGFsaXRpZXMpKVxuYGBgIn0= -->
+<pre class="r"><code>
+# I&#39;ll try imputation with missForest as we have such a huge range and see if it impacts the mean
+
+library(missForest)
+
+library(missForest)
+imputed_single_column &lt;- missForest(data.frame(aero$Fatalities))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBpbiByYW5kb21Gb3Jlc3QuZGVmYXVsdCh4ID0gb2JzWCwgeSA9IG9ic1ksIG50cmVlID0gbnRyZWUsIG10cnkgPSBtdHJ5LCAgOlxuICBpbnZhbGlkIG10cnk6IHJlc2V0IHRvIHdpdGhpbiB2YWxpZCByYW5nZVxuV2FybmluZyBpbiBtYXgobmNhdCkgOiBubyBub24tbWlzc2luZyBhcmd1bWVudHMgdG8gbWF4OyByZXR1cm5pbmcgLUluZlxuV2FybmluZyBpbiByYW5kb21Gb3Jlc3QuZGVmYXVsdCh4ID0gb2JzWCwgeSA9IG9ic1ksIG50cmVlID0gbnRyZWUsIG10cnkgPSBtdHJ5LCAgOlxuICBOQXMgaW50cm9kdWNlZCBieSBjb2VyY2lvbiB0byBpbnRlZ2VyIHJhbmdlXG5FcnJvciBpbiByYW5kb21Gb3Jlc3QuZGVmYXVsdCh4ID0gb2JzWCwgeSA9IG9ic1ksIG50cmVlID0gbnRyZWUsIG10cnkgPSBtdHJ5LCAgOiBcbiAgTkFzIGluIGZvcmVpZ24gZnVuY3Rpb24gY2FsbCAoYXJnIDEzKVxuIn0= -->
+<pre><code>Warning in randomForest.default(x = obsX, y = obsY, ntree = ntree, mtry = mtry,  :
+  invalid mtry: reset to within valid range
+Warning in max(ncat) : no non-missing arguments to max; returning -Inf
+Warning in randomForest.default(x = obsX, y = obsY, ntree = ntree, mtry = mtry,  :
+  NAs introduced by coercion to integer range
+Error in randomForest.default(x = obsX, y = obsY, ntree = ntree, mtry = mtry,  : 
+  NAs in foreign function call (arg 13)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkF2aWF0aW9uIENyYXNoIEFuYWx5c2lzIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBXb3JrIGluIHByb2dyZXNzLyB2ZXJ5IG1lc3N5LyBuZWVkcyBzb3J0aW5nIHRocm91Z2ggYW5kIGNsZWFuaW5nIHVwIGFzIEkgY29tcGxldGUgcGFydHMNCg0KIyBJbXBvcnQgZGF0YQ0KDQpgYGB7cn0NCiNpbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpDQpsaWJyYXJ5KHJlYWRyKQ0KbGlicmFyeShsdWJyaWRhdGUpDQoNCmFlcm8gPC0gcmVhZC5jc3YoIkFpcnBsYW5lX0NyYXNoZXNfYW5kX0ZhdGFsaXRpZXNfU2luY2VfMTkwOC5jc3YiKQ0KDQpgYGANCg0KIyBjaGVjayBkYXRhIGZvcm1hdA0KDQpgYGB7cn0NCnN0cihhZXJvKQ0KDQpgYGANCg0KRGF0ZSBuZWVkcyB0byBiZSBjaGFuZ2VkDQpUaW1lIGNhbiBiZSBzZXQgaW50byBhbS9wbSAodGltZSBvZiBkYXkgcmFuZ2UpIG9yIG90aGVyIGZhY3Rvcg0KYWxsIG90aGVycyBleGNlcHQgc3VtbWFyeSBjYW4gYmUgbWFkZSBpbnRvIGZhY3RvcnMNCg0KYGBge3J9DQpzdHIoYWVybyREYXRlKQ0Kc3RyKGFlcm8kVGltZSkNCnN0cihhZXJvJExvY2F0aW9uKQ0Kc3RyKGFlcm8kT3BlcmF0b3IpDQpzdHIoYWVybyRSb3V0ZSkNCnN0cihhZXJvJHR5cGUpDQpzdHIoYWVybyRSZWdpc3RyYXRpb24pDQpzdHIoYWVybyRjbi5JbikNCnN0cihhZXJvJEFib2FyZCkNCnN0cihhZXJvJEZhdGFsaXRpZXMpDQpzdHIoYWVybyRHcm91bmQpDQpzdHIoYWVybyRTdW1tYXJ5KQ0KDQpgYGANCg0KYGBge3J9DQojIENoYW5naW5nIGFsbCBjaGFyIHRvIGZhY3RvcnMNCmFlcm9bc2FwcGx5KGFlcm8sIGlzLmNoYXJhY3RlcildIDwtIGxhcHBseShhZXJvW3NhcHBseShhZXJvLCBpcy5jaGFyYWN0ZXIpXSwgYXMuZmFjdG9yKQ0KDQojIENvbnZlcnQgdGhlIFRpbWUgY29sdW1uIHRvIFBPU0lYY3QNCiNhZXJvJFRpbWUgPC0gc3RycHRpbWUoYWVybyRUaW1lLCBmb3JtYXQgPSAiJUg6JU0iKQ0KDQojIEV4dHJhY3QgaG91cnMgYW5kIG1pbnV0ZXMgYXMgbnVtZXJpYw0KI2Flcm8kVGltZV9udW1lcmljIDwtIGFlcm8kVGltZSRob3VyICogMTAwICsgYWVybyRUaW1lJG1pbg0KYGBgDQoNCg0KDQojIENoYW5naW5nIGRhdGEgdHlwZXMgZnJvbSBDaGFyIGFuZCBjb252ZXJ0aW5nIGVtcHR5IHN0cmluZ3MgYW5kIGRhc2hlcyB0byBOQQ0KDQpgYGB7cn0NCiMgbHVicmlkYXRlIHRlc3RpbmcgY29kZSAoc29tZXRoaW5nIHRvIGNvbnNpZGVyKQ0KDQojYWVybyREYXRlIDwtIGFzLkRhdGUoYWVybyREYXRlLCBmb3JtYXQ9IiVtLyVkLyVZIikgIyBDaGFuZ2UgRGF0ZSBmcm9tIGEgY2hhciB0byBEYXRlIGRhdGEgdHlwZQ0KI2Flcm8kVGltZSA8LSBsdWJyaWRhdGU6OmhtKGFlcm8kVGltZSkgIyBDaGFuZ2UgZnJvbSBjaGFyIHRvIGx1YnJpZGF0ZQ0KDQojIENoYW5naW5nIG1pc3Npbmcgc3BhY2VzIGFuZCBkYXNoZXMgaW50byBOQQ0KDQphZXJvJExvY2F0aW9uIDwtIGlmZWxzZShhZXJvJExvY2F0aW9uID09ICIiLCBOQSwgYWVybyRMb2NhdGlvbikNCmFlcm8kT3BlcmF0b3IgPC0gaWZlbHNlKGFlcm8kT3BlcmF0b3IgPT0gIiIsIE5BLCBhZXJvJE9wZXJhdG9yKQ0KYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSAiIiwgTkEsIGFlcm8kRmxpZ2h0Li4pDQphZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09ICItIiwgTkEsIGFlcm8kRmxpZ2h0Li4pDQphZXJvJFJvdXRlIDwtIGlmZWxzZShhZXJvJFJvdXRlID09ICIiLCBOQSwgYWVybyRSb3V0ZSkNCmFlcm8kVHlwZSA8LSBpZmVsc2UoYWVybyRUeXBlID09ICIiLCBOQSwgYWVybyRUeXBlKQ0KYWVybyRSZWdpc3RyYXRpb24gPC0gaWZlbHNlKGFlcm8kUmVnaXN0cmF0aW9uID09ICIiLCBOQSwgYWVybyRSZWdpc3RyYXRpb24pDQphZXJvJGNuLkluIDwtIGlmZWxzZShhZXJvJGNuLkluID09ICIiLCBOQSwgYWVybyRjbi5JbikNCmFlcm8kU3VtbWFyeSA8LSBpZmVsc2UoYWVybyRTdW1tYXJ5ID09ICIiLCBOQSwgYWVybyRTdW1tYXJ5KQ0KDQpgYGANCg0KIyBQZXJjZW50YWdlIG9mIG1pc3NpbmcgdmFsdWVzIGluIGVhY2ggY29sdW1uDQoNCmBgYHtyfQ0KI2Flcm8kRGF0ZVthZXJvJERhdGUgPT0gIiJdIDwtIE5BICMgRmlsbCBpbiBlbXB0eSBzdHJpbmcgd2l0aCBOQQ0KI2Flcm8kRGF0ZVthZXJvJERhdGUgPT0gIiJdIDwtIE5BICMgRmlsbCBpbiBlbXB0eSBzdHJpbmcgd2l0aCBOQQ0KDQoNCg0KI3ByaW50KGFlcm8kRGF0ZSkNCiNwcmludChhZXJvJFRpbWUpDQoNCm1pc3Njb2wgPC0gY29sU3Vtcyhpcy5uYShhZXJvKSkgLyBucm93KGFlcm8pDQpyb3VuZChtaXNzY29sLCAzKQ0KYGBgDQoNCkZhdGFsaXRpZXMgaGFzIHZlcnkgZmV3IGFuZCBjYW4gYmUgcXVpY2tseSBmaXhlZCBmaXJzdA0KDQpgYGB7cn0NCm5hX2NvdW50MSA8LSBzdW0oaXMubmEoYWVybyREYXRlKSkNCm5hX2NvdW50MiA8LSBzdW0oaXMubmEoYWVybyRUaW1lKSkNCm5hX2NvdW50MyA8LSBzdW0oaXMubmEoYWVybyRPcGVyYXRvcikpDQpuYV9jb3VudDQgPC0gc3VtKGlzLm5hKGFlcm8kRmxpZ2h0Li4pKQ0KbmFfY291bnQ1IDwtIHN1bShpcy5uYShhZXJvJFJvdXRlKSkNCm5hX2NvdW50NiA8LSBzdW0oaXMubmEoYWVybyRUeXBlKSkNCm5hX2NvdW50NyA8LSBzdW0oaXMubmEoYWVybyRSZWdpc3RyYXRpb24pKQ0KbmFfY291bnQ4IDwtIHN1bShpcy5uYShhZXJvJGNuLkluKSkNCm5hX2NvdW50OSA8LSBzdW0oaXMubmEoYWVybyRBYm9hcmQpKQ0KbmFfY291bnQxMCA8LSBzdW0oaXMubmEoYWVybyRGYXRhbGl0aWVzKSkNCm5hX2NvdW50MTEgPC0gc3VtKGlzLm5hKGFlcm8kR3JvdW5kKSkNCm5hX2NvdW50MTIgPC0gc3VtKGlzLm5hKGFlcm8kU3VtbWFyeSkpDQoNCg0KDQpuYV9jb3VudDENCm5hX2NvdW50Mg0KbmFfY291bnQzDQpuYV9jb3VudDQNCm5hX2NvdW50NQ0KbmFfY291bnQ2DQpuYV9jb3VudDcNCm5hX2NvdW50OA0KbmFfY291bnQ5DQpuYV9jb3VudDEwDQpuYV9jb3VudDExDQpuYV9jb3VudDEyDQpgYGANCiMgU2VhcmNoIGZvciBtb3N0IGZyZXF1ZW50IHdvcmRzIGluIFN1bW1hcnkgKFRleHQgTWluaW5nKQ0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXRleHQpDQpsaWJyYXJ5KGRwbHlyKQ0KDQphZXJvIDwtIGFzX3RpYmJsZShhZXJvKQ0KDQojIFRva2VuaXplIGFuZCBjb3VudCB3b3Jkcw0Kd29yZF9jb3VudHMgPC0gYWVybyAlPiUNCiAgdW5uZXN0X3Rva2Vucyh3b3JkLCBTdW1tYXJ5KSAlPiUgICMgVGhpcyBmdW5jdGlvbiBzcGxpdHMgdGhlIHRleHQgaW50byBpbmRpdmlkdWFsIHdvcmRzLg0KICBjb3VudCh3b3JkLCBzb3J0ID0gVFJVRSkgICAgICAgICAgIyBDb3VudCBvY2N1cnJlbmNlcyBvZiBlYWNoIHdvcmQNCg0KcHJpbnQod29yZF9jb3VudHMpDQpgYGANCg0KSSdsbCBuZWVkIHRvIGdldCBhIGxpc3Qgb2Ygd29yZHMgc3VjaCBhcyBwaWxvdCA9IGh1bWFuIGVycm9yIC8gZW5naW5lID0gbWVjaGFuaWNhbCBmYWlsdXJlIC8gdGh1bmRlcnN0b3JtL2ZvZy93ZWF0aGVyID0gd2VhdGhlci4gTGFuZGluZyB2cyB0YWtlb2ZmIGV0Yy4gVGhlbiBtYWtlIG5ldyBjb2x1bW5zIHdpdGggdGhpcyBleHRyYWN0ZWQgZGF0YS4NCg0KDQpgYGB7cn0NCiMgbmVlZCB0byBzb3J0IG91dCBOQSBhbmQgbWFrZSBuZXcgY29sdW1ucyBmcm9tIGZpbHRlcmVkIHdvcmRzDQpgYGANCg0KYGBge3J9DQojY29yKGFlcm9bc2FwcGx5KGFlcm8sIGlzLm51bWVyaWMpXSkNCg0KbnVtZXJpY19jb2x1bW5zIDwtIGFlcm9bc2FwcGx5KGFlcm8sIGlzLm51bWVyaWMpXQ0KY29yX21hdHJpeCA8LSBjb3IobnVtZXJpY19jb2x1bW5zLCB1c2UgPSAiY29tcGxldGUub2JzIikNCmNvcl9tYXRyaXgNCmBgYA0KU29tZSBxdWl0ZSBvYnZpb3VzIGNvcnJlbGF0aW9ucyAobG9jYXRpb24vcm91dGUpIEknbGwgbmVlZCB0byBjbGVhbiB0aGUgZGF0YSB1cCBhbmQgdHJ5IHRoaXMgcHJvcGVybHkgbGF0ZXINCg0KDQpgYGB7cn0NCnBsb3QoYWVybykNCmBgYA0KSnVzdCBhIHJlbWluZGVyIHRoYXQgSSdsbCBuZWVkIHRvIHZpc3VhbGlzZSB0aGUgZGF0YQ0KDQoNClN0ZXAgMSBpcyBkZWFsaW5nIHdpdGggbWlzc2luZyBkYXRh</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkF2aWF0aW9uIENyYXNoIEFuYWx5c2lzIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBXb3JrIGluIHByb2dyZXNzLyB2ZXJ5IG1lc3N5LyBuZWVkcyBzb3J0aW5nIHRocm91Z2ggYW5kIGNsZWFuaW5nIHVwIGFzIEkgY29tcGxldGUgcGFydHMNCg0KIyBJbXBvcnQgZGF0YQ0KDQpgYGB7cn0NCiNpbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpDQpsaWJyYXJ5KHJlYWRyKQ0KbGlicmFyeShsdWJyaWRhdGUpDQoNCmFlcm8gPC0gcmVhZC5jc3YoIkFpcnBsYW5lX0NyYXNoZXNfYW5kX0ZhdGFsaXRpZXNfU2luY2VfMTkwOC5jc3YiKQ0KDQpgYGANCg0KYGBge3J9DQojIEZpcnN0IHJlbW92ZSBlbXB0eSB2YWx1ZXMgb3IgZGFzaGVzIGFuZCByZXBsYWNlIHdpdGggTkENCg0KYWVybyRUaW1lIDwtIGlmZWxzZShhZXJvJFRpbWUgPT0gIiIsIE5BLCBhZXJvJFRpbWUpDQphZXJvJFRpbWUgPC0gaWZlbHNlKGFlcm8kVGltZSA9PSAiLSIsIE5BLCBhZXJvJFRpbWUpDQoNCiNwcmludChhZXJvJFRpbWVbIWlzLm5hKGFlcm8kVGltZSldKQ0KDQpub25fY29uZm9ybWluZ192YWx1ZXMgPC0gYWVybyRUaW1lWyFncmVwbCgiXlxcZHsyfTpcXGR7Mn0kIiwgYWVybyRUaW1lKV0NCg0KI1ByaW50IHRoZSBub24tY29uZm9ybWluZyB2YWx1ZXMNCnByaW50KG5vbl9jb25mb3JtaW5nX3ZhbHVlc1shaXMubmEobm9uX2NvbmZvcm1pbmdfdmFsdWVzKV0pDQoNCmBgYA0KDQpXZSBjYW4gc2VlIGEgZmV3IG5vbiBjb25mb3JtaW5nIHZhbHVlcywgc3VjaCBhcyBjOiAxOjAwIDEyJzIwLiBMZXQncyBmaXggdGhpcyBmaXJzdCANCg0KDQpgYGB7cn0NCg0KYWVybyRUaW1lIDwtIGdzdWIoIl5jIiwgIiIsIGFlcm8kVGltZSkgICMgUmVtb3ZlICJjOiIgcHJlZml4DQphZXJvJFRpbWUgPC0gZ3N1YigiJyIsICI6IiwgYWVybyRUaW1lKSAjIFJlcGxhY2UgdGhlIGFwb3N0cm9waGUgd2l0aCBhIGNvbG9uDQphZXJvJFRpbWUgPC0gZ3N1YigiXjoiLCAiIiwgYWVybyRUaW1lKSAjIFJlbW92ZSBsZWFkaW5nIGNvbG9uDQphZXJvJFRpbWUgPC0gdHJpbXdzKGFlcm8kVGltZSkgIyByZW1vdmUgbGVhZGluZyBzcGFjZQ0KYWVybyRUaW1lIDwtIHNwcmludGYoIiUwMnMiLGFlcm8kVGltZSkgIyBhZGQgbGVhZGluZyB6ZXJvDQoNCg0KDQojIFNob3cgdGhlIHByb2JsZW1hdGljIHRpbWUgdmFsdWVzDQojcHJvYmxlbWF0aWNfdGltZXMgPC0gYWVybyRUaW1lWyFncmVwbCgiXlxcZHsyfTpcXGR7Mn0kIiwgYWVybyRUaW1lKV0NCg0KI3ByaW50KHByb2JsZW1hdGljX3RpbWVzKQ0KDQogICAgICAgICAgICAgICAgICAgICANCiNleGFjdCA8LSBhZXJvW2dyZXAoIjE6MDAiLCBhZXJvJFRpbWUpLCAsIGRyb3AgPSBGQUxTRV0gIA0KDQojcHJpbnQoZXhhY3QpDQoNCiNub25fY29uZm9ybWluZ192YWx1ZXMgPC0gYWVybyRUaW1lWyFncmVwbCgiXlxcZHsyfTpcXGR7Mn0kIiwgYWVybyRUaW1lKV0NCg0KDQojUHJpbnQgdGhlIG5vbi1jb25mb3JtaW5nIHZhbHVlcw0KI3ByaW50KG5vbl9jb25mb3JtaW5nX3ZhbHVlc1shaXMubmEobm9uX2NvbmZvcm1pbmdfdmFsdWVzKV0pDQoNCg0KYGBgDQoNCmBgYHtyfQ0KIyBXZSBjYW4gc2VlIGEgZmV3IHZhbHVlcyBzdGlsbCByZXF1aXJlIGZpeGluZw0KDQp1bmlxdWUobm9uX2NvbmZvcm1pbmdfdmFsdWVzKQ0KDQpgYGANCg0KDQpgYGB7cn0NCg0KIyBTb21lIHZhbHVlcyBhcmVuJ3QgZml4ZWQgYnkgYWRkaW5nIGxlYWRpbmcgemVyb3MuIExldCdzIGdldCB0aGVpciBpbmRleGVzIGFuZCBmaXggdGhlbSBtYW51YWxseQ0KDQppbmRleF9vZl8yXzAwIDwtIHdoaWNoKGFlcm8kVGltZSA9PSAiMjowMCIpDQpwcmludChpbmRleF9vZl8yXzAwKQ0KDQppbmRleF9vZl8xXzAwIDwtIHdoaWNoKGFlcm8kVGltZSA9PSAiMTowMCIpDQpwcmludChpbmRleF9vZl8xXzAwKQ0KDQppbmRleF9vZl8xXzMwIDwtIHdoaWNoKGFlcm8kVGltZSA9PSAiMTozMCIpDQpwcmludChpbmRleF9vZl8xXzMwKQ0KYGBgDQoNCg0KDQpgYGB7cn0NCg0KIyBNYW51YWxseSBjb3JyZWN0IHZhbHVlcyB3aXRob3V0IGxlYWRpbmcgemVyb2VzDQoNCm5ld192YWx1ZTEgPC0gIjAyOjAwIg0KYWVybyRUaW1lWzIyOV0gPC0gbmV3X3ZhbHVlMQ0KbmV3X3ZhbHVlMiA8LSAiMDI6MDAiDQphZXJvJFRpbWVbNDg0OV0gPC0gbmV3X3ZhbHVlMg0KbmV3X3ZhbHVlMyA8LSAiMDE6MDAiDQphZXJvJFRpbWVbMTkxXSA8LSBuZXdfdmFsdWUzDQpuZXdfdmFsdWU0IDwtICIwMTowMCINCmFlcm8kVGltZVszNTg1XSA8LSBuZXdfdmFsdWU0DQpuZXdfdmFsdWU1IDwtICIwMTozMCINCmFlcm8kVGltZVs3MTJdIDwtIG5ld192YWx1ZTUNCmBgYA0KDQoNCg0KDQoNCiMgY2hlY2sgZGF0YSBmb3JtYXQNCg0KYGBge3J9DQpzdHIoYWVybykNCg0KYGBgDQoNCkRhdGUgbmVlZHMgdG8gYmUgY2hhbmdlZA0KVGltZSBjYW4gYmUgc2V0IGludG8gYW0vcG0gKHRpbWUgb2YgZGF5IHJhbmdlKSBvciBvdGhlciBmYWN0b3INCmFsbCBvdGhlcnMgZXhjZXB0IHN1bW1hcnkgY2FuIGJlIG1hZGUgaW50byBmYWN0b3JzDQoNCmBgYHtyfQ0Kc3RyKGFlcm8kRGF0ZSkNCnN0cihhZXJvJFRpbWUpDQpzdHIoYWVybyRMb2NhdGlvbikNCnN0cihhZXJvJE9wZXJhdG9yKQ0Kc3RyKGFlcm8kUm91dGUpDQpzdHIoYWVybyR0eXBlKQ0Kc3RyKGFlcm8kUmVnaXN0cmF0aW9uKQ0Kc3RyKGFlcm8kY24uSW4pDQpzdHIoYWVybyRBYm9hcmQpDQpzdHIoYWVybyRGYXRhbGl0aWVzKQ0Kc3RyKGFlcm8kR3JvdW5kKQ0Kc3RyKGFlcm8kU3VtbWFyeSkNCg0KYGBgDQoNCiMgQ2hhbmdpbmcgZGF0YSB0eXBlcyBmcm9tIENoYXIgYW5kIGNvbnZlcnRpbmcgZW1wdHkgc3RyaW5ncyBhbmQgZGFzaGVzIHRvIE5BDQoNCmBgYHtyfQ0KDQphZXJvIDwtIGFlcm8gJT4lDQogIGRwbHlyOjptdXRhdGUoRGF0ZSA9IGFzLkRhdGUoRGF0ZSwgZm9ybWF0PSIlbS8lZC8lWSIpKSANCg0KICANCiAgDQojIGx1YnJpZGF0ZSB0ZXN0aW5nIGNvZGUgKHNvbWV0aGluZyB0byBjb25zaWRlcikNCg0KI2Flcm8kRGF0ZSA8LSBhcy5EYXRlKGFlcm8kRGF0ZSwgZm9ybWF0PSIlbS8lZC8lWSIpICMgQ2hhbmdlIERhdGUgZnJvbSBhIGNoYXIgdG8gRGF0ZSBkYXRhIHR5cGUNCiNhZXJvJFRpbWUgPC0gbHVicmlkYXRlOjpobShhZXJvJFRpbWUpICMgQ2hhbmdlIGZyb20gY2hhciB0byBsdWJyaWRhdGUNCg0KIyBDb252ZXJ0IHRoZSBUaW1lIGNvbHVtbiB0byBQT1NJWGN0DQojYWVybyRUaW1lIDwtIHN0cnB0aW1lKGFlcm8kVGltZSwgZm9ybWF0ID0gIiVIOiVNIikNCg0KIyBFeHRyYWN0IGhvdXJzIGFuZCBtaW51dGVzIGFzIG51bWVyaWMNCiNhZXJvJFRpbWVfbnVtZXJpYyA8LSBhZXJvJFRpbWUkaG91ciAqIDEwMCArIGFlcm8kVGltZSRtaW4NCg0KIyBDaGFuZ2luZyBhbGwgY2hhciB0byBmYWN0b3JzDQoNCiNhZXJvW3NhcHBseShhZXJvLCBpcy5jaGFyYWN0ZXIpXSA8LSBsYXBwbHkoYWVyb1tzYXBwbHkoYWVybywgaXMuY2hhcmFjdGVyKV0sIGFzLmZhY3RvcikNCg0KIyBDaGFuZ2luZyBtaXNzaW5nIHNwYWNlcyBhbmQgZGFzaGVzIGludG8gTkENCg0KYWVybyRMb2NhdGlvbiA8LSBpZmVsc2UoYWVybyRMb2NhdGlvbiA9PSAiIiwgTkEsIGFlcm8kTG9jYXRpb24pDQphZXJvJE9wZXJhdG9yIDwtIGlmZWxzZShhZXJvJE9wZXJhdG9yID09ICIiLCBOQSwgYWVybyRPcGVyYXRvcikNCmFlcm8kRmxpZ2h0Li4gPC0gaWZlbHNlKGFlcm8kRmxpZ2h0Li4gPT0gIiIsIE5BLCBhZXJvJEZsaWdodC4uKQ0KYWVybyRGbGlnaHQuLiA8LSBpZmVsc2UoYWVybyRGbGlnaHQuLiA9PSAiLSIsIE5BLCBhZXJvJEZsaWdodC4uKQ0KYWVybyRSb3V0ZSA8LSBpZmVsc2UoYWVybyRSb3V0ZSA9PSAiIiwgTkEsIGFlcm8kUm91dGUpDQphZXJvJFR5cGUgPC0gaWZlbHNlKGFlcm8kVHlwZSA9PSAiIiwgTkEsIGFlcm8kVHlwZSkNCmFlcm8kUmVnaXN0cmF0aW9uIDwtIGlmZWxzZShhZXJvJFJlZ2lzdHJhdGlvbiA9PSAiIiwgTkEsIGFlcm8kUmVnaXN0cmF0aW9uKQ0KYWVybyRjbi5JbiA8LSBpZmVsc2UoYWVybyRjbi5JbiA9PSAiIiwgTkEsIGFlcm8kY24uSW4pDQphZXJvJFN1bW1hcnkgPC0gaWZlbHNlKGFlcm8kU3VtbWFyeSA9PSAiIiwgTkEsIGFlcm8kU3VtbWFyeSkNCg0KYGBgDQoNCiMgUGVyY2VudGFnZSBvZiBtaXNzaW5nIHZhbHVlcyBpbiBlYWNoIGNvbHVtbg0KDQpgYGB7cn0NCiNhZXJvJERhdGVbYWVybyREYXRlID09ICIiXSA8LSBOQSAjIEZpbGwgaW4gZW1wdHkgc3RyaW5nIHdpdGggTkENCiNhZXJvJERhdGVbYWVybyREYXRlID09ICIiXSA8LSBOQSAjIEZpbGwgaW4gZW1wdHkgc3RyaW5nIHdpdGggTkENCg0KDQoNCiNwcmludChhZXJvJERhdGUpDQojcHJpbnQoYWVybyRUaW1lKQ0KDQptaXNzY29sIDwtIGNvbFN1bXMoaXMubmEoYWVybykpIC8gbnJvdyhhZXJvKQ0Kcm91bmQobWlzc2NvbCwgMykNCmBgYA0KRGF0ZSBoYXMgbm8gbWlzc2luZyB2YWx1ZXMgLSBwZXJmZWN0IGFzIGEgZGF0ZSBmb3JtYXQNClRpbWUgbmVlZHMgY2hhbmdpbmcgbmV4dCB0byBjYXRlZ29yaWVzDQpGYXRhbGl0aWVzIGhhcyB2ZXJ5IGZldyBhbmQgY2FuIGJlIHF1aWNrbHkgZml4ZWQgZmlyc3QNCg0KYGBge3J9DQpuYV9jb3VudDEgPC0gc3VtKGlzLm5hKGFlcm8kRGF0ZSkpDQpuYV9jb3VudDIgPC0gc3VtKGlzLm5hKGFlcm8kVGltZSkpDQpuYV9jb3VudDMgPC0gc3VtKGlzLm5hKGFlcm8kT3BlcmF0b3IpKQ0KbmFfY291bnQ0IDwtIHN1bShpcy5uYShhZXJvJEZsaWdodC4uKSkNCm5hX2NvdW50NSA8LSBzdW0oaXMubmEoYWVybyRSb3V0ZSkpDQpuYV9jb3VudDYgPC0gc3VtKGlzLm5hKGFlcm8kVHlwZSkpDQpuYV9jb3VudDcgPC0gc3VtKGlzLm5hKGFlcm8kUmVnaXN0cmF0aW9uKSkNCm5hX2NvdW50OCA8LSBzdW0oaXMubmEoYWVybyRjbi5JbikpDQpuYV9jb3VudDkgPC0gc3VtKGlzLm5hKGFlcm8kQWJvYXJkKSkNCm5hX2NvdW50MTAgPC0gc3VtKGlzLm5hKGFlcm8kRmF0YWxpdGllcykpDQpuYV9jb3VudDExIDwtIHN1bShpcy5uYShhZXJvJEdyb3VuZCkpDQpuYV9jb3VudDEyIDwtIHN1bShpcy5uYShhZXJvJFN1bW1hcnkpKQ0KDQoNCg0KbmFfY291bnQxDQpuYV9jb3VudDINCm5hX2NvdW50Mw0KbmFfY291bnQ0DQpuYV9jb3VudDUNCm5hX2NvdW50Ng0KbmFfY291bnQ3DQpuYV9jb3VudDgNCm5hX2NvdW50OQ0KbmFfY291bnQxMA0KbmFfY291bnQxMQ0KbmFfY291bnQxMg0KYGBgDQojIFNlYXJjaCBmb3IgbW9zdCBmcmVxdWVudCB3b3JkcyBpbiBTdW1tYXJ5IChUZXh0IE1pbmluZykNCg0KYGBge3J9DQpsaWJyYXJ5KHRpZHl0ZXh0KQ0KbGlicmFyeShkcGx5cikNCg0KYWVybyA8LSBhc190aWJibGUoYWVybykNCg0KIyBUb2tlbml6ZSBhbmQgY291bnQgd29yZHMNCndvcmRfY291bnRzIDwtIGFlcm8gJT4lDQogIHVubmVzdF90b2tlbnMod29yZCwgU3VtbWFyeSkgJT4lICAjIFRoaXMgZnVuY3Rpb24gc3BsaXRzIHRoZSB0ZXh0IGludG8gaW5kaXZpZHVhbCB3b3Jkcy4NCiAgY291bnQod29yZCwgc29ydCA9IFRSVUUpICAgICAgICAgICMgQ291bnQgb2NjdXJyZW5jZXMgb2YgZWFjaCB3b3JkDQoNCnByaW50KHdvcmRfY291bnRzKQ0KYGBgDQoNCkknbGwgbmVlZCB0byBnZXQgYSBsaXN0IG9mIHdvcmRzIHN1Y2ggYXMgcGlsb3QgPSBodW1hbiBlcnJvciAvIGVuZ2luZSA9IG1lY2hhbmljYWwgZmFpbHVyZSAvIHRodW5kZXJzdG9ybS9mb2cvd2VhdGhlciA9IHdlYXRoZXIuIExhbmRpbmcgdnMgdGFrZW9mZiBldGMuIFRoZW4gbWFrZSBuZXcgY29sdW1ucyB3aXRoIHRoaXMgZXh0cmFjdGVkIGRhdGEuDQoNCg0KYGBge3J9DQojIG5lZWQgdG8gc29ydCBvdXQgTkEgYW5kIG1ha2UgbmV3IGNvbHVtbnMgZnJvbSBmaWx0ZXJlZCB3b3Jkcw0KYGBgDQoNCmBgYHtyfQ0KI2NvcihhZXJvW3NhcHBseShhZXJvLCBpcy5udW1lcmljKV0pDQoNCm51bWVyaWNfY29sdW1ucyA8LSBhZXJvW3NhcHBseShhZXJvLCBpcy5udW1lcmljKV0NCmNvcl9tYXRyaXggPC0gY29yKG51bWVyaWNfY29sdW1ucywgdXNlID0gImNvbXBsZXRlLm9icyIpDQpjb3JfbWF0cml4DQpgYGANClNvbWUgcXVpdGUgb2J2aW91cyBjb3JyZWxhdGlvbnMgKGxvY2F0aW9uL3JvdXRlKSBJJ2xsIG5lZWQgdG8gY2xlYW4gdGhlIGRhdGEgdXAgYW5kIHRyeSB0aGlzIHByb3Blcmx5IGxhdGVyDQoNCg0KYGBge3J9DQpwbG90KGFlcm8pDQpgYGANCkp1c3QgYSByZW1pbmRlciB0aGF0IEknbGwgbmVlZCB0byB2aXN1YWxpc2UgdGhlIGRhdGENCg0KDQpTdGVwIDEgaXMgZGVhbGluZyB3aXRoIG1pc3NpbmcgZGF0YQ0KDQpgYGB7cn0NCg0KbWVhbihhZXJvJEZhdGFsaXRpZXMsIG5hLnJtID0gVFJVRSkNCg0KIyAyMC4wNjgzIGlzIHRoZSBtZWFuDQoNCm1heChhZXJvJEZhdGFsaXRpZXMsIG5hLnJtID0gVFJVRSkNCg0KIyA1ODMgaXMgdGhlIG1heCB2YWx1ZQ0KDQptaW4oYWVybyRGYXRhbGl0aWVzLCBuYS5ybSA9IFRSVUUpDQoNCiMgMCBpcyB0aGUgbG93ZXN0IHZhbHVlIChubyBvbmUgZGllZCBpbiB0aGUgY3Jhc2gpDQoNCmBgYA0KIyBtaXNzRm9yZXN0DQoNCmBgYHtyfQ0KDQojIEknbGwgdHJ5IGltcHV0YXRpb24gd2l0aCBtaXNzRm9yZXN0IGFzIHdlIGhhdmUgc3VjaCBhIGh1Z2UgcmFuZ2UgYW5kIHNlZSBpZiBpdCBpbXBhY3RzIHRoZSBtZWFuDQoNCmxpYnJhcnkobWlzc0ZvcmVzdCkNCg0KbGlicmFyeShtaXNzRm9yZXN0KQ0KaW1wdXRlZF9zaW5nbGVfY29sdW1uIDwtIG1pc3NGb3Jlc3QoZGF0YS5mcmFtZShhZXJvJEZhdGFsaXRpZXMpKQ0KDQpgYGANCg0K</div>
 
 
 

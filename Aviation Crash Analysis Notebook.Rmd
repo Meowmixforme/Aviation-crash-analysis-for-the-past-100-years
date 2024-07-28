@@ -16,6 +16,97 @@ aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 
 ```
 
+```{r}
+# First remove empty values or dashes and replace with NA
+
+aero$Time <- ifelse(aero$Time == "", NA, aero$Time)
+aero$Time <- ifelse(aero$Time == "-", NA, aero$Time)
+
+#print(aero$Time[!is.na(aero$Time)])
+
+non_conforming_values <- aero$Time[!grepl("^\\d{2}:\\d{2}$", aero$Time)]
+
+#Print the non-conforming values
+print(non_conforming_values[!is.na(non_conforming_values)])
+
+```
+
+We can see a few non conforming values, such as c: 1:00 12'20. Let's fix this first 
+
+
+```{r}
+
+aero$Time <- gsub("^c", "", aero$Time)  # Remove "c:" prefix
+aero$Time <- gsub("'", ":", aero$Time) # Replace the apostrophe with a colon
+aero$Time <- gsub("^:", "", aero$Time) # Remove leading colon
+aero$Time <- trimws(aero$Time) # remove leading space
+aero$Time <- sprintf("%02s",aero$Time) # add leading zero
+
+
+
+# Show the problematic time values
+#problematic_times <- aero$Time[!grepl("^\\d{2}:\\d{2}$", aero$Time)]
+
+#print(problematic_times)
+
+                     
+#exact <- aero[grep("1:00", aero$Time), , drop = FALSE]  
+
+#print(exact)
+
+#non_conforming_values <- aero$Time[!grepl("^\\d{2}:\\d{2}$", aero$Time)]
+
+
+#Print the non-conforming values
+#print(non_conforming_values[!is.na(non_conforming_values)])
+
+
+```
+
+```{r}
+# We can see a few values still require fixing
+
+unique(non_conforming_values)
+
+```
+
+
+```{r}
+
+# Some values aren't fixed by adding leading zeros. Let's get their indexes and fix them manually
+
+index_of_2_00 <- which(aero$Time == "2:00")
+print(index_of_2_00)
+
+index_of_1_00 <- which(aero$Time == "1:00")
+print(index_of_1_00)
+
+index_of_1_30 <- which(aero$Time == "1:30")
+print(index_of_1_30)
+```
+
+
+
+```{r}
+
+# Manually correct values without leading zeroes
+
+new_value1 <- "02:00"
+aero$Time[229] <- new_value1
+new_value2 <- "02:00"
+aero$Time[4849] <- new_value2
+new_value3 <- "01:00"
+aero$Time[191] <- new_value3
+new_value4 <- "01:00"
+aero$Time[3585] <- new_value4
+new_value5 <- "01:30"
+aero$Time[712] <- new_value5
+```
+
+
+
+
+
 # check data format
 
 ```{r}
@@ -43,26 +134,29 @@ str(aero$Summary)
 
 ```
 
+# Changing data types from Char and converting empty strings and dashes to NA
+
 ```{r}
-# Changing all char to factors
-aero[sapply(aero, is.character)] <- lapply(aero[sapply(aero, is.character)], as.factor)
+
+aero <- aero %>%
+  dplyr::mutate(Date = as.Date(Date, format="%m/%d/%Y")) 
+
+  
+  
+# lubridate testing code (something to consider)
+
+#aero$Date <- as.Date(aero$Date, format="%m/%d/%Y") # Change Date from a char to Date data type
+#aero$Time <- lubridate::hm(aero$Time) # Change from char to lubridate
 
 # Convert the Time column to POSIXct
 #aero$Time <- strptime(aero$Time, format = "%H:%M")
 
 # Extract hours and minutes as numeric
 #aero$Time_numeric <- aero$Time$hour * 100 + aero$Time$min
-```
 
+# Changing all char to factors
 
-
-# Changing data types from Char and converting empty strings and dashes to NA
-
-```{r}
-# lubridate testing code (something to consider)
-
-#aero$Date <- as.Date(aero$Date, format="%m/%d/%Y") # Change Date from a char to Date data type
-#aero$Time <- lubridate::hm(aero$Time) # Change from char to lubridate
+#aero[sapply(aero, is.character)] <- lapply(aero[sapply(aero, is.character)], as.factor)
 
 # Changing missing spaces and dashes into NA
 
@@ -92,7 +186,8 @@ aero$Summary <- ifelse(aero$Summary == "", NA, aero$Summary)
 misscol <- colSums(is.na(aero)) / nrow(aero)
 round(misscol, 3)
 ```
-
+Date has no missing values - perfect as a date format
+Time needs changing next to categories
 Fatalities has very few and can be quickly fixed first
 
 ```{r}
@@ -164,3 +259,32 @@ Just a reminder that I'll need to visualise the data
 
 
 Step 1 is dealing with missing data
+
+```{r}
+
+mean(aero$Fatalities, na.rm = TRUE)
+
+# 20.0683 is the mean
+
+max(aero$Fatalities, na.rm = TRUE)
+
+# 583 is the max value
+
+min(aero$Fatalities, na.rm = TRUE)
+
+# 0 is the lowest value (no one died in the crash)
+
+```
+# missForest
+
+```{r}
+
+# I'll try imputation with missForest as we have such a huge range and see if it impacts the mean
+
+library(missForest)
+
+library(missForest)
+imputed_single_column <- missForest(data.frame(aero$Fatalities))
+
+```
+
