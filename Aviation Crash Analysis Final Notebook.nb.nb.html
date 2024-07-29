@@ -1752,9 +1752,185 @@ display: none;
 
 
 <!-- rnb-text-begin -->
+<div id="data-cleansing" class="section level2">
+<h2>Data Cleansing</h2>
+</div>
+<div id="import-data-and-packages" class="section level1">
+<h1>Import data and packages</h1>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jaW5zdGFsbC5wYWNrYWdlcyhcInJlYWRyXCIpXG5cbmxpYnJhcnkoZHBseXIpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeSh6b28pXG5saWJyYXJ5KGx1YnJpZGF0ZSlcbmxpYnJhcnkobWlzc0ZvcmVzdClcblxuYWVybyA8LSByZWFkLmNzdihcIkFpcnBsYW5lX0NyYXNoZXNfYW5kX0ZhdGFsaXRpZXNfU2luY2VfMTkwOC5jc3ZcIilcblxuYGBgIn0= -->
+<pre class="r"><code>
+#install.packages(&quot;readr&quot;)
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkF2aWF0aW9uIENyYXNoIEFuYWx5c2lzIEZpbmFsIE5vdGVib29rIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KDQo=</div>
+library(dplyr)
+library(readr)
+library(zoo)
+library(lubridate)
+library(missForest)
+
+aero &lt;- read.csv(&quot;Airplane_Crashes_and_Fatalities_Since_1908.csv&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="check-data-format" class="section level1">
+<h1>check data format</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5zdHIoYWVybylcbmBgYCJ9 -->
+<pre class="r"><code>
+str(aero)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJ2RhdGEuZnJhbWUnOlx0NTI2OCBvYnMuIG9mICAxMyB2YXJpYWJsZXM6XG4gJCBEYXRlICAgICAgICA6IGNociAgXCIwOS8xNy8xOTA4XCIgXCIwNy8xMi8xOTEyXCIgXCIwOC8wNi8xOTEzXCIgXCIwOS8wOS8xOTEzXCIgLi4uXG4gJCBUaW1lICAgICAgICA6IGNociAgXCIxNzoxOFwiIFwiMDY6MzBcIiBcIlwiIFwiMTg6MzBcIiAuLi5cbiAkIExvY2F0aW9uICAgIDogY2hyICBcIkZvcnQgTXllciwgVmlyZ2luaWFcIiBcIkF0bGFudGlDaXR5LCBOZXcgSmVyc2V5XCIgXCJWaWN0b3JpYSwgQnJpdGlzaCBDb2x1bWJpYSwgQ2FuYWRhXCIgXCJPdmVyIHRoZSBOb3J0aCBTZWFcIiAuLi5cbiAkIE9wZXJhdG9yICAgIDogY2hyICBcIk1pbGl0YXJ5IC0gVS5TLiBBcm15XCIgXCJNaWxpdGFyeSAtIFUuUy4gTmF2eVwiIFwiUHJpdmF0ZVwiIFwiTWlsaXRhcnkgLSBHZXJtYW4gTmF2eVwiIC4uLlxuICQgRmxpZ2h0Li4gICAgOiBjaHIgIE5BIE5BIE5BIE5BIC4uLlxuICQgUm91dGUgICAgICAgOiBjaHIgIFwiRGVtb25zdHJhdGlvblwiIFwiVGVzdCBmbGlnaHRcIiBOQSBOQSAuLi5cbiAkIFR5cGUgICAgICAgIDogY2hyICBcIldyaWdodCBGbHllciBJSUlcIiBcIkRpcmlnaWJsZVwiIFwiQ3VydGlzcyBzZWFwbGFuZVwiIFwiWmVwcGVsaW4gTC0xIChhaXJzaGlwKVwiIC4uLlxuICQgUmVnaXN0cmF0aW9uOiBjaHIgIE5BIE5BIE5BIE5BIC4uLlxuICQgY24uSW4gICAgICAgOiBjaHIgIFwiMVwiIE5BIE5BIE5BIC4uLlxuICQgQWJvYXJkICAgICAgOiBudW0gIDIgNSAxIDIwIDMwIDQxIDE5IDIwIDIyIDE5IC4uLlxuICQgRmF0YWxpdGllcyAgOiBudW0gIDEgNSAxIDE0IDMwIDIxIDE5IDIwIDIyIDE5IC4uLlxuICQgR3JvdW5kICAgICAgOiBudW0gIDAgMCAwIDAgMCAwIDAgMCAwIDAgLi4uXG4gJCBTdW1tYXJ5ICAgICA6IGNociAgXCJEdXJpbmcgYSBkZW1vbnN0cmF0aW9uIGZsaWdodCwgYSBVLlMuIEFybXkgZmx5ZXIgZmxvd24gYnkgT3J2aWxsZSBXcmlnaHQgbm9zZS1kaXZlZCBpbnRvIHRoZSBncm91bmQgZnJvbSBhIGhlaWdcInwgX190cnVuY2F0ZWRfXyBcIkZpcnN0IFUuUy4gZGlyaWdpYmxlIEFrcm9uIGV4cGxvZGVkIGp1c3Qgb2Zmc2hvcmUgYXQgYW4gYWx0aXR1ZGUgb2YgMSwwMDAgZnQuIGR1cmluZyBhIHRlc3QgZmxpZ2h0LlwiIFwiVGhlIGZpcnN0IGZhdGFsIGFpcnBsYW5lIGFjY2lkZW50IGluIENhbmFkYSBvY2N1cnJlZCB3aGVuIEFtZXJpY2FuIGJhcm5zdG9ybWVyLCBKb2huIE0uIEJyeWFudCwgQ2FsaWZvcm5pYSBhdmlhdG9yIHdhcyBraWxsZWQuXCIgXCJUaGUgYWlyc2hpcCBmbGV3IGludG8gYSB0aHVuZGVyc3Rvcm0gYW5kIGVuY291bnRlcmVkIGEgc2V2ZXJlIGRvd25kcmFmdCBjcmFzaGluZyAyMCBtaWxlcyBub3J0aCBvZiBIZWxnb2xhbmQgSXNcInwgX190cnVuY2F0ZWRfXyAuLi5cbiJ9 -->
+<pre><code>&#39;data.frame&#39;:   5268 obs. of  13 variables:
+ $ Date        : chr  &quot;09/17/1908&quot; &quot;07/12/1912&quot; &quot;08/06/1913&quot; &quot;09/09/1913&quot; ...
+ $ Time        : chr  &quot;17:18&quot; &quot;06:30&quot; &quot;&quot; &quot;18:30&quot; ...
+ $ Location    : chr  &quot;Fort Myer, Virginia&quot; &quot;AtlantiCity, New Jersey&quot; &quot;Victoria, British Columbia, Canada&quot; &quot;Over the North Sea&quot; ...
+ $ Operator    : chr  &quot;Military - U.S. Army&quot; &quot;Military - U.S. Navy&quot; &quot;Private&quot; &quot;Military - German Navy&quot; ...
+ $ Flight..    : chr  NA NA NA NA ...
+ $ Route       : chr  &quot;Demonstration&quot; &quot;Test flight&quot; NA NA ...
+ $ Type        : chr  &quot;Wright Flyer III&quot; &quot;Dirigible&quot; &quot;Curtiss seaplane&quot; &quot;Zeppelin L-1 (airship)&quot; ...
+ $ Registration: chr  NA NA NA NA ...
+ $ cn.In       : chr  &quot;1&quot; NA NA NA ...
+ $ Aboard      : num  2 5 1 20 30 41 19 20 22 19 ...
+ $ Fatalities  : num  1 5 1 14 30 21 19 20 22 19 ...
+ $ Ground      : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ Summary     : chr  &quot;During a demonstration flight, a U.S. Army flyer flown by Orville Wright nose-dived into the ground from a heig&quot;| __truncated__ &quot;First U.S. dirigible Akron exploded just offshore at an altitude of 1,000 ft. during a test flight.&quot; &quot;The first fatal airplane accident in Canada occurred when American barnstormer, John M. Bryant, California aviator was killed.&quot; &quot;The airship flew into a thunderstorm and encountered a severe downdraft crashing 20 miles north of Helgoland Is&quot;| __truncated__ ...</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We can see the following data in aero:</p>
+<p>Date - This is the date of the crash Time - This is the time the
+crash occurred Location - The location of the crash Operator - This is
+the flight operator Type - The type of crashed aircraft Registration -
+aircraft registration cn.In - Aboard Fatalities Ground Summary</p>
+<p>We can see a few of the values are already in int format. We can
+focus on these first.</p>
+</div>
+<div id="percentage-of-missing-values-in-each-column" class="section level1">
+<h1>Percentage of missing values in each column</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5taXNzY29sIDwtIGNvbFN1bXMoaXMubmEoYWVybykpIC8gbnJvdyhhZXJvKVxucm91bmQobWlzc2NvbCwgMylcbmBgYCJ9 -->
+<pre class="r"><code>
+misscol &lt;- colSums(is.na(aero)) / nrow(aero)
+round(misscol, 3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICBEYXRlICAgICAgICAgVGltZSAgICAgTG9jYXRpb24gICAgIE9wZXJhdG9yICAgICBGbGlnaHQuLiAgICAgICAgUm91dGUgICAgICAgICBUeXBlIFJlZ2lzdHJhdGlvbiBcbiAgICAgICAwLjAwMCAgICAgICAgMC4wMDAgICAgICAgIDAuMDAwICAgICAgICAwLjAwMCAgICAgICAgMC4wMDAgICAgICAgIDAuMDAwICAgICAgICAwLjAwMCAgICAgICAgMC4wMDAgXG4gICAgICAgY24uSW4gICAgICAgQWJvYXJkICAgRmF0YWxpdGllcyAgICAgICBHcm91bmQgICAgICBTdW1tYXJ5IFxuICAgICAgIDAuMDAwICAgICAgICAwLjAwNCAgICAgICAgMC4wMDIgICAgICAgIDAuMDA0ICAgICAgICAwLjAwMCBcbiJ9 -->
+<pre><code>        Date         Time     Location     Operator     Flight..        Route         Type Registration 
+       0.000        0.000        0.000        0.000        0.000        0.000        0.000        0.000 
+       cn.In       Aboard   Fatalities       Ground      Summary 
+       0.000        0.004        0.002        0.004        0.000 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We can see that Aboard, Fatalities and Ground all have less than 1%
+missing data. Imputating NA values with the mean will be a safe bet not
+to BIAS</p>
+</div>
+<div id="replace-na-with-the-column-mean-using-zoo-and-round-to-a-whole-number" class="section level1">
+<h1>Replace NA with the column mean using zoo and round to a whole
+number</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIEZhdGFsaXRpZXNcblxuYWVybyRGYXRhbGl0aWVzIDwtIG5hLmFnZ3JlZ2F0ZShhZXJvJEZhdGFsaXRpZXMpXG5hZXJvJEZhdGFsaXRpZXMgPC0gcm91bmQoYWVybyRGYXRhbGl0aWVzKVxuXG4jIEdyb3VuZFxuXG5hZXJvJEdyb3VuZCA8LSBuYS5hZ2dyZWdhdGUoYWVybyRHcm91bmQpXG5hZXJvJEdyb3VuZCA8LSByb3VuZChhZXJvJEdyb3VuZClcblxuIyBBYm9hcmRcblxuYWVybyRBYm9hcmQgPC0gbmEuYWdncmVnYXRlKGFlcm8kQWJvYXJkKVxuYWVybyRBYm9hcmQgPC0gcm91bmQoYWVybyRBYm9hcmQpXG5cbmBgYCJ9 -->
+<pre class="r"><code>
+# Fatalities
+
+aero$Fatalities &lt;- na.aggregate(aero$Fatalities)
+aero$Fatalities &lt;- round(aero$Fatalities)
+
+# Ground
+
+aero$Ground &lt;- na.aggregate(aero$Ground)
+aero$Ground &lt;- round(aero$Ground)
+
+# Aboard
+
+aero$Aboard &lt;- na.aggregate(aero$Aboard)
+aero$Aboard &lt;- round(aero$Aboard)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>For the other values, let us remove missing spaces and dashes and
+convert these values into NA Date and Time we can focus on later.</p>
+</div>
+<div id="changing-missing-spaces-and-dashes-into-na" class="section level1">
+<h1>Changing missing spaces and dashes into NA</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIENoYW5naW5nIG1pc3Npbmcgc3BhY2VzIGFuZCBkYXNoZXMgaW50byBOQVxuXG5hZXJvJExvY2F0aW9uIDwtIGlmZWxzZShhZXJvJExvY2F0aW9uID09IFwiXCIsIE5BLCBhZXJvJExvY2F0aW9uKVxuYWVybyRPcGVyYXRvciA8LSBpZmVsc2UoYWVybyRPcGVyYXRvciA9PSBcIlwiLCBOQSwgYWVybyRPcGVyYXRvcilcbmFlcm8kRmxpZ2h0Li4gPC0gaWZlbHNlKGFlcm8kRmxpZ2h0Li4gPT0gXCJcIiwgTkEsIGFlcm8kRmxpZ2h0Li4pXG5hZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09IFwiLVwiLCBOQSwgYWVybyRGbGlnaHQuLilcbmFlcm8kUm91dGUgPC0gaWZlbHNlKGFlcm8kUm91dGUgPT0gXCJcIiwgTkEsIGFlcm8kUm91dGUpXG5hZXJvJFR5cGUgPC0gaWZlbHNlKGFlcm8kVHlwZSA9PSBcIlwiLCBOQSwgYWVybyRUeXBlKVxuYWVybyRSZWdpc3RyYXRpb24gPC0gaWZlbHNlKGFlcm8kUmVnaXN0cmF0aW9uID09IFwiXCIsIE5BLCBhZXJvJFJlZ2lzdHJhdGlvbilcbmFlcm8kY24uSW4gPC0gaWZlbHNlKGFlcm8kY24uSW4gPT0gXCJcIiwgTkEsIGFlcm8kY24uSW4pXG5hZXJvJFN1bW1hcnkgPC0gaWZlbHNlKGFlcm8kU3VtbWFyeSA9PSBcIlwiLCBOQSwgYWVybyRTdW1tYXJ5KVxuXG5gYGAifQ== -->
+<pre class="r"><code>
+# Changing missing spaces and dashes into NA
+
+aero$Location &lt;- ifelse(aero$Location == &quot;&quot;, NA, aero$Location)
+aero$Operator &lt;- ifelse(aero$Operator == &quot;&quot;, NA, aero$Operator)
+aero$Flight.. &lt;- ifelse(aero$Flight.. == &quot;&quot;, NA, aero$Flight..)
+aero$Flight.. &lt;- ifelse(aero$Flight.. == &quot;-&quot;, NA, aero$Flight..)
+aero$Route &lt;- ifelse(aero$Route == &quot;&quot;, NA, aero$Route)
+aero$Type &lt;- ifelse(aero$Type == &quot;&quot;, NA, aero$Type)
+aero$Registration &lt;- ifelse(aero$Registration == &quot;&quot;, NA, aero$Registration)
+aero$cn.In &lt;- ifelse(aero$cn.In == &quot;&quot;, NA, aero$cn.In)
+aero$Summary &lt;- ifelse(aero$Summary == &quot;&quot;, NA, aero$Summary)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="percentage-of-missing-values-in-each-column-1" class="section level1">
+<h1>Percentage of missing values in each column</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5taXNzY29sIDwtIGNvbFN1bXMoaXMubmEoYWVybykpIC8gbnJvdyhhZXJvKVxucm91bmQobWlzc2NvbCwgMylcbmBgYCJ9 -->
+<pre class="r"><code>
+misscol &lt;- colSums(is.na(aero)) / nrow(aero)
+round(misscol, 3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICBEYXRlICAgICAgICAgVGltZSAgICAgTG9jYXRpb24gICAgIE9wZXJhdG9yICAgICBGbGlnaHQuLiAgICAgICAgUm91dGUgICAgICAgICBUeXBlIFJlZ2lzdHJhdGlvbiBcbiAgICAgICAwLjAwMCAgICAgICAgMC4wMDAgICAgICAgIDAuMDA0ICAgICAgICAwLjAwMyAgICAgICAgMC44MTAgICAgICAgIDAuMzI0ICAgICAgICAwLjAwNSAgICAgICAgMC4wNjQgXG4gICAgICAgY24uSW4gICAgICAgQWJvYXJkICAgRmF0YWxpdGllcyAgICAgICBHcm91bmQgICAgICBTdW1tYXJ5IFxuICAgICAgIDAuMjMzICAgICAgICAwLjAwMCAgICAgICAgMC4wMDAgICAgICAgIDAuMDAwICAgICAgICAwLjA3NCBcbiJ9 -->
+<pre><code>        Date         Time     Location     Operator     Flight..        Route         Type Registration 
+       0.000        0.000        0.004        0.003        0.810        0.324        0.005        0.064 
+       cn.In       Aboard   Fatalities       Ground      Summary 
+       0.233        0.000        0.000        0.000        0.074 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Summary will be useful for creating new columns.</p>
+<p>Location, Operator and Type all have less than 1% missing values</p>
+</div>
+<div id="temp-most-common-values-will-change" class="section level1">
+<h1>Temp most common values (will change)</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9zdF9jb21tb25fY2F0ZWdvcnkgPC0gdGFpbChuYW1lcyhzb3J0KHRhYmxlKGFlcm8kTG9jYXRpb24pKSksIDEpXG5wcmludChtb3N0X2NvbW1vbl9jYXRlZ29yeSlcbmBgYCJ9 -->
+<pre class="r"><code>most_common_category &lt;- tail(names(sort(table(aero$Location))), 1)
+print(most_common_category)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiU2FvIFBhdWxvLCBCcmF6aWxcIlxuIn0= -->
+<pre><code>[1] &quot;Sao Paulo, Brazil&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9zdF9jb21tb25fY2F0ZWdvcnkgPC0gdGFpbChuYW1lcyhzb3J0KHRhYmxlKGFlcm8kT3BlcmF0b3IpKSksIDEpXG5wcmludChtb3N0X2NvbW1vbl9jYXRlZ29yeSlcbmBgYCJ9 -->
+<pre class="r"><code>most_common_category &lt;- tail(names(sort(table(aero$Operator))), 1)
+print(most_common_category)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQWVyb2Zsb3RcIlxuIn0= -->
+<pre><code>[1] &quot;Aeroflot&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9zdF9jb21tb25fY2F0ZWdvcnkgPC0gdGFpbChuYW1lcyhzb3J0KHRhYmxlKGFlcm8kVHlwZSkpKSwgMSlcbnByaW50KG1vc3RfY29tbW9uX2NhdGVnb3J5KVxuYGBgIn0= -->
+<pre class="r"><code>most_common_category &lt;- tail(names(sort(table(aero$Type))), 1)
+print(most_common_category)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRG91Z2xhcyBEQy0zXCJcbiJ9 -->
+<pre><code>[1] &quot;Douglas DC-3&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+</div>
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkF2aWF0aW9uIENyYXNoIEFuYWx5c2lzIEZpbmFsIE5vdGVib29rIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyMgRGF0YSBDbGVhbnNpbmcNCg0KIyBJbXBvcnQgZGF0YSBhbmQgcGFja2FnZXMNCg0KYGBge3J9DQoNCiNpbnN0YWxsLnBhY2thZ2VzKCJyZWFkciIpDQoNCmxpYnJhcnkoZHBseXIpDQpsaWJyYXJ5KHJlYWRyKQ0KbGlicmFyeSh6b28pDQpsaWJyYXJ5KGx1YnJpZGF0ZSkNCmxpYnJhcnkobWlzc0ZvcmVzdCkNCg0KYWVybyA8LSByZWFkLmNzdigiQWlycGxhbmVfQ3Jhc2hlc19hbmRfRmF0YWxpdGllc19TaW5jZV8xOTA4LmNzdiIpDQoNCmBgYA0KDQojIGNoZWNrIGRhdGEgZm9ybWF0DQoNCmBgYHtyfQ0KDQpzdHIoYWVybykNCg0KYGBgDQoNCldlIGNhbiBzZWUgdGhlIGZvbGxvd2luZyBkYXRhIGluIGFlcm86DQoNCkRhdGUgLSBUaGlzIGlzIHRoZSBkYXRlIG9mIHRoZSBjcmFzaA0KVGltZSAtIFRoaXMgaXMgdGhlIHRpbWUgdGhlIGNyYXNoIG9jY3VycmVkDQpMb2NhdGlvbiAtIFRoZSBsb2NhdGlvbiBvZiB0aGUgY3Jhc2gNCk9wZXJhdG9yIC0gVGhpcyBpcyB0aGUgZmxpZ2h0IG9wZXJhdG9yDQpUeXBlIC0gVGhlIHR5cGUgb2YgY3Jhc2hlZCBhaXJjcmFmdA0KUmVnaXN0cmF0aW9uIC0gYWlyY3JhZnQgcmVnaXN0cmF0aW9uDQpjbi5JbiAtIA0KQWJvYXJkDQpGYXRhbGl0aWVzDQpHcm91bmQNClN1bW1hcnkNCg0KDQpXZSBjYW4gc2VlIGEgZmV3IG9mIHRoZSB2YWx1ZXMgYXJlIGFscmVhZHkgaW4gaW50IGZvcm1hdC4gV2UgY2FuIGZvY3VzIG9uIHRoZXNlIGZpcnN0Lg0KDQojIFBlcmNlbnRhZ2Ugb2YgbWlzc2luZyB2YWx1ZXMgaW4gZWFjaCBjb2x1bW4NCg0KYGBge3J9DQoNCm1pc3Njb2wgPC0gY29sU3Vtcyhpcy5uYShhZXJvKSkgLyBucm93KGFlcm8pDQpyb3VuZChtaXNzY29sLCAzKQ0KDQpgYGANCg0KV2UgY2FuIHNlZSB0aGF0IEFib2FyZCwgRmF0YWxpdGllcyBhbmQgR3JvdW5kIGFsbCBoYXZlIGxlc3MgdGhhbiAxJSBtaXNzaW5nIGRhdGEuIEltcHV0YXRpbmcgTkEgdmFsdWVzIHdpdGggdGhlIG1lYW4NCndpbGwgYmUgYSBzYWZlIGJldCBub3QgdG8gQklBUw0KDQojIFJlcGxhY2UgTkEgd2l0aCB0aGUgY29sdW1uIG1lYW4gdXNpbmcgem9vIGFuZCByb3VuZCB0byBhIHdob2xlIG51bWJlcg0KDQpgYGB7cn0NCg0KIyBGYXRhbGl0aWVzDQoNCmFlcm8kRmF0YWxpdGllcyA8LSBuYS5hZ2dyZWdhdGUoYWVybyRGYXRhbGl0aWVzKQ0KYWVybyRGYXRhbGl0aWVzIDwtIHJvdW5kKGFlcm8kRmF0YWxpdGllcykNCg0KIyBHcm91bmQNCg0KYWVybyRHcm91bmQgPC0gbmEuYWdncmVnYXRlKGFlcm8kR3JvdW5kKQ0KYWVybyRHcm91bmQgPC0gcm91bmQoYWVybyRHcm91bmQpDQoNCiMgQWJvYXJkDQoNCmFlcm8kQWJvYXJkIDwtIG5hLmFnZ3JlZ2F0ZShhZXJvJEFib2FyZCkNCmFlcm8kQWJvYXJkIDwtIHJvdW5kKGFlcm8kQWJvYXJkKQ0KDQpgYGANCg0KDQpGb3IgdGhlIG90aGVyIHZhbHVlcywgbGV0IHVzIHJlbW92ZSBtaXNzaW5nIHNwYWNlcyBhbmQgZGFzaGVzIGFuZCBjb252ZXJ0IHRoZXNlIHZhbHVlcyBpbnRvIE5BDQpEYXRlIGFuZCBUaW1lIHdlIGNhbiBmb2N1cyBvbiBsYXRlci4NCg0KIyBDaGFuZ2luZyBtaXNzaW5nIHNwYWNlcyBhbmQgZGFzaGVzIGludG8gTkENCg0KYGBge3J9DQoNCiMgQ2hhbmdpbmcgbWlzc2luZyBzcGFjZXMgYW5kIGRhc2hlcyBpbnRvIE5BDQoNCmFlcm8kTG9jYXRpb24gPC0gaWZlbHNlKGFlcm8kTG9jYXRpb24gPT0gIiIsIE5BLCBhZXJvJExvY2F0aW9uKQ0KYWVybyRPcGVyYXRvciA8LSBpZmVsc2UoYWVybyRPcGVyYXRvciA9PSAiIiwgTkEsIGFlcm8kT3BlcmF0b3IpDQphZXJvJEZsaWdodC4uIDwtIGlmZWxzZShhZXJvJEZsaWdodC4uID09ICIiLCBOQSwgYWVybyRGbGlnaHQuLikNCmFlcm8kRmxpZ2h0Li4gPC0gaWZlbHNlKGFlcm8kRmxpZ2h0Li4gPT0gIi0iLCBOQSwgYWVybyRGbGlnaHQuLikNCmFlcm8kUm91dGUgPC0gaWZlbHNlKGFlcm8kUm91dGUgPT0gIiIsIE5BLCBhZXJvJFJvdXRlKQ0KYWVybyRUeXBlIDwtIGlmZWxzZShhZXJvJFR5cGUgPT0gIiIsIE5BLCBhZXJvJFR5cGUpDQphZXJvJFJlZ2lzdHJhdGlvbiA8LSBpZmVsc2UoYWVybyRSZWdpc3RyYXRpb24gPT0gIiIsIE5BLCBhZXJvJFJlZ2lzdHJhdGlvbikNCmFlcm8kY24uSW4gPC0gaWZlbHNlKGFlcm8kY24uSW4gPT0gIiIsIE5BLCBhZXJvJGNuLkluKQ0KYWVybyRTdW1tYXJ5IDwtIGlmZWxzZShhZXJvJFN1bW1hcnkgPT0gIiIsIE5BLCBhZXJvJFN1bW1hcnkpDQoNCmBgYA0KDQojIFBlcmNlbnRhZ2Ugb2YgbWlzc2luZyB2YWx1ZXMgaW4gZWFjaCBjb2x1bW4NCg0KYGBge3J9DQoNCm1pc3Njb2wgPC0gY29sU3Vtcyhpcy5uYShhZXJvKSkgLyBucm93KGFlcm8pDQpyb3VuZChtaXNzY29sLCAzKQ0KDQpgYGANCg0KU3VtbWFyeSB3aWxsIGJlIHVzZWZ1bCBmb3IgY3JlYXRpbmcgbmV3IGNvbHVtbnMuDQoNCkxvY2F0aW9uLCBPcGVyYXRvciBhbmQgVHlwZSBhbGwgaGF2ZSBsZXNzIHRoYW4gMSUgbWlzc2luZyB2YWx1ZXMNCg0KIyBUZW1wIG1vc3QgY29tbW9uIHZhbHVlcyAod2lsbCBjaGFuZ2UpDQoNCmBgYHtyfQ0KbW9zdF9jb21tb25fY2F0ZWdvcnkgPC0gdGFpbChuYW1lcyhzb3J0KHRhYmxlKGFlcm8kTG9jYXRpb24pKSksIDEpDQpwcmludChtb3N0X2NvbW1vbl9jYXRlZ29yeSkNCg0KbW9zdF9jb21tb25fY2F0ZWdvcnkgPC0gdGFpbChuYW1lcyhzb3J0KHRhYmxlKGFlcm8kT3BlcmF0b3IpKSksIDEpDQpwcmludChtb3N0X2NvbW1vbl9jYXRlZ29yeSkNCg0KbW9zdF9jb21tb25fY2F0ZWdvcnkgPC0gdGFpbChuYW1lcyhzb3J0KHRhYmxlKGFlcm8kVHlwZSkpKSwgMSkNCnByaW50KG1vc3RfY29tbW9uX2NhdGVnb3J5KQ0KDQpgYGANCg0K</div>
 
 
 

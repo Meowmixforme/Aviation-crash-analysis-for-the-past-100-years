@@ -3,4 +3,128 @@ title: "Aviation Crash Analysis Final Notebook"
 output: html_notebook
 ---
 
+## Data Cleansing
+
+# Import data and packages
+
+```{r}
+
+#install.packages("readr")
+
+library(dplyr)
+library(readr)
+library(zoo)
+library(lubridate)
+library(missForest)
+
+aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
+
+```
+
+# check data format
+
+```{r}
+
+str(aero)
+
+```
+
+We can see the following data in aero:
+
+Date - This is the date of the crash
+Time - This is the time the crash occurred
+Location - The location of the crash
+Operator - This is the flight operator
+Type - The type of crashed aircraft
+Registration - aircraft registration
+cn.In - 
+Aboard
+Fatalities
+Ground
+Summary
+
+
+We can see a few of the values are already in int format. We can focus on these first.
+
+# Percentage of missing values in each column
+
+```{r}
+
+misscol <- colSums(is.na(aero)) / nrow(aero)
+round(misscol, 3)
+
+```
+
+We can see that Aboard, Fatalities and Ground all have less than 1% missing data. Imputating NA values with the mean
+will be a safe bet not to BIAS
+
+# Replace NA with the column mean using zoo and round to a whole number
+
+```{r}
+
+# Fatalities
+
+aero$Fatalities <- na.aggregate(aero$Fatalities)
+aero$Fatalities <- round(aero$Fatalities)
+
+# Ground
+
+aero$Ground <- na.aggregate(aero$Ground)
+aero$Ground <- round(aero$Ground)
+
+# Aboard
+
+aero$Aboard <- na.aggregate(aero$Aboard)
+aero$Aboard <- round(aero$Aboard)
+
+```
+
+
+For the other values, let us remove missing spaces and dashes and convert these values into NA
+Date and Time we can focus on later.
+
+# Changing missing spaces and dashes into NA
+
+```{r}
+
+# Changing missing spaces and dashes into NA
+
+aero$Location <- ifelse(aero$Location == "", NA, aero$Location)
+aero$Operator <- ifelse(aero$Operator == "", NA, aero$Operator)
+aero$Flight.. <- ifelse(aero$Flight.. == "", NA, aero$Flight..)
+aero$Flight.. <- ifelse(aero$Flight.. == "-", NA, aero$Flight..)
+aero$Route <- ifelse(aero$Route == "", NA, aero$Route)
+aero$Type <- ifelse(aero$Type == "", NA, aero$Type)
+aero$Registration <- ifelse(aero$Registration == "", NA, aero$Registration)
+aero$cn.In <- ifelse(aero$cn.In == "", NA, aero$cn.In)
+aero$Summary <- ifelse(aero$Summary == "", NA, aero$Summary)
+
+```
+
+# Percentage of missing values in each column
+
+```{r}
+
+misscol <- colSums(is.na(aero)) / nrow(aero)
+round(misscol, 3)
+
+```
+
+Summary will be useful for creating new columns.
+
+Location, Operator and Type all have less than 1% missing values
+
+# Temp most common values (will change)
+
+```{r}
+most_common_category <- tail(names(sort(table(aero$Location))), 1)
+print(most_common_category)
+
+most_common_category <- tail(names(sort(table(aero$Operator))), 1)
+print(most_common_category)
+
+most_common_category <- tail(names(sort(table(aero$Type))), 1)
+print(most_common_category)
+
+```
 
