@@ -37,11 +37,11 @@ Location - The location of the crash
 Operator - This is the flight operator
 Type - The type of crashed aircraft
 Registration - aircraft registration
-cn.In - 
-Aboard
-Fatalities
-Ground
-Summary
+cn.In - Construction or serial number/Line or fuselage number is the unique identifier bestowed upon an aircraft during its creation
+Aboard - The number of passenger and crew fatalities
+Fatalities - The total number of fatalities
+Ground - The number of casualties not on-board the aircraft
+Summary - A summary of the crash
 
 
 We can see a few of the values are already in int format. We can focus on these first.
