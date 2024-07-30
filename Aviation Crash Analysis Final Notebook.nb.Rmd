@@ -314,8 +314,6 @@ aero$Time <- as.POSIXct(aero$Time, format = "%H:%M")
 aero$Hour <- hour(aero$Time)
 
 
-# impute at this point
-
 # Take the hour and depending on its value change it into a category
 
 aero$TimeOfDay <- cut(
@@ -327,14 +325,54 @@ aero$TimeOfDay <- cut(
 
 ```
 
-
+# Encoding TimeOfDay
 
 ```{r}
 
+# Encode TimeOfDay 
 
+aero$TimeOfDay <- as.factor(aero$TimeOfDay)  # Convert to a factor
+encoded_data <- data.frame(TimeOfDay = as.integer(aero$TimeOfDay))
 
-
+aero$TimeOfDay <- encoded_data$TimeOfDay
 
 ```
+
+# Drop Time and Hour from the Dataset
+
+```{r}
+
+library(dplyr)
+aero <- aero %>%
+  select(-Time, -Hour)
+
+```
+
+TimeOfDay is still missing 42.1% of data but we'll look at creating other variables before deciding on any imputation.
+
+
+# Search for most frequent words in Summary (Text Mining)
+
+```{r}
+library(tidytext)
+library(dplyr)
+
+aero <- as_tibble(aero)
+
+# Tokenize and count words
+word_counts <- aero %>%
+  unnest_tokens(word, Summary) %>%  # This function splits the text into individual words.
+  count(word, sort = TRUE)          # Count occurrences of each word
+
+print(word_counts)
+
+```
+
+From the words listed we can reasonably decipher them into meanings:
+
+Cause of crash:
+
+Human error(Pilot, mountain )
+
 
 
