@@ -55,7 +55,7 @@ round(misscol, 3)
 
 ```
 
-We can see that Aboard, Fatalities and Ground all have less than 1% missing data. Imputating NA values with the mean
+We can see that Aboard, Fatalities and Ground all have less than 1% missing data. Imputation of NA values with the mean
 will be a safe bet not to BIAS
 
 # Replace NA with the column mean using zoo and round to a whole number
@@ -101,6 +101,23 @@ aero$Summary <- ifelse(aero$Summary == "", NA, aero$Summary)
 
 ```
 
+
+```{r}
+
+head(aero$Date)
+
+```
+
+
+# Convert Date to a date type variable
+
+```{r}
+
+aero$Date <- as.Date(aero$Date, format = "%m/%d/%Y")
+
+```
+
+
 # Percentage of missing values in each column
 
 ```{r}
@@ -110,21 +127,214 @@ round(misscol, 3)
 
 ```
 
+Date has no missing values
+
 Summary will be useful for creating new columns.
 
 Location, Operator and Type all have less than 1% missing values
 
-# Temp most common values (will change)
+# Replace NA in Location, Operator and Type with "Unavailable"
 
 ```{r}
-most_common_category <- tail(names(sort(table(aero$Location))), 1)
-print(most_common_category)
 
-most_common_category <- tail(names(sort(table(aero$Operator))), 1)
-print(most_common_category)
+# replace NA with "unavailable"
 
-most_common_category <- tail(names(sort(table(aero$Type))), 1)
-print(most_common_category)
+aero <- aero %>%
+  dplyr::mutate(Location = replace(Location, is.na(Location), "Unavailable")) %>%
+  dplyr::mutate(Type = replace(Type, is.na(Type), "Unavailable")) %>%
+  dplyr::mutate(Operator = replace(Operator, is.na(Operator), "Unavailable"))
+
+
 
 ```
+
+
+Let's fill in missing spaces in Time as NA convert time into a factor and take a look at the missing data again.
+
+```{r}
+# Fill in empty string or those with dashes with NA and change into a factor
+
+aero$Time[aero$Time == ""] <- NA 
+aero$Time <- ifelse(aero$Time == "-", NA, aero$Time)
+aero$Time <- factor(aero$Time)
+
+```
+
+
+```{r}
+
+# Check for missing values
+
+misscol <- colSums(is.na(aero)) / nrow(aero)
+round(misscol, 3)
+
+```
+
+Time has 42.1% missing data and may need to be dropped
+Flight has 81% missing data and may need be dropped
+
+Before deciding on Feature Selection I should convert the char values into categorical values and see their correlation
+
+
+Time could potentially be added to date using the lubridate package, however, the data may prove useful if shrunk down it smaller Categorical times of the day.
+
+
+We should first check for incorrect variables and correct them if found
+
+```{r}
+
+wrong_Values <- aero$Time[!grepl("^\\d{2}:\\d{2}$", aero$Time)]
+
+#Print the non-conforming values
+print(wrong_Values[!is.na(wrong_Values)])
+
+```
+
+We can see a few non conforming values, such as c: 1:00 12'20. Let's fix this first 
+
+```{r}
+
+aero$Time <- gsub("^c", "", aero$Time)  # Remove "c:" prefix
+aero$Time <- gsub("'", ":", aero$Time) # Replace the apostrophe with a colon
+aero$Time <- gsub("^:", "", aero$Time) # Remove leading colon
+aero$Time <- trimws(aero$Time) # remove leading space
+aero$Time <- sprintf("%02s",aero$Time) # add leading zero
+
+```
+
+We should check to see if there are any remaining incorrect values
+
+```{r}
+
+# Refresh non_conforming_values
+
+wrong_Values <- aero$Time[!grepl("^\\d{2}:\\d{2}$", aero$Time)]
+
+# We can see a few values still require fixing
+
+unique(wrong_Values)
+
+```
+
+
+There are still incorrect values, though not many. We can fix the values manually though will need their index positions.
+
+
+```{r}
+
+# Some values aren't fixed by adding leading zeros. Let's get their indexes and fix them manually
+
+index_of_2_00 <- which(aero$Time == "2:00")
+print(index_of_2_00)
+
+index_of_1_00 <- which(aero$Time == "1:00")
+print(index_of_1_00)
+
+index_of_1_30 <- which(aero$Time == "1:30")
+print(index_of_1_30)
+
+index_of_18_40 <- which(aero$Time == "18.40")
+print(index_of_18_40)
+
+index_of_114_20 <- which(aero$Time == "114:20")
+print(index_of_114_20)
+
+index_of_09430 <- which(aero$Time == "0943")
+print(index_of_09430)
+
+index_of_2_40 <- which(aero$Time == "2:40")
+print(index_of_2_40)
+
+index_of_9_40 <- which(aero$Time == "9:40")
+print(index_of_9_40)
+
+index_of_8_02 <- which(aero$Time == "8:02")
+print(index_of_8_02)
+
+index_of_9_30 <- which(aero$Time == "9:30")
+print(index_of_9_30)
+```
+
+Now we will replace the incorrectr values at their index positions.
+
+```{r}
+
+# Manually correct values without leading zeroes or missing colons that for some reason won't adjust.
+
+new_value1 <- "02:00"
+aero$Time[229] <- new_value1
+
+new_value2 <- "02:00"
+aero$Time[4849] <- new_value2
+
+new_value3 <- "01:00"
+aero$Time[191] <- new_value3
+
+new_value4 <- "01:00"
+aero$Time[3585] <- new_value4
+
+new_value5 <- "01:30"
+aero$Time[712] <- new_value5
+
+new_value6 <- "18:40"
+aero$Time[1950] <- new_value6
+
+new_value7 <- "14:20"
+aero$Time[3268] <- new_value7
+
+new_value8 <- "09:43"
+aero$Time[3537] <- new_value8
+
+new_value9 <- "02:40"
+aero$Time[4299] <- new_value9
+
+new_value10 <- "09:40"
+aero$Time[4839] <- new_value10
+
+new_value11 <- "08:02"
+aero$Time[4850] <- new_value11
+
+new_value12 <- "09:30"
+aero$Time[5157] <- new_value12
+
+```
+
+
+
+# Create a new column named TimeOfDay and add Categorical data
+
+
+```{r}
+
+library(lubridate)
+
+# Convert the format to DateTime and extract the hour
+
+aero$Time <- as.POSIXct(aero$Time, format = "%H:%M")
+aero$Hour <- hour(aero$Time)
+
+
+# impute at this point
+
+# Take the hour and depending on its value change it into a category
+
+aero$TimeOfDay <- cut(
+  aero$Hour,
+  breaks = c(0, 6, 12, 18, 24),
+  labels = c("Night", "Morning", "Afternoon", "Evening"),
+  include.lowest = TRUE
+)
+
+```
+
+
+
+```{r}
+
+
+
+
+
+```
+
 
