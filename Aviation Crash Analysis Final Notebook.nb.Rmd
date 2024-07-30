@@ -368,11 +368,30 @@ print(word_counts)
 
 ```
 
-From the words listed we can reasonably decipher them into meanings:
 
-Cause of crash:
+# Removing stop words
 
-Human error(Pilot, mountain )
+```{r}
 
+library(tidyverse)
+library(tidytext)
+
+
+word_counts <- word_counts %>%
+  filter(!word %in% stop_words$word) %>% # remove English stop words
+  filter(!grepl("^\\d+(,\\d+)*$", word)) %>% # remove numbers with optional commas
+  filter(!grepl("^\\d+(\\.\\d+)?$", word)) %>% # remove numbers with optional decimal places
+  filter(!grepl("^[[:punct:]]+$", word)) # remove punctuation
+
+print(word_counts)
+
+```
+
+```{r}
+word_counts <- word_counts %>%
+  
+
+print(word_counts)
+```
 
 
