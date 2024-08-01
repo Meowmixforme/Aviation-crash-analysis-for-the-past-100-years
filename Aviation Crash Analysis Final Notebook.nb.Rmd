@@ -21,6 +21,7 @@ aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 
 ```
 
+
 # check data format
 
 ```{r}
@@ -98,6 +99,8 @@ aero$Type <- ifelse(aero$Type == "", NA, aero$Type)
 aero$Registration <- ifelse(aero$Registration == "", NA, aero$Registration)
 aero$cn.In <- ifelse(aero$cn.In == "", NA, aero$cn.In)
 aero$Summary <- ifelse(aero$Summary == "", NA, aero$Summary)
+
+aero <- aero[!is.na(aero$Summary), ] # Remove NA Summary rows
 
 ```
 
@@ -294,8 +297,8 @@ aero$Time[4839] <- new_value10
 new_value11 <- "08:02"
 aero$Time[4850] <- new_value11
 
-new_value12 <- "09:30"
-aero$Time[5157] <- new_value12
+#new_value12 <- "09:30"
+#aero$Time[5157] <- new_value12
 
 ```
 
@@ -385,17 +388,93 @@ word_counts <- word_counts %>%
   filter(!grepl("^\\d+(,\\d+)*$", word)) %>% # remove numbers with optional commas
   filter(!grepl("^\\d+(\\.\\d+)?$", word)) %>% # remove numbers with optional decimal places
   filter(!grepl("^[^[:alpha:][:punct:]]+$", word)) # remove punctuation and any character that is not a letter
+ 
 
 print(word_counts)
 
 ```
 
-
+# LDA
 
 ```{r}
+
+# Load the required package
+library(tm)
+library(topicmodels)
+
+
+
+# Create a corpus from the 'notes' column
+
+my_corpus <- Corpus(VectorSource(aero$Summary))
+
+# Perform tokenization
+
+my_corpus <- tm_map(my_corpus, content_transformer(tolower))  # Convert to lowercase
+my_corpus <- tm_map(my_corpus, removePunctuation)             # Remove punctuation
+my_corpus <- tm_map(my_corpus, removeNumbers)                 # Remove numbers
+my_corpus <- tm_map(my_corpus, removeWords, stopwords("en"))  # Remove common English stopwords
+my_corpus <- tm_map(my_corpus, stripWhitespace)               # Remove extra whitespaces
+
+# Inspect the first few tokens
+
+inspect(my_corpus[1:5])
 
 
 
 ```
 
+```{r}
+
+# Create a document-term matrix
+dtm <- DocumentTermMatrix(my_corpus)
+
+# Convert the DTM to a matrix
+dtm_matrix <- as.matrix(dtm)
+
+#  convert to a data frame for easier manipulation
+dtm_df <- as.data.frame(dtm_matrix)
+
+# Assign meaningful column names (terms)
+colnames(dtm_df) <- make.names(colnames(dtm_df))
+
+# Now you have your DTM ready!
+
+```
+
+```{r}
+
+# Calculate the sum of each row in `dtm`
+raw.sum <- apply(dtm, 1, sum)
+
+# Filter out rows with zero sum (if needed)
+dtm <- dtm[raw.sum != 0, ]
+
+# Specify the number of topics (e.g., 4)
+num_topics <- 6
+
+# Fit the LDA model
+lda_model <- LDA(dtm, k = num_topics)
+
+# Get the terms associated with each topic
+terms_per_topic <- terms(lda_model, 10)  # Adjust the number of terms as needed
+
+# Assign topics to your crash notes
+topic_assignments <- topics(lda_model)
+
+# Create a new data frame with the topic assignments
+aero <- data.frame(aero, topic = factor(topic_assignments))
+
+
+
+```
+
+```{r}
+str(aero)
+```
+
+```{r}
+
+
+```
 
