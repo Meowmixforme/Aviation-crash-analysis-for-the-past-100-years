@@ -379,6 +379,7 @@ library(tidytext)
 
 word_counts <- word_counts %>%
   mutate(word = tolower(word)) %>% # make all words lowercase
+  mutate(word = str_trim(word)) %>% # remove whitespace
   filter(!word %in% stop_words$word) %>% # remove English stop words
   filter(!grepl("^\\d+(,\\d+)*$", word)) %>% # remove numbers with optional commas
   filter(!grepl("^\\d+(\\.\\d+)?$", word)) %>% # remove numbers with optional decimal places
