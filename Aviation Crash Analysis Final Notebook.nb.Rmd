@@ -378,24 +378,22 @@ library(tidytext)
 
 
 word_counts <- word_counts %>%
+  mutate(word = tolower(word)) %>% # make all words lowercase
   filter(!word %in% stop_words$word) %>% # remove English stop words
   filter(!grepl("^\\d+(,\\d+)*$", word)) %>% # remove numbers with optional commas
   filter(!grepl("^\\d+(\\.\\d+)?$", word)) %>% # remove numbers with optional decimal places
-  filter(!grepl("^[^[:alpha:][:punct:]]+$", word)) # remove punctuation and ny character that is not a letter
+  filter(!grepl("^[^[:alpha:][:punct:]]+$", word)) %>% # remove punctuation and any character that is not a letter
+  
 
 print(word_counts)
 
 ```
 
+
+
 ```{r}
 
-word_counts <- word_counts %>%
-  mutate(
-    Human_Factors = ifelse(any(word_counts %in% c("pilot", "crew", "error", "fatigue", "communication")), 1, 0),
-    Mechanical_Failures = ifelse(any(word_counts %in% c("engine", "structural", "malfunction", "failure")), 1, 0),
-    Weather_Related = ifelse(any(word_counts %in% c("weather", "storm", "fog", "icing")), 1, 0),
-    Operational_Errors = ifelse(any(word_counts %in% c("ATC", "ground crew", "procedural")), 1, 0)
-  )
+
 
 ```
 
