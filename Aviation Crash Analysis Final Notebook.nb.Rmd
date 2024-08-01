@@ -369,22 +369,22 @@ print(word_counts)
 ```
 
 
-# Removing stop words
+# Word PreProcessing
 
 ```{r}
 
 library(tidyverse)
 library(tidytext)
-
+library(SnowballC)
 
 word_counts <- word_counts %>%
   mutate(word = tolower(word)) %>% # make all words lowercase
-  mutate(word = str_trim(word)) %>% # remove whitespace
+  mutate(word = str_trim(word)) %>% # remove white space
+  mutate(stem = wordStem(word)) %>% # stem words
   filter(!word %in% stop_words$word) %>% # remove English stop words
   filter(!grepl("^\\d+(,\\d+)*$", word)) %>% # remove numbers with optional commas
   filter(!grepl("^\\d+(\\.\\d+)?$", word)) %>% # remove numbers with optional decimal places
-  filter(!grepl("^[^[:alpha:][:punct:]]+$", word)) %>% # remove punctuation and any character that is not a letter
-  
+  filter(!grepl("^[^[:alpha:][:punct:]]+$", word)) # remove punctuation and any character that is not a letter
 
 print(word_counts)
 
