@@ -81,6 +81,24 @@ aero$Aboard <- round(aero$Aboard)
 ```
 
 
+Now let's make a new feature 
+
+```{r}
+
+# Step 1: Calculate total fatalities
+aero$total_fatalities <- aero$Fatalities + aero$Ground
+
+# Step 2: Categorize severity
+aero$crash_severity <- ifelse(aero$total_fatalities == 0, "Low",
+                                          ifelse(aero$total_fatalities < 50, "Medium", "High"))
+
+# Step 3: Check your new column
+
+head(aero)  # To verify the results
+```
+
+
+
 For the other values, let us remove missing spaces and dashes and convert these values into NA
 Date and Time we can focus on later.
 
