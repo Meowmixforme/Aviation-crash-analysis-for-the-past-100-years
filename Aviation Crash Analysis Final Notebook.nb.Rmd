@@ -413,6 +413,33 @@ print(word_counts)
 
 ```
 
+# Create a Weather column
+
+```{r}
+
+# word counts data
+word_counts$word <- c("fog", "storm", )
+
+# Create a function to map tokens to weather values
+get_weather <- function(tokens) {
+  if ("fog" %in% tokens || "storm" %in% tokens) {
+    return("Bad Weather")
+  } else {
+    return("Clear Conditions")
+  }
+}
+
+# Apply the function to each row
+aero$Weather <- sapply(aero$Summary, function(summary) {
+  tokens <- strsplit(summary, "\\s+")[[1]]  # Split summary into tokens
+  get_weather(tokens)
+})
+
+```
+
+
+
+
 # LDA
 
 ```{r}
