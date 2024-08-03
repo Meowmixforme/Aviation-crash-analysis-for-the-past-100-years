@@ -81,18 +81,19 @@ aero$Aboard <- round(aero$Aboard)
 ```
 
 
-Now let's make a new feature 
+Now let's create new features
 
 ```{r}
 
-# Step 1: Calculate total fatalities
+# Calculate total fatalities
+
 aero$total_fatalities <- aero$Fatalities + aero$Ground
 
-# Step 2: Categorize severity
+# Categorize severity
 aero$crash_severity <- ifelse(aero$total_fatalities == 0, "Low",
                                           ifelse(aero$total_fatalities < 50, "Medium", "High"))
 
-# Step 3: Check your new column
+# verify results
 
 head(aero)  # To verify the results
 ```
