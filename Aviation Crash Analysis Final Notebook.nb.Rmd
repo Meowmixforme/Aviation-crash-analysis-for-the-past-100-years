@@ -342,7 +342,7 @@ aero$TimeOfDay <- cut(
   aero$Hour,
   breaks = c(0, 6, 12, 18, 24),
   labels = c("Night", "Morning", "Afternoon", "Evening"),
-  include.lowest = TRUE
+  include.lowest = TRUE # Includes 0:00 in Night
 )
 
 ```
