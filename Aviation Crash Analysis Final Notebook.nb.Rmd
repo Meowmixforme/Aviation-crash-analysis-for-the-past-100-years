@@ -417,8 +417,7 @@ print(word_counts)
 
 ```{r}
 
-# word counts data word == tokens
-word_counts$word <- c("fog", "storm", )
+
 
 # Create a function to map tokens to weather values
 get_weather <- function(tokens) {
