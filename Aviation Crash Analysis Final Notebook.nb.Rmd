@@ -447,18 +447,25 @@ aero$Weather <- sapply(aero$Summary, function(summary) {
 
 ```{r}
 
+# Create a function to map tokens to cause_of_crash values
 get_cause_of_crash <- function(tokens) {
   if ("fog" %in% tokens || "storm" %in% tokens || "weather" %in% tokens ||
       "poor" %in% tokens || "rain" %in% tokens || "icing" %in% tokens ||
       "thunderstorm" %in% tokens || "ice" %in% tokens || "thunderstorms" %in% tokens ||
-      "storm" %in% tokens || "lightning" %in% tokens || "snowstorm" %in% tokens ||
-      "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens || "winds" %in% tokens) {
+      "storm" %in% tokens || "lightning" %in% tokens || "snow" %in% tokens ||
+      "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens ||
+      "winds" %in% tokens) {
     return("Bad Weather")
-  } else if ("pilot	" %in% tokens || "crew" %in% tokens || "pilot's" %in% tokens ||
+  } else if ("pilot" %in% tokens || "crew" %in% tokens || "pilot's" %in% tokens ||
              "captain" %in% tokens || "pilots" %in% tokens || "decision" %in% tokens ||
              "fatigue" %in% tokens || "procedure" %in% tokens || "training" %in% tokens ||
-             "operation" %in% tokens || "captain's" %in% tokens ||
-             "planning" %in% tokens || "" %in% tokens) {
+             "operation" %in% tokens || "captain's" %in% tokens || "misjudged" %in% tokens ||
+             "planning" %in% tokens || "officer" %in% tokens || "judgement" %in% tokens ||
+             "experience" %in% tokens || "instructions" %in% tokens || "judgment" %in% tokens ||
+             "management" %in% tokens || "crews" %in% tokens || "awareness" %in% tokens ||
+             "flightcrew" %in% tokens || "flightcrew's" %in% tokens || "preparation" %in% tokens ||
+             "engineer" %in% tokens || "exhaustion" %in% tokens || "operator" %in% tokens ||
+             "alcohol" %in% tokens || "incapacitation" %in% tokens || "officer's" %in% tokens) {
     return("Human Error")
   } else if ("war" %in% tokens || "terrorism" %in% tokens) {
     return("Act of War / Terrorism")
@@ -470,6 +477,12 @@ get_cause_of_crash <- function(tokens) {
     return("Other")
   }
 }
+
+# Apply the function to each row
+aero$Cause_of_crash <- sapply(aero$Summary, function(summary) {
+  tokens <- strsplit(summary, "\\s+")[[1]]  # Split summary into tokens
+  get_cause_of_crash(tokens)
+})
 ```
 
 
