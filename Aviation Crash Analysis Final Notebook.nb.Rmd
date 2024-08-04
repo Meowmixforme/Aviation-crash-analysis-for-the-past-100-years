@@ -413,35 +413,6 @@ print(word_counts)
 
 ```
 
-# Create a Weather column
-
-```{r}
-
-
-
-# Create a function to map tokens to weather values
-
-get_weather <- function(tokens) {
-  if ("fog" %in% tokens || "storm" %in% tokens || "weather" %in% tokens || "conditions" %in% tokens ||
-      "poor" %in% tokens || "rain" %in% tokens || "icing" %in% tokens || "snow" %in% tokens ||
-      "thunderstorm" %in% tokens || "ice" %in% tokens || "thunderstorms" %in% tokens ||
-      "storm" %in% tokens || "lightning" %in% tokens || "snowstorm" %in% tokens ||
-      "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens || "winds" %in% tokens) {
-    return("Bad Weather")
-  } else {
-    return("Clear Conditions")
-  }
-}
-
-# Apply the function to each row
-
-aero$Weather <- sapply(aero$Summary, function(summary) {
-  tokens <- strsplit(summary, "\\s+")[[1]]  # Split summary into tokens
-  get_weather(tokens)
-})
-
-```
-
 
 # Create new column for cause of crash
 
@@ -449,13 +420,14 @@ aero$Weather <- sapply(aero$Summary, function(summary) {
 
 # Create a function to map tokens to cause_of_crash values
 get_cause_of_crash <- function(tokens) {
-  tokens <- gsub("\\.", "", tokens)
+  tokens <- gsub("[\\.,]", "", tokens)
+  tokens <- tolower(tokens)
   if ("fog" %in% tokens || "storm" %in% tokens || "weather" %in% tokens ||
       "poor" %in% tokens || "rain" %in% tokens || "icing" %in% tokens ||
       "thunderstorm" %in% tokens || "ice" %in% tokens || "thunderstorms" %in% tokens ||
       "storm" %in% tokens || "lightning" %in% tokens || "snow" %in% tokens ||
       "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens ||
-      "winds" %in% tokens) {
+      "winds" %in% tokens || "snowstorm" %in% tokens || "winds" %in% tokens){
     return("Bad Weather")
   } else if ("pilot" %in% tokens || "crew" %in% tokens || "pilot's" %in% tokens ||
              "captain" %in% tokens || "pilots" %in% tokens || "decision" %in% tokens ||
@@ -470,7 +442,27 @@ get_cause_of_crash <- function(tokens) {
     return("Human Error")
   } else if ("war" %in% tokens || "terrorism" %in% tokens || "political" %in% tokens || "shot" %in% tokens) {
     return("Act of War / Terrorism")
-  } else if ("mechanical" %in% tokens || "failure" %in% tokens) {
+  } else if ("mechanical" %in% tokens || "failure" %in% tokens || "engine" %in% tokens || "wing" %in% tokens ||
+             "power" %in% tokens || "engines" %in% tokens || "instrument" %in% tokens || "nose" %in% tokens ||
+             "gear" %in% tokens || "system" %in% tokens || "propeller"  %in% tokens || "burst" %in% tokens ||
+             "aircraft's" %in% tokens || "cockpit"  %in% tokens || "radar" %in% tokens || "fuselage" %in% tokens ||
+             "flaps" %in% tokens || "navigational" %in% tokens || "rudder"  %in% tokens || "jet" %in% tokens ||
+             "separation" %in% tokens || "controls" %in% tokens || "instruments" %in% tokens || "structural" %in% tokens ||
+             "wings" %in% tokens || "tank" %in% tokens || "design" %in% tokens || "door" %in% tokens || "electrical" %in% tokens ||
+             "smoke" %in% tokens || "rear" %in% tokens || "malfunction" %in% tokens || "stalled" %in% tokens || "stall" %in% tokens ||
+             "pressure" %in% tokens || "stabilizer" %in% tokens|| "equipment" %in% tokens || "uncontrollable" %in% tokens || 
+             "altimeter" %in% tokens || "blade" %in% tokens || "feathered" %in% tokens || "uncontrolled" %in% tokens ||
+             "faulty" %in% tokens || "deteriorating" %in% tokens || "device" %in% tokens || "starboard" %in% tokens ||
+             "mechan" %in% tokens || "autopilot" %in% tokens || "malfunctioning" %in% tokens || "airplane's" %in% tokens ||
+             "plane's" %in% tokens || "errors" %in% tokens || "contamination" %in% tokens || "tanks"%in% tokens ||
+             "developed" %in% tokens || "fracture" %in% tokens || "inoperative" %in% tokens || "valve" %in% tokens ||
+             "cylinder"  %in% tokens || "feather" %in% tokens || "breaking" %in% tokens || "damaged" %in% tokens ||
+             "rotation"  %in% tokens || "wheel" %in% tokens || "drifted" %in% tokens || "ignition" %in% tokens || "turbine" %in% tokens ||
+             "crack" %in% tokens || "propellers" %in% tokens || "blades" %in% tokens || "bolts" %in% tokens || "corrosion" %in% tokens ||
+             "cracks" %in% tokens || "decompression" %in% tokens || "metal" %in% tokens || "rod" %in% tokens || "ruptured" %in% tokens ||
+             "wires" %in% tokens || "broken" %in% tokens || "leak" %in% tokens || "throttle" %in% tokens || "bolt" %in% tokens || 
+             "compressor" %in% tokens || "gas" %in% tokens || "generator" %in% tokens || "loose" %in% tokens || "pump" %in% tokens ||
+             "switch" %in% tokens || "brake" %in% tokens || "brakes" %in% tokens || "cables" %in% tokens || "handle" %in% tokens)  {
     return("Mechanical Failure")
   } else if ("natural" %in% tokens || "disaster" %in% tokens) {
     return("Natural Disaster")
