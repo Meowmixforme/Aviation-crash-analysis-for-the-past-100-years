@@ -420,12 +420,13 @@ print(word_counts)
 
 
 # Create a function to map tokens to weather values
+
 get_weather <- function(tokens) {
   if ("fog" %in% tokens || "storm" %in% tokens || "weather" %in% tokens || "conditions" %in% tokens ||
       "poor" %in% tokens || "rain" %in% tokens || "icing" %in% tokens || "snow" %in% tokens ||
       "thunderstorm" %in% tokens || "ice" %in% tokens || "thunderstorms" %in% tokens ||
       "storm" %in% tokens || "lightning" %in% tokens || "snowstorm" %in% tokens ||
-      "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens) {
+      "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens || "winds" %in% tokens) {
     return("Bad Weather")
   } else {
     return("Clear Conditions")
@@ -433,11 +434,42 @@ get_weather <- function(tokens) {
 }
 
 # Apply the function to each row
+
 aero$Weather <- sapply(aero$Summary, function(summary) {
   tokens <- strsplit(summary, "\\s+")[[1]]  # Split summary into tokens
   get_weather(tokens)
 })
 
+```
+
+
+# Create new column for cause of crash
+
+```{r}
+
+get_cause_of_crash <- function(tokens) {
+  if ("fog" %in% tokens || "storm" %in% tokens || "weather" %in% tokens ||
+      "poor" %in% tokens || "rain" %in% tokens || "icing" %in% tokens ||
+      "thunderstorm" %in% tokens || "ice" %in% tokens || "thunderstorms" %in% tokens ||
+      "storm" %in% tokens || "lightning" %in% tokens || "snowstorm" %in% tokens ||
+      "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens || "winds" %in% tokens) {
+    return("Bad Weather")
+  } else if ("pilot	" %in% tokens || "crew" %in% tokens || "pilot's" %in% tokens ||
+             "captain" %in% tokens || "pilots" %in% tokens || "decision" %in% tokens ||
+             "fatigue" %in% tokens || "procedure" %in% tokens || "training" %in% tokens ||
+             "operation" %in% tokens || "captain's" %in% tokens ||
+             "planning" %in% tokens || "" %in% tokens) {
+    return("Human Error")
+  } else if ("war" %in% tokens || "terrorism" %in% tokens) {
+    return("Act of War / Terrorism")
+  } else if ("mechanical" %in% tokens || "failure" %in% tokens) {
+    return("Mechanical Failure")
+  } else if ("natural" %in% tokens || "disaster" %in% tokens) {
+    return("Natural Disaster")
+  } else {
+    return("Other")
+  }
+}
 ```
 
 
