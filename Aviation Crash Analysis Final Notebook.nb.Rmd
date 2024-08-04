@@ -421,7 +421,11 @@ print(word_counts)
 
 # Create a function to map tokens to weather values
 get_weather <- function(tokens) {
-  if ("fog" %in% tokens || "storm" %in% tokens) {
+  if ("fog" %in% tokens || "storm" %in% tokens || "weather" %in% tokens || "conditions" %in% tokens ||
+      "poor" %in% tokens || "rain" %in% tokens || "icing" %in% tokens || "snow" %in% tokens ||
+      "thunderstorm" %in% tokens || "ice" %in% tokens || "thunderstorms" %in% tokens ||
+      "storm" %in% tokens || "lightning" %in% tokens || "snowstorm" %in% tokens ||
+      "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens) {
     return("Bad Weather")
   } else {
     return("Clear Conditions")
