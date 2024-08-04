@@ -449,6 +449,7 @@ aero$Weather <- sapply(aero$Summary, function(summary) {
 
 # Create a function to map tokens to cause_of_crash values
 get_cause_of_crash <- function(tokens) {
+  tokens <- gsub("\\.", "", tokens)
   if ("fog" %in% tokens || "storm" %in% tokens || "weather" %in% tokens ||
       "poor" %in% tokens || "rain" %in% tokens || "icing" %in% tokens ||
       "thunderstorm" %in% tokens || "ice" %in% tokens || "thunderstorms" %in% tokens ||
@@ -467,7 +468,7 @@ get_cause_of_crash <- function(tokens) {
              "engineer" %in% tokens || "exhaustion" %in% tokens || "operator" %in% tokens ||
              "alcohol" %in% tokens || "incapacitation" %in% tokens || "officer's" %in% tokens) {
     return("Human Error")
-  } else if ("war" %in% tokens || "terrorism" %in% tokens) {
+  } else if ("war" %in% tokens || "terrorism" %in% tokens || "political" %in% tokens || "shot" %in% tokens) {
     return("Act of War / Terrorism")
   } else if ("mechanical" %in% tokens || "failure" %in% tokens) {
     return("Mechanical Failure")
