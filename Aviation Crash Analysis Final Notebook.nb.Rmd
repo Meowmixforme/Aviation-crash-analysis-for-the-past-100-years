@@ -419,6 +419,7 @@ print(word_counts)
 ```{r}
 
 # Create a function to map tokens to cause_of_crash values
+
 get_cause_of_crash <- function(tokens) {
   tokens <- gsub("[\\.,]", "", tokens)
   tokens <- tolower(tokens)
@@ -477,6 +478,7 @@ get_cause_of_crash <- function(tokens) {
 }
 
 # Apply the function to each row
+
 aero$Cause_of_crash <- sapply(aero$Summary, function(summary) {
   tokens <- strsplit(summary, "\\s+")[[1]]  # Split summary into tokens
   get_cause_of_crash(tokens)
@@ -484,6 +486,27 @@ aero$Cause_of_crash <- sapply(aero$Summary, function(summary) {
 ```
 
 
+# Create a Phase of Flight column
+
+```{r}
+
+get_Phase_of_Flight <- function(tokens) {
+  tokens <- gsub("[\\.,]", "", tokens)
+  tokens <- tolower(tokens)
+  if("takeoff" %in% tokens){
+    return("Takeoff")
+}else if("landing" %in% tokens)
+    return("Landing")
+  else{
+  return("In Flight")
+  }
+}
+
+aero$Phase_of_Flight <- sapply(aero$Summary, function(summary) {
+  tokens <- strsplit(summary, "\\s+")[[1]]  # Split summary into tokens
+  get_Phase_of_Flight(tokens)
+})
+```
 
 
 # LDA
