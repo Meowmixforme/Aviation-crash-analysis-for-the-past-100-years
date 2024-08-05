@@ -495,7 +495,7 @@ get_Phase_of_Flight <- function(tokens) {
   tokens <- tolower(tokens)
   if("takeoff" %in% tokens){
     return("Takeoff")
-}else if("landing" %in% tokens)
+}else if("landing" %in% tokens || "land" %in% tokens)
     return("Landing")
   else{
   return("In Flight")
