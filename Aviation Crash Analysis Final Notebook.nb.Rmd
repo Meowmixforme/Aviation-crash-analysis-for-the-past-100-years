@@ -427,8 +427,10 @@ get_cause_of_crash <- function(tokens) {
       "thunderstorm" %in% tokens || "ice" %in% tokens || "thunderstorms" %in% tokens ||
       "storm" %in% tokens || "lightning" %in% tokens || "snow" %in% tokens ||
       "rainstorm" %in% tokens || "gust" %in% tokens || "overcast" %in% tokens ||
-      "winds" %in% tokens || "snowstorm" %in% tokens || "winds" %in% tokens){
-    return("Bad Weather")
+      "winds" %in% tokens || "snowstorm" %in% tokens || "winds" %in% tokens ||
+      "volcano" %in% tokens || " hurricane" %in% tokens || "tornado" %in% tokens ||
+      "meteorological" %in% tokens){
+    return("Bad Weather / Natural Disaster")
   } else if ("pilot" %in% tokens || "crew" %in% tokens || "pilot's" %in% tokens ||
              "captain" %in% tokens || "pilots" %in% tokens || "decision" %in% tokens ||
              "fatigue" %in% tokens || "procedure" %in% tokens || "training" %in% tokens ||
@@ -440,7 +442,12 @@ get_cause_of_crash <- function(tokens) {
              "engineer" %in% tokens || "exhaustion" %in% tokens || "operator" %in% tokens ||
              "alcohol" %in% tokens || "incapacitation" %in% tokens || "officer's" %in% tokens) {
     return("Human Error")
-  } else if ("war" %in% tokens || "terrorism" %in% tokens || "political" %in% tokens || "shot" %in% tokens) {
+  } else if ("war" %in% tokens || "terrorism" %in% tokens || "political" %in% tokens || "shot" %in% tokens || 
+             "hijackers" %in% tokens || "suicide" %in% tokens || "hijacker" %in% tokens || "enemy" %in% tokens ||
+             "fighters" %in% tokens || "hijacked" %in% tokens || "bomb"  %in% tokens || "bombs" %in% tokens ||
+             "mission" %in% tokens || "explosive" %in% tokens || "detonation" %in% tokens || "missile" %in% tokens ||
+             "fighter" %in% tokens || "military" %in% tokens || "aircraft" %in% tokens && "fire" %in% tokens ||
+             "shelling" %in% tokens) {
     return("Act of War / Terrorism")
   } else if ("mechanical" %in% tokens || "failure" %in% tokens || "engine" %in% tokens || "wing" %in% tokens ||
              "power" %in% tokens || "engines" %in% tokens || "instrument" %in% tokens || "nose" %in% tokens ||
@@ -464,8 +471,6 @@ get_cause_of_crash <- function(tokens) {
              "compressor" %in% tokens || "gas" %in% tokens || "generator" %in% tokens || "loose" %in% tokens || "pump" %in% tokens ||
              "switch" %in% tokens || "brake" %in% tokens || "brakes" %in% tokens || "cables" %in% tokens || "handle" %in% tokens)  {
     return("Mechanical Failure")
-  } else if ("natural" %in% tokens || "disaster" %in% tokens) {
-    return("Natural Disaster")
   } else {
     return("Other")
   }
