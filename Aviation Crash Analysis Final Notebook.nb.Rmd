@@ -493,7 +493,7 @@ aero$Cause_of_crash <- sapply(aero$Summary, function(summary) {
 get_Phase_of_Flight <- function(tokens) {
   tokens <- gsub("[\\.,]", "", tokens)
   tokens <- tolower(tokens)
-  if("takeoff" %in% tokens){
+  if("takeoff" %in% tokens || "taking" %in% tokens){
     return("Takeoff")
 }else if("landing" %in% tokens || "land" %in% tokens)
     return("Landing")
