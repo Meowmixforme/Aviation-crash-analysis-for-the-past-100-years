@@ -21,6 +21,8 @@ aero <- read.csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 
 ```
 
+# Train / Test Split (will also use cross validation)
+
 
 # check data format
 
@@ -81,21 +83,24 @@ aero$Aboard <- round(aero$Aboard)
 ```
 
 
+
 Now let's create new features
 
 ```{r}
 
 # Calculate total fatalities
 
-aero$total_fatalities <- aero$Fatalities + aero$Ground
+aero$Total_Fatalities <- aero$Fatalities + aero$Ground
 
 # Categorize severity
-aero$crash_severity <- ifelse(aero$total_fatalities == 0, "Low",
-                                          ifelse(aero$total_fatalities < 50, "Medium", "High"))
+aero$Crash_Severity <- ifelse(aero$Total_Fatalities == 0, "Low",
+                                          ifelse(aero$Total_Fatalities < 50, "Medium", "High"))
 
 # verify results
 
 head(aero)  # To verify the results
+tail(aero)
+
 ```
 
 
@@ -171,6 +176,38 @@ aero <- aero %>%
 ```
 
 
+Now we have enough data to get a good visual representation
+
+# EDA Total Fatalities and Fatalities
+
+```{r}
+
+# Total Fatalities over time (ground included)
+
+library(ggplot2)
+
+ggplot(aero, aes(x = Date, y = Total_Fatalities)) +
+  geom_line() +
+  labs(title = "Total Fatalities Over Time", x = "Date", y = "Total Fatalities")
+
+```
+We can see a large spike in 2001 during the Trade Towers terrorist attack for total fatalities.
+
+
+```{r}
+# Fatalities over time (on-board only)
+
+library(ggplot2)
+
+
+ggplot(aero, aes(x = Date, y = Fatalities)) +
+  geom_line() +
+  labs(title = "Fatalities Over Time", x = "Date", y = "Fatalities")
+
+```
+For fatalities only concerning those aboard the aircraft we can see a spike in the mid-70s. 
+
+
 Let's fill in missing spaces in Time as NA convert time into a factor and take a look at the missing data again.
 
 ```{r}
@@ -192,13 +229,21 @@ round(misscol, 3)
 
 ```
 
+# Operator EDA
+
+```{r}
+
+
+```
+
+
+
+
 Time has 42.1% missing data and may need to be dropped
 Flight has 81% missing data and may need be dropped
 
-Before deciding on Feature Selection I should convert the char values into categorical values and see their correlation
 
-
-Time could potentially be added to date using the lubridate package, however, the data may prove useful if shrunk down it smaller Categorical times of the day.
+Time could potentially be added to date using the lubridate package, however, the data may prove useful if shrunk down to a smaller Categorical times of the day.
 
 
 We should first check for incorrect variables and correct them if found
@@ -351,7 +396,7 @@ aero$TimeOfDay <- cut(
 
 ```{r}
 
-# Encode TimeOfDay 
+# Encode TimeOfDay into integers 1, 2, 3, 4 == "Night", "Morning", "Afternoon", "Evening"
 
 aero$TimeOfDay <- as.factor(aero$TimeOfDay)  # Convert to a factor
 encoded_data <- data.frame(TimeOfDay = as.integer(aero$TimeOfDay))
@@ -402,7 +447,7 @@ library(SnowballC)
 word_counts <- word_counts %>%
   mutate(word = tolower(word)) %>% # make all words lowercase
   mutate(word = str_trim(word)) %>% # remove white space
-  mutate(stem = wordStem(word)) %>% # stem words
+  mutate(stem = wordStem(word)) %>% # stem words into an additional column
   filter(!word %in% stop_words$word) %>% # remove English stop words
   filter(!grepl("^\\d+(,\\d+)*$", word)) %>% # remove numbers with optional commas
   filter(!grepl("^\\d+(\\.\\d+)?$", word)) %>% # remove numbers with optional decimal places
@@ -495,7 +540,7 @@ get_Phase_of_Flight <- function(tokens) {
   tokens <- tolower(tokens)
   if("takeoff" %in% tokens || "taking" %in% tokens){
     return("Takeoff")
-}else if("landing" %in% tokens || "land" %in% tokens)
+}else if("landing" %in% tokens || "land" %in% tokens || "landed" %in% tokens || "descending" %in% tokens)
     return("Landing")
   else{
   return("In Flight")
@@ -507,6 +552,22 @@ aero$Phase_of_Flight <- sapply(aero$Summary, function(summary) {
   get_Phase_of_Flight(tokens)
 })
 ```
+
+
+# EDA Cause of Crash
+
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
 
 
 # LDA
