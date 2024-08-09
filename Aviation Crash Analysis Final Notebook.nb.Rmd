@@ -154,7 +154,54 @@ round(misscol, 3)
 
 ```
 
-Date has no missing values
+Date has no missing values. We can pull the year into a new variable
+
+```{r}
+
+# Create Year as a Date and convert it into a numeric
+
+aero$Year <- format(as.Date(aero$Date), "%Y")
+aero$Year <- as.numeric(as.character(aero$Year))
+
+
+```
+
+
+
+# EDA Year & Date
+
+
+```{r}
+
+# Line plot of Crashes by year
+
+year_count <- aero %>%
+  group_by(Year) %>%
+  summarise(Crashes = n())
+
+ggplot(year_count, aes(x = Year, y = Crashes)) +
+  geom_line() +
+  labs(title = "Total Crashes by Year", x = "Years", y = "Total Crashes") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+1972 had the most plane crashes
+
+```{r}
+
+# Histogram of Crashes by Date
+
+
+crashes_by_date <- ggplot(aero, aes(x = Date)) +
+  geom_histogram(bins = 100, fill = "red", color = "darkred") +
+  labs(title = "Crashes by Date", x = "Year", y = "Number of Crashes") +
+  theme_minimal()
+
+print(crashes_by_date)
+
+```
+
 
 Summary will be useful for creating new columns.
 
@@ -192,6 +239,7 @@ ggplot(aero, aes(x = Date, y = Total_Fatalities)) +
 
 ```
 We can see a large spike in 2001 during the Trade Towers terrorist attack for total fatalities.
+This will be an outlier that we'll leave in later as we are including acts of war / terrorism.
 
 
 ```{r}
@@ -202,10 +250,145 @@ library(ggplot2)
 
 ggplot(aero, aes(x = Date, y = Fatalities)) +
   geom_line() +
-  labs(title = "Fatalities Over Time", x = "Date", y = "Fatalities")
+  labs(title = "On-board Fatalities Over Time", x = "Date", y = "Fatalities")
 
 ```
 For fatalities only concerning those aboard the aircraft we can see a spike in the mid-70s. 
+
+
+# Operator EDA
+
+```{r}
+
+# Top 10 operators with most fatalities by year (grouped bar plot)
+
+
+# Summarise fatalities by Operator and Year
+summary_aero <- aero %>%
+  group_by(Operator, Year) %>%
+  summarise(Total_Fatalities = sum(Fatalities)) %>%
+  ungroup()
+
+# Get top 10 operators with most fatalities
+top_operators <- summary_aero %>%
+  group_by(Operator) %>%
+  summarise(Total_Fatalities = sum(Total_Fatalities)) %>%
+  top_n(10, Total_Fatalities) %>%
+  pull(Operator)
+
+# Filter the summary data for top operators
+top_summary_aero <- summary_aero %>%
+  filter(Operator %in% top_operators)
+
+ggplot(top_summary_aero, aes(x = Year, y = Total_Fatalities, fill = Operator)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Top 10 Operators with Most Fatalities by Year",
+       x = "Year",
+       y = "Total Fatalities") +
+  theme_minimal()
+
+```
+
+
+
+We can see Aeroflot had the most fatalities in 1972 and have a bad record through the 70s and 80s (need to expand plot full screen)
+We can see American Airlines and United Airlines in 2001 (there is our terror attack again)
+The USAF had the most casualties during WW2 in the 40s
+The USAAF had the most casualties during the 50s Korean War and later in the 60s Vietnam
+
+
+Lets create a survivors variable 
+
+# Survivors variable
+
+```{r}
+
+aero$Survived <- aero$Aboard - aero$Fatalities
+
+```
+
+
+# Survivors EDA
+
+```{r}
+
+library(scales)
+
+# Create a pie chart
+
+# Summarize the data
+
+data <- data.frame(
+  category = c("Survivors", "Fatalities"),
+  count = c(sum(aero$Survived), sum(aero$Fatalities))
+)
+
+# Calculate percentages
+
+data$percentage <- data$count / sum(data$count) * 100
+
+# Create the pie chart
+ggplot(data, aes(x = "", y = count, fill = category)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  theme_void() +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            position = position_stack(vjust = 0.5)) +
+  labs(title = "Survivors vs Fatalities")
+
+```
+We can see 27.3% of people survived aviation crashes and almost three quarters died
+
+# Type EDA
+
+```{r}
+
+type_fatal <- aero %>%
+  group_by(Type) %>%
+  summarise(Fatalities = sum(Fatalities))
+
+# View the result
+print(type_fatal)
+
+```
+
+
+```{r}
+
+fatal_Top10_Type <- aero %>%
+  group_by(Type) %>%
+  summarise(Fatalities = sum(Fatalities)) %>%
+  rename(Aircraft_Type = Type) %>%
+  arrange(desc(Fatalities)) %>%
+  slice_head(n = 10)
+
+# View the result
+print(fatal_Top10_Type)
+
+```
+
+```{r}
+
+fatal_Top10_Type <- fatal_Top10_Type %>%
+  arrange(desc(Fatalities)) %>%
+  slice_head(n = 10)
+
+# Create the bar plot
+ggplot(fatal_Top10_Type, aes(x = reorder(Aircraft_Type, Fatalities), y = Fatalities, fill = Aircraft_Type)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Total Fatalities per Aeroplane Model",
+       x = "Airplane Model",
+       y = "Total Fatalities") +
+  theme_minimal() +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Not surprisingly, the most fatalities are in war planes. 
+
+
 
 
 Let's fill in missing spaces in Time as NA convert time into a factor and take a look at the missing data again.
@@ -228,14 +411,6 @@ misscol <- colSums(is.na(aero)) / nrow(aero)
 round(misscol, 3)
 
 ```
-
-# Operator EDA
-
-```{r}
-
-
-```
-
 
 
 
@@ -392,16 +567,42 @@ aero$TimeOfDay <- cut(
 
 ```
 
+While we have 
+
+# EDA TimeOfDay
+
+```{r}
+
+data <- as.data.frame(table(aero$TimeOfDay))
+colnames(data) <- c("TimeOfDay", "count")
+
+# Calculate percentages
+data$percentage <- data$count / sum(data$count) * 100
+
+# Create the pie chart
+ggplot(data, aes(x = "", y = count, fill = TimeOfDay)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  theme_void() +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            position = position_stack(vjust = 0.5)) +
+  labs(title = "Distribution of Crashes by the Time of Day")
+
+```
+We can see that half as many crashes occurred during the night than during morning or afternoon from the data available.
+
+TimeOfDay will need to be label encoded for the Machine Learning algorithms
+
 # Encoding TimeOfDay
 
 ```{r}
 
-# Encode TimeOfDay into integers 1, 2, 3, 4 == "Night", "Morning", "Afternoon", "Evening"
+# Label Encode TimeOfDay into integers 1, 2, 3, 4 == "Night", "Morning", "Afternoon", "Evening"
 
 aero$TimeOfDay <- as.factor(aero$TimeOfDay)  # Convert to a factor
 encoded_data <- data.frame(TimeOfDay = as.integer(aero$TimeOfDay))
 
-aero$TimeOfDay <- encoded_data$TimeOfDay
+aero$Time_Of_Day <- encoded_data$TimeOfDay
 
 ```
 
@@ -530,6 +731,18 @@ aero$Cause_of_crash <- sapply(aero$Summary, function(summary) {
 })
 ```
 
+As cause of crash will be our target variable, we will need to encode it.
+Target encoding will be a good method 
+
+```{r}
+
+# Target encoding Cause_of_crash
+
+
+
+```
+
+
 
 # Create a Phase of Flight column
 
@@ -552,6 +765,7 @@ aero$Phase_of_Flight <- sapply(aero$Summary, function(summary) {
   get_Phase_of_Flight(tokens)
 })
 ```
+
 
 
 # EDA Cause of Crash
