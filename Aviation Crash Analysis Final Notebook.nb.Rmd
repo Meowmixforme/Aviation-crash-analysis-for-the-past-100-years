@@ -725,20 +725,47 @@ get_cause_of_crash <- function(tokens) {
 
 # Apply the function to each row
 
-aero$Cause_of_crash <- sapply(aero$Summary, function(summary) {
+aero$Cause_Of_Crash <- sapply(aero$Summary, function(summary) {
   tokens <- strsplit(summary, "\\s+")[[1]]  # Split summary into tokens
   get_cause_of_crash(tokens)
 })
 ```
 
-As cause of crash will be our target variable, we will need to encode it.
-Target encoding will be a good method 
+
+# EDA Cause_Of_Crash
 
 ```{r}
 
-# Target encoding Cause_of_crash
+cause_summary <- table(aero$Cause_Of_Crash)
+percentages <- round(100 * cause_summary / sum(cause_summary), 1)
+
+# Create labels with percentages
+
+labels <- paste(names(cause_summary), percentages, "%", sep=" ")
+
+# Create the pie chart
+pie(cause_summary, labels = labels, main = "Cause of Crash Distribution")
+
+```
+
+We can see that Bad Weather / Natural Disasters and Human Error are two of the main reasons for aviation crashes.
+Other is the second highest and we should investigate 
 
 
+As cause of crash will be our target variable, we will need to encode it.
+Label encoding will be a good method 
+
+
+
+
+
+```{r}
+
+# Label encoding Cause_Of_Crash
+
+# Convert into a factor and then numeric
+aero$Cause_Of_Crash <- as.factor(aero$Cause_Of_Crash)
+aero$Cause_Of_Crash <- as.numeric(aero$Cause_Of_Crash)
 
 ```
 
